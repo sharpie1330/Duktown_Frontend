@@ -5,9 +5,11 @@ import repair from '../assets/repair.png';
 import register from '../assets/register.png';
 import sleepover from '../assets/sleepover.png';
 import announcement from '../assets/announcement.png';
+import { useNavigate } from 'react-router-dom';
 import '../css/Home.css';
 
 function Home(){
+    const navigate = useNavigate();
     return (
         <>
             <Navbar />
@@ -33,7 +35,7 @@ function Home(){
                         <img src={sleepover} className='menu_icon'/>
                         외박 신청
                     </div>
-                    <div className='menu'>
+                    <div className='menu' onClick={()=>{navigate('/announcement')}}>
                         <img src={announcement} className='menu_icon'/>
                         점호 방송
                     </div>
