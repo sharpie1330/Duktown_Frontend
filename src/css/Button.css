@@ -1,0 +1,15 @@
+.button3 {
+    color: #8E8E8E;
+    font-size: 12px;
+    width: 197px;
+    height: 37px;
+    border: none;
+    border-radius: 8px;
+    background: #F7F7F7;
+    margin: 46px;
+}
+
+.button3:hover {
+    color: #fff;
+    background: #6A9CFD;
+}
