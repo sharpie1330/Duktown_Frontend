@@ -11,7 +11,7 @@ function Login(){
     }
 
     return (
-        <div className='content-container'>
+        <div className='login-container'>
             <img className='logo' src={logo} alt="duktown_logo"></img>
             <Button
                 label="포털 로그인 연동"
