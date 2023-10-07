@@ -12,7 +12,7 @@ function Announcement(){
                 <img className='announcement_icon' src={arrow_left} onClick={()=>{navigate('/home');}}></img>
                 점호 방송
             </div>
-            <div className='content-container'>
+            <div className='content_container'>
                 <div className='date_container'>
                     <img className='announcement_icon' src={arrow_left}></img>
                     <span className='date'>2023년 8월 25일</span>

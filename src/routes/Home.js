@@ -13,7 +13,7 @@ function Home(){
     return (
         <>
             <Navbar />
-            <div className='content-container'>
+            <div className='content_container'>
                 <p className='board_title'>공지사항</p>
                 <div className='board'>
                     내용
@@ -22,7 +22,7 @@ function Home(){
                 <div className='board'>
                     내용
                 </div>
-                <div className='menu-container'>
+                <div className='menu_container'>
                     <div className='menu'>
                         <img src={repair} className='menu_icon'/>
                         수리 요청
