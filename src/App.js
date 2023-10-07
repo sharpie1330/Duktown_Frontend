@@ -4,7 +4,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Login from "./routes/Login";
+import LoggedOut from "./routes/LoggedOut";
+import SignIn from "./routes/SignIn";
 import Home from "./routes/Home";
 import Announcement from "./routes/Announcement";
 
@@ -12,7 +13,8 @@ function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Login />}/>
+          <Route path="/" element={<LoggedOut />}/>
+          <Route path="/signin" element={<SignIn />}/>
           <Route path="/home" element={<Home />}/>
           <Route path="/announcement" element={<Announcement />}/>
         </Routes>

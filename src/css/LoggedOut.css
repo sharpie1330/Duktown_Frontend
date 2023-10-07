@@ -1,4 +1,4 @@
-.login-container {
+.loggedout_container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,4 +8,5 @@
 
 .logo {
     width: 163px;
+    margin: 46px;
 }

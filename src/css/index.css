@@ -5,7 +5,15 @@ body, #root{
     height: 100vh;
 }
 
-.content-container {
+.content_container {
     flex-grow: 1;
     padding: 20px;
+}
+
+.title_container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
 }
