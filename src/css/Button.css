@@ -13,3 +13,63 @@
     color: #fff;
     background: #6A9CFD;
 }
+
+.blue_rec_btn {
+    color: #fff;
+    background: #6A9CFD;
+    width: 86px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.blue_circ_btn {
+    color: #fff;
+    background: #6A9CFD;
+    width: 117px;
+    height: 47px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+.done_true {
+    background-color: #6A9CFD;
+    border: none;
+    border-radius: 10px;
+    color: #FFFFFF;
+    height: 50px;
+    min-width: 142px;
+    text-align: center;
+    width: 100%;
+    font-size: 15px;
+}
+
+.done_false {
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 10px;
+    color: #6A9CFD;
+    height: 50px;
+    min-width: 142px;
+    text-align: center;
+    width: 100%;
+    font-size: 15px;
+}
+
+.confirm_true {
+
+}
+
+.confirm_false {
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 10px;
+    color: #B0B0B0;
+    height: 50px;
+    min-width: 142px;
+    text-align: center;
+    width: 100%;
+    font-size: 15px;
+}

@@ -1,0 +1,98 @@
+.unit_today_record_container, .unit_record_container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.unit_date_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: unset;
+    font-weight: normal;
+    color: #000000;
+    margin-top: 38px;
+    margin-bottom: 13px;
+}
+
+.done_and_confirm {
+    margin-top: 27px;
+    display: flex;
+}
+
+.status {
+    margin-left: 27px;
+}
+
+.unit_record_container {
+    margin-top: 25px;
+}
+
+.unit_record_title_container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+    margin-bottom: 5px;
+}
+
+.btn_container {
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.year_and_month {
+    font-size: 16px;
+    width: 95%;
+    margin: 19px auto 13px;
+}
+
+.unit_today_date {
+    font-size: 11px;
+}
+
+.move_icon {
+    width: 20px;
+    height: 20px;
+}
+
+.today_record_container {
+    border-radius: 10px;
+    border: 1px solid #6A9CFD;
+    padding: 16px;
+}
+
+.user_info {
+    margin-left: 17px;
+    font-size: 16px;
+}
+
+.user_cleaning_time {
+    font-size: 11px;
+    margin-top: 5px;
+    margin-left: 17px;
+}
+
+.unit_done {
+    margin-right: 27px;
+    flex-grow: 1;
+}
+
+.unit_confirm {
+    flex-grow: 1;
+}
+
+.unit_record_title {
+    font-size: 18px;
+}
+
+.weekly_schedule {
+    margin-top: 19px;
+    margin-bottom: 13px;
+}
+
+.unit_weekly_calendar {
+    height: 63px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
+}

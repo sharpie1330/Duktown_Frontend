@@ -1,0 +1,231 @@
+.react-calendar button:enabled:hover {
+    cursor: pointer;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 1em;
+}
+
+.react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+}
+
+.react-calendar__navigation button:disabled {
+    background-color: #f0f0f0;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #e6e6e6;
+}
+
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: #6A9CFD;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+    padding: 2em 0.5em;
+}
+
+.react-calendar__tile {
+    height: 50px;
+    padding: 10px 6.6667px;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+}
+
+.react-calendar__tile:disabled {
+    background-color: #f0f0f0;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background-color: #e6e6e6;
+}
+
+.react-calendar__tile--now {
+    font-weight: bold;
+    color: #FF6D4D;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    color: #FF6D4D;
+}
+
+.react-calendar__tile--active abbr{
+    background: #6A9CFD !important;
+    border-radius: 4px !important;
+    color: white !important;
+    padding: 11px;
+}
+
+abbr[title="토요일"], abbr[title="일요일"] {
+    text-decoration: none;
+    font-size: 115%;
+    font-weight: normal;
+    color: #6A9CFD;
+    margin-bottom: 12px;
+}
+
+abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[title="목요일"], abbr[title="금요일"] {
+    text-decoration: none;
+    font-size: 115%;
+    font-weight: normal;
+}
+
+.edit_icon {
+    width: 15px;
+}
+
+.edit_btn {
+    background-color: white;
+    border: none;
+}
+
+.addr_field:focus, .reason_field:focus {
+    outline: none;
+}
+
+.react-calendar__month-view__weekdays__weekday, .react-calendar__month-view__weekdays__weekday--weekend {
+    margin-bottom: 12px;
+}
+
+.react-calendar__navigation__label {
+    width: 100px;
+    height: 30px;
+    background-color: #000000 !important;
+    color: white;
+    flex-grow: unset !important;
+    border-radius: 5px;
+}
+
+.react-calendar__navigation {
+    justify-content: center;
+    align-items: center;
+}
+
+.fillin_title_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
+}
+
+.fillin_title_left_content {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.calendar {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+.react-calendar {
+    width: 90%;
+}
+
+.request_to {
+    font-size: 13pt;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.unit_member_select {
+    margin-top: 5px;
+    margin-left: 11px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
+    background: rgba(217, 217, 217, 0.00);
+    width: 90px;
+    height: 29px;
+    -webkit-appearance: none;
+    background: url("../assets/arrow_down.png") no-repeat right 6px center;
+}
+
+.unit_member_select::-ms-expand{
+    display:none;/*for IE10,11*/
+}
+
+.unit_member_select:focus {
+    outline: none;
+}
+
+.request_date_container {
+    font-size: 12pt;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 15px;
+}
+
+.request_date {
+    margin-left: 12px;
+    color: #000000
+}
+
+.fillin_reason_container {
+    font-size: 12pt;
+    color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.fillin_reason_field {
+    font-size: 12pt;
+    color: #000000;
+    margin-left: 12px;
+    border: none;
+    width: 285px;
+    flex-grow: 1;
+}
+
+.fillin_reason_field:focus {
+    outline: none;
+}
+
+.change_date {
+    font-size: 12pt;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 15px;
+}
+
+.fillin_form {
+    width: 80%;
+    align-self: center;
+}
