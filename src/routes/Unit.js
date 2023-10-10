@@ -1,6 +1,4 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Bottombar from "../components/Bottombar";
 import Button from "../components/Button";
 import arrow_right from "../assets/arrow_right.png";
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +35,6 @@ function Unit() {
 
     return (
         <>
-            <Navbar />
             <div className="unit_body_container">
                 <div className="weekly_schedule">
                     <p className="year_and_month">{now.getFullYear() + '년 ' + now.getMonth() + '월'}</p>
@@ -88,7 +85,6 @@ function Unit() {
                     />
                 </div>
             </div>
-            <Bottombar />
         </>
     );
 }

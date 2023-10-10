@@ -5,11 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function SignIn(){
     const navigate = useNavigate();
-    function signIn(){
-        /* 로그인 API 연결 */
-        navigate('/home');
-    }
-
     return(
         <>
             <div className="title_container">
@@ -27,7 +22,7 @@ function SignIn(){
                 <a href=''>아이디 및 비밀번호 찾기</a>
             </div>
             
-            <button className='signInBtn' onClick={signIn}>
+            <button className='signInBtn' onClick={()=>{navigate('/main')}}>
                 로그인하기
             </button>
         </>
