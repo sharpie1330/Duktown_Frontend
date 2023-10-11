@@ -8,6 +8,9 @@ body, #root{
 .content_container {
     flex-grow: 1;
     padding: 20px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .title_container {
