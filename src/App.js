@@ -13,12 +13,14 @@ import Stayout from "./routes/Stayout";
 import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
 import MainTemplate from './routes/MainTemplate';
+import SignUp from './routes/SignUp';
 
 function App() {
   return (
     <Router>
         <Routes>
           <Route path="/" element={<LoggedOut />}/>
+          <Route path='signup' element={<SignUp />}/>
           <Route path="/signin" element={<SignIn />}/>
           <Route path="/main" element={<MainTemplate />}/>
           <Route path="/announcement" element={<Announcement />}/>

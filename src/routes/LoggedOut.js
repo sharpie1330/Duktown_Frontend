@@ -13,7 +13,7 @@ function LoggedOut(){
             <Button
                 label="이메일로 회원가입"
                 styleClass="button3"
-                onClick={()=>{navigate('/main')}} // 회원가입 페이지로 변경
+                onClick={()=>{navigate('/signup')}}
             />
             <Button
                 label="로그인"
