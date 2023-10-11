@@ -20,12 +20,10 @@ function App() {
         <Routes>
           <Route path="/" element={<LoggedOut />}/>
           <Route path="/signin" element={<SignIn />}/>
-          <Route path="/home" element={<Home />}/>
           <Route path="/main" element={<MainTemplate />}/>
           <Route path="/announcement" element={<Announcement />}/>
           <Route path="/repair" element={<Repair />}/>
           <Route path="/stayout" element={<Stayout />}/>
-          <Route path="/unit" element={<Unit />}/>
           <Route path="/findFillIn" element={<FindFillIn />} />
         </Routes>
   </Router>

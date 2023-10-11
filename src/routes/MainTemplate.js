@@ -12,6 +12,7 @@ import '../css/Bottombar.css';
 import '../css/Upperbar.css';
 import Home from './Home';
 import Unit from './Unit';
+import Community from './Community';
 
 function MainTemplate(){
     const [activePage, setActivePage] = useState('home');
@@ -28,7 +29,7 @@ function MainTemplate(){
             </div>
             <div className='content_container'>
                 <div className="page" style={{ display: activePage === 'community' ? 'block' : 'none' }}>
-                    community page
+                    <Community />
                 </div>
                 <div className="page" style={{ display: activePage === 'home' ? 'block' : 'none' }}>
                     <Home />

@@ -15,7 +15,7 @@ function Repair(){
     return (
         <>
             <div className='repair_title_container'>
-                <img className='repair_title_icon' src={arrow_left} onClick={()=>{navigate('/home');}}/>
+                <img className='repair_title_icon' src={arrow_left} onClick={()=>{navigate('/main');}}/>
                 수리 요청
             </div>
             <div className='content-container'>

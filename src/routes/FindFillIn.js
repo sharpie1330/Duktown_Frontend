@@ -33,7 +33,7 @@ function FindFillIn() {
         <>
             <div className='fillin_title_container'>
                 <div className='fillin_title_left_content'>
-                    <img className='title_icon' src={arrow_left} onClick={()=>{navigate('/home');}}/>
+                    <img className='title_icon' src={arrow_left} onClick={()=>{navigate('/main');}}/>
                     대타 구하기
                 </div>
                 <Button

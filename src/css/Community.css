@@ -1,0 +1,59 @@
+hr {
+    background:#E6E6E6;
+    height:1px;
+    border:0;
+}
+
+.category {
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+}
+
+.category button {
+    border-radius: 20px;
+    border: 1.5px solid #E6E6E6;
+    background: rgba(217, 217, 217, 0.00);
+    font-size: 15px;
+    font-weight: 400;
+    padding: 10px;
+    flex-grow: 1;
+    min-width: 100px;
+    margin: 0 10px;
+
+}
+
+.post-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.post-content {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.post-details span {
+    margin-left: 2px;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.post-details .post-time {
+    color: #B3B3B3;
+}
+
+.post-order {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.recruitment-details span {
+    border-radius: 2px;
+    border: 0.5px solid rgba(0, 0, 0, 0.10);
+    background-color: rgba(106, 156, 253, 0.30);
+    padding: 3px 6px;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 400;
+}
