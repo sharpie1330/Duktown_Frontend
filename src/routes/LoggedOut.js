@@ -6,12 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 function LoggedOut(){
     const navigate = useNavigate();
-    function signUp(){
-        navigate('/home');
-    }
-    function signIn(){
-        navigate('/signin');
-    }
 
     return (
         <div className='loggedout_container'>
@@ -19,12 +13,12 @@ function LoggedOut(){
             <Button
                 label="이메일로 회원가입"
                 styleClass="button3"
-                onClick={signUp}
+                onClick={()=>{navigate('/main')}} // 회원가입 페이지로 변경
             />
             <Button
                 label="로그인"
                 styleClass="button3" 
-                onClick={signIn}
+                onClick={()=>{navigate('/signin')}}
             />
         </div>
     );

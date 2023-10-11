@@ -12,6 +12,7 @@ import Repair from "./routes/Repair";
 import Stayout from "./routes/Stayout";
 import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
+import MainTemplate from './routes/MainTemplate';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<LoggedOut />}/>
           <Route path="/signin" element={<SignIn />}/>
           <Route path="/home" element={<Home />}/>
+          <Route path="/main" element={<MainTemplate />}/>
           <Route path="/announcement" element={<Announcement />}/>
           <Route path="/repair" element={<Repair />}/>
           <Route path="/stayout" element={<Stayout />}/>
