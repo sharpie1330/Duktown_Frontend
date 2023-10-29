@@ -9,7 +9,7 @@ function Announcement(){
     return (
         <>
             <div className='title_container'>
-                <img className='announcement_icon' src={arrow_left} onClick={()=>{navigate('/home');}}></img>
+                <img className='announcement_icon' src={arrow_left} onClick={()=>{navigate('/main');}}></img>
                 점호 방송
             </div>
             <div className='content_container'>
