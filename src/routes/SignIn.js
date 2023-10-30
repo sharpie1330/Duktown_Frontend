@@ -22,7 +22,7 @@ function SignIn(){
                 <a href=''>아이디 및 비밀번호 찾기</a>
             </div>
             
-            <button className='signBtn' onClick={()=>{navigate('/main')}}>
+            <button className='bottomBtn' onClick={()=>{navigate('/main')}}>
                 로그인하기
             </button>
         </>
