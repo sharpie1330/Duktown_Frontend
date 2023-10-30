@@ -13,6 +13,10 @@
     font-size: 18px;
 }
 
+.announcement_container, .meal_container {
+    margin-bottom: 16px;
+}
+
 .menu_container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -10,7 +10,7 @@
     padding: unset;
     font-weight: normal;
     color: #000000;
-    margin-top: 38px;
+    margin-top: 20px;
     margin-bottom: 13px;
 }
 
@@ -24,19 +24,19 @@
 }
 
 .unit_record_container {
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .unit_record_title_container {
     display: flex;
     justify-content: space-between;
-    margin-top: 35px;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
 .btn_container {
     width: 95%;
-    margin: 20px auto;
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 }
@@ -44,7 +44,7 @@
 .year_and_month {
     font-size: 16px;
     width: 95%;
-    margin: 19px auto 13px;
+    margin: 0px auto 13px;
 }
 
 .unit_today_date {
@@ -87,7 +87,7 @@
 }
 
 .weekly_schedule {
-    margin-top: 19px;
+    margin-top: 0px;
     margin-bottom: 13px;
 }
 

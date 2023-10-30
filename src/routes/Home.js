@@ -10,13 +10,17 @@ function Home(){
     const navigate = useNavigate();
     return (
         <>
-            <p className='board_title'>공지사항</p>
-            <div className='board'>
-                내용
+            <div className='announcement_container'>
+                <p className='board_title'>공지사항</p>
+                <div className='board'>
+                    내용
+                </div>
             </div>
-            <p className='board_title'>오늘의 메뉴</p>
-            <div className='board'>
-                내용
+            <div className='meal_container'>
+                <p className='board_title'>오늘의 메뉴</p>
+                <div className='board'>
+                    내용
+                </div>
             </div>
             <div className='menu_container'>
                 <div className='menu' onClick={()=>{navigate('/repair')}}>
