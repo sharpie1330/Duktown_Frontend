@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AccessTokenContext from '../AccessTokenContext';
 import '../css/Sign.css';
 import arrow_left from '../assets/arrow_left.png';
 import file from '../assets/file.png';
@@ -6,7 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
     const navigate = useNavigate();
+    const { setAccessToken } = useContext(AccessTokenContext);
     const [currentPage, setCurrentPage] = useState('terms'); // 초기 페이지: 약관 동의
+    const [emailChecked, setEmailChecked] = useState(false); // 초기 상태: 이메일 확인 안됨
+    const [emailValue, setEmailValue] = useState(''); // 이메일 값 저장
+    const [idcheckResult, setIdCheckResult] = useState(''); // 아이디 중복 확인
+    const [passwordCheck, setPasswordCheck] = useState(''); // 비밀번호 일치 확인
     
     // useEffect를 사용하여 DOM 요소에 접근
     useEffect(() => {
@@ -17,13 +23,164 @@ function SignUp() {
 
         // 이용약관 전체 동의 체크박스가 변경될 때 이벤트 리스너 추가
         if (allTermsCheckbox) {
-        allTermsCheckbox.addEventListener('change', function() {
-            const isChecked = allTermsCheckbox.checked;
-            personalInfoCheckbox.checked = isChecked;
-            thirdPartyInfoCheckbox.checked = isChecked;
-        });
+            allTermsCheckbox.addEventListener('change', function() {
+                const isChecked = allTermsCheckbox.checked;
+                personalInfoCheckbox.checked = isChecked;
+                thirdPartyInfoCheckbox.checked = isChecked;
+            });
         }
     }, []);
+
+    const serverUrl = "http://localhost:8080"; // 서버 주소
+
+    // 모든 약관 동의 시에만 이메일 페이지로 전환
+    function agreementCheck(event){ 
+        event.preventDefault();
+        const personalInfoCheckbox = document.querySelector('#personalInfoCheckbox');
+        const thirdPartyInfoCheckbox = document.querySelector('#thirdPartyInfoCheckbox');
+        if(personalInfoCheckbox.checked == true & thirdPartyInfoCheckbox.checked == true){
+            setCurrentPage('email');
+        }
+        else{
+            alert('모든 약관에 동의해주세요');
+        }
+    }
+
+    // 이메일 인증 요청
+    function emailCheck(event) {
+        event.preventDefault();
+        const apiUrl = serverUrl + "/auth/email-cert";
+        const email = event.target.email.value
+        setEmailValue(email); // 이메일 값 저장
+
+        const request = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 'email': email }),
+        };
+
+        fetch(apiUrl, request)
+            .then((response) => {
+                if(!response.ok){
+                    alert("잘못된 이메일 형식입니다");
+                    return;
+                }
+                return response.json();
+            })
+            .then((response) => {
+                // 백엔드 응답 처리
+                if (response.isDuplicated){
+                    alert("이미 사용중인 이메일입니다");
+                }
+                else{
+                    setEmailChecked(true);
+                }
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }
+
+    // 이메일 인증 코드 확인
+    function codeCheck(event){
+        event.preventDefault();
+        const apiUrl = serverUrl + "/auth/email-cert/check";
+        const cert_code = event.target.cert_code.value;
+        const userData = {
+            "email": emailValue,
+            "certCode": cert_code
+        };
+        const request = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(userData),
+        };
+
+        fetch(apiUrl, request)
+            .then((response) => {
+                if(response.ok){
+                    alert("인증 성공");
+                    setCurrentPage("signup");
+                }
+                else{
+                    alert(response.errorMessage);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+        });
+    }
+
+    // 아이디 중복 확인
+    const idCheck = async () => {
+        const apiUrl = serverUrl + "/auth/id-duplicate";
+        const id = document.getElementsByName('id')[0].value;
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ loginId: id }) // 아이디를 서버에 전달
+            });
+
+            if (response.ok) {
+                // 서버 응답이 성공인 경우
+                const data = await response.json();
+                console.log('중복 확인 결과:', data);
+                if(data.isDuplicated){
+                    setIdCheckResult('이미 사용중인 아이디예요');
+                }
+                else{
+                    setIdCheckResult('사용 가능한 아이디예요');
+                }
+            } else {
+                // 서버 응답이 실패인 경우
+                console.error('중복 확인 요청 실패');
+            }
+        } catch (error) {
+            console.error('요청 오류:', error);
+        }
+    };
+
+    // 회원가입
+    function handleSignUp(event) {
+        event.preventDefault();
+        const apiUrl = serverUrl + "/auth/signup"
+        const id = event.target.id.value;
+        const pwd = event.target.pwd.value;
+        const pwd_check = event.target.pwd_check.value;
+
+        if(pwd !== pwd_check){
+            setPasswordCheck('비밀번호를 다시 확인해주세요');
+            return;
+        }
+
+        const userData = {
+            "loginId": id,
+            "email": emailValue,
+            "password": pwd
+        }
+        const request = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(userData),
+        };
+
+        fetch(apiUrl, request)
+            .then((response) => response.json())
+            .then((data) => {
+                // 백엔드에서 회원가입에 대한 응답을 처리
+                console.log('회원가입 성공', data);
+                const accessToken = data.accessToken;
+                const refreshToken = data.refreshToken;
+                setAccessToken(accessToken);
+                setCurrentPage('authentication');
+            })
+            .catch((error) => {
+                console.error('회원가입 실패', error);
+            });
+    }
 
     const renderPage = () => {
         switch (currentPage) {
@@ -57,7 +214,7 @@ function SignUp() {
                             {/* 회원가입 하기 버튼을 누르면 setCurrentPage('email')를 호출하여 페이지를 변경 */}
                             
                         </div>
-                        <button className='bottomBtn' onClick={() => setCurrentPage('email')}>회원가입 하기</button>
+                        <button className='bottomBtn' onClick={agreementCheck}>회원가입 하기</button>
                     </>
 
                 );
@@ -67,13 +224,28 @@ function SignUp() {
                         <p className='blue_title'>덕우만 입주할 수 있어요!</p>
                         <p className='gray_title'>덕성 이메일 인증이 필요해요.</p>
                         <br/><br/>
-                        <form className="signup_form">
+                        <form className="signup_form" onSubmit={emailCheck}>
                             <p>덕성 이메일</p>
-                            <input type="email" placeholder='duktown@duksung.ac.kr'></input>
+                            <input type="email" name="email" placeholder='duktown@duksung.ac.kr'></input>
+                            {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
+                            {!emailChecked ? 
+                                <button type="submit" className='emailAuthBtn'>이메일로 인증 보내기</button> 
+                                :
+                                <></>
+                            }
                         </form>
-                        
-                    {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
-                    <button className='emailAuthBtn' onClick={() => setCurrentPage('signup')}>이메일로 인증 보내기</button>
+                        {!emailChecked ? 
+                                <></>
+                                :
+                                <form onSubmit={codeCheck}>
+                                    <input type="text" name="cert_code" placeholder='이메일로 발송된 인증번호를 입력하세요'></input>
+                                    <div>
+                                        <span>인증번호가 안 왔어요 &nbsp;</span>
+                                        <span>인증번호 다시 보내기</span>
+                                    </div>
+                                    <button type="submit" className='bottomBtn'>인증하기</button>
+                                </form>
+                            }
                     </div>
                 );
                 case 'signup':
@@ -83,20 +255,21 @@ function SignUp() {
                                 <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('email')}></img>
                                 회원가입
                             </div>
-                            <div className='content_container'>
-                                <form className="signup_form">
+                            <form className="signup_form" onSubmit={handleSignUp}>
+                                <div className='signup_content'>
                                     <p>아이디</p>
                                     <input type="text" name="id" placeholder="6~12자 영문, 숫자 조합"></input>
+                                    <span onClick={idCheck}>중복확인</span>
+                                    <p>{idcheckResult}</p>
                                     <br/>
                                     <p>비밀번호</p>
                                     <input type="password" name="pwd" placeholder="8자 이상 영문, 숫자 조합"></input>
                                     <p>비밀번호 확인</p>
                                     <input type="password" name="pwd_check" placeholder="다시 한 번 입력해주세요"></input>
-                                </form>
-                            </div>
-                            <button className='bottomBtn' onClick={() => setCurrentPage('authentication')} >
-                                덕타운 시작하기
-                            </button>
+                                    <p>{passwordCheck}</p>
+                                </div>
+                                <button type="submit" className='bottomBtn'>덕타운 시작하기</button>
+                            </form>
                         </>
                     );
             case 'authentication':
