@@ -14,20 +14,23 @@ import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
 import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
+import { AccessTokenProvider } from './AcessTokenContext';
 
 function App() {
   return (
     <Router>
+      <AccessTokenProvider>
         <Routes>
-          <Route path="/" element={<LoggedOut />}/>
-          <Route path='signup' element={<SignUp />}/>
-          <Route path="/signin" element={<SignIn />}/>
-          <Route path="/main" element={<MainTemplate />}/>
-          <Route path="/announcement" element={<Announcement />}/>
-          <Route path="/repair" element={<Repair />}/>
-          <Route path="/stayout" element={<Stayout />}/>
-          <Route path="/findFillIn" element={<FindFillIn />} />
-        </Routes>
+            <Route path="/" element={<LoggedOut />}/>
+            <Route path='signup' element={<SignUp />}/>
+            <Route path="/signin" element={<SignIn />}/>
+            <Route path="/main" element={<MainTemplate />}/>
+            <Route path="/announcement" element={<Announcement />}/>
+            <Route path="/repair" element={<Repair />}/>
+            <Route path="/stayout" element={<Stayout />}/>
+            <Route path="/findFillIn" element={<FindFillIn />} />
+          </Routes>
+      </AccessTokenProvider>
   </Router>
   );
 }
