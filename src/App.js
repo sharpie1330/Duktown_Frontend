@@ -27,6 +27,7 @@ function App() {
           <Route path="/repair" element={<Repair />}/>
           <Route path="/stayout" element={<Stayout />}/>
           <Route path="/findFillIn" element={<FindFillIn />} />
+          <Route path="/unit" element={<Unit />} />
         </Routes>
   </Router>
   );

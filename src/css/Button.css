@@ -73,3 +73,25 @@
     width: 100%;
     font-size: 15px;
 }
+
+.modal_btn_no {
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 10px;
+    height: 38px;
+    width: 92px;
+    font-size: 13px;
+    text-align: center;
+    color: #B3B3B3;
+}
+
+.modal_btn_yes {
+    background-color: #6A9CFD;
+    border: none;
+    border-radius: 10px;
+    height: 38px;
+    width: 92px;
+    font-size: 13px;
+    text-align: center;
+    color: white;
+}

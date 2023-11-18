@@ -41,6 +41,11 @@
     justify-content: flex-end;
 }
 
+.stayout_calendar {
+    display: flex;
+    justify-content: center;
+}
+
 .year_and_month {
     font-size: 16px;
     width: 95%;
@@ -94,5 +99,103 @@
 .unit_weekly_calendar {
     height: 63px;
     background-color: #FFFFFF;
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+}
+
+.unit_weekly_calendar__weekdays__weekday {
+    flex: 0 0 14.2857%;
+    overflow: hidden;
+    margin-inline-end: 0;
+}
+
+.unit_weekly_calendar__weekdays {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    font-size: 9px;
+    padding-top: 10px;
+}
+
+.unit_weekly_calendar__weekdays__weekday .unit_abbr {
+    font-size: 9px;
+    text-decoration: none;
+    color: #A2A2A2;
+}
+
+.unit_weekly_calendar__weekdays__num {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    font-size: 0;
+    padding-top: 3px;
+    padding-bottom: 18px;
+    height: 10px;
+    color: #A2A2A2;
+}
+
+.unit_weekly_calendar__weekdays__weekday__num {
+    flex: 0 0 14.2857%;
+    margin-inline-end: 0;
+}
+
+.unit_weekly_calendar__weekdays__weekday__num abbr {
+    font-size: 10px;
+    height: 10px;
+    color: black;
+    align-content: center;
+    text-decoration: none;
+}
+
+.unit_weekly_calendar__weekdays__exist {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    font-size: 0;
+    padding-top: 8px;
+}
+
+.unit_weekly_calendar__weekdays__weekday__exist {
+    flex: 0 0 14.2857%;
+    overflow: hidden;
+    margin-inline-end: 0;
+}
+
+.unit_weekly_calendar__weekdays__exist .exist span{
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    background-color: #FF6D4D;
+    border-radius: 50%;
+    visibility: visible;
+}
+
+.unit_weekly_calendar__weekdays__exist .gone span{
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    background-color: #FF6D4D;
+    border-radius: 50%;
+    visibility: hidden;
+}
+
+abbr {
+    font-size: 10px;
+}
+
+.today abbr{
+    color: #6A9CFD;
+}
+
+.unit_modal_container {
+    font-size: 13px;
+    text-align: center;
+    width: 194px;
+    height: fit-content;
+    padding: 45px 27px 26px 27px;
+}
+
+.unit_modal_btn_container {
+    margin-top: 26px;
+    display: flex;
+    justify-content: space-between;
 }
