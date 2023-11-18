@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AccessTokenContext from '../AcessTokenContext';
+import AccessTokenContext from '../AccessTokenContext';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import '../css/Community.css';
