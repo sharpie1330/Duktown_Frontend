@@ -17,9 +17,10 @@
     background-color: #f0f0f0;
 }
 
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
+.fillin_calendar .react-calendar__navigation button:enabled:hover abbr,
+.fillin_calendar .react-calendar__navigation button:enabled:focus abbr {
     background-color: #e6e6e6;
+    padding: 11px;
 }
 
 .react-calendar__month-view__weekdays {
@@ -67,9 +68,17 @@
     background-color: #f0f0f0;
 }
 
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
+.fillin_calendar .react-calendar__tile:enabled:hover abbr {
     background-color: #e6e6e6;
+    border-radius: 4px;
+    padding: 11px;
+}
+
+.fillin_calendar .react-calendar__tile:enabled:focus abbr {
+    background-color: #6A9CFD;
+    color: white;
+    border-radius: 4px;
+    padding: 11px;
 }
 
 .react-calendar__tile--now {
@@ -82,10 +91,10 @@
     color: #FF6D4D;
 }
 
-.react-calendar__tile--active abbr{
-    background: #6A9CFD !important;
-    border-radius: 4px !important;
-    color: white !important;
+.active abbr {
+    background: #6A9CFD;
+    border-radius: 4px;
+    color: white;
     padding: 11px;
 }
 
@@ -140,7 +149,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     align-items: center;
     font-size: 16px;
     padding: 10px;
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
 .fillin_title_left_content {
@@ -228,4 +237,9 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .fillin_form {
     width: 80%;
     align-self: center;
+}
+
+.fillin_calendar {
+    display: flex;
+    justify-content: center;
 }
