@@ -19,18 +19,20 @@ function Community() {
 
     const [selectedCategory, setSelectedCategory] = useState('배달팟'); // 초기 카테고리 설정
 
-    const serverUrl = "http://localhost:8080/";
-    const apiUrl = serverUrl + "dailys";
+    const serverUrl = "http://localhost:8080";
+    const apiUrl = serverUrl + "/posts";
 
     useEffect(() => {
         console.log(accessToken);
         // 컴포넌트가 처음으로 렌더링될 때 백엔드에서 데이터를 가져오는 함수
-        fetch(apiUrl, {
+
+        // 일상글
+        fetch(apiUrl+"?category=0", {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'Authorization': accessToken
+                'Authorization': `Bearer ${accessToken}`,
             },
             method: 'GET',
         })
