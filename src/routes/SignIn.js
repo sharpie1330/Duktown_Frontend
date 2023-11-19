@@ -29,7 +29,6 @@ function SignIn(){
 
         fetch(apiUrl, request)
             .then((response) => {
-                console.log(response);
                 if (response.ok) {
                     const roleTpye =response.roleTpye;
                     const accessToken = response.accessToken;
@@ -39,11 +38,10 @@ function SignIn(){
                     return;
                 }
                 else {
-                    return response.json();
+                    response.json().then(data => {
+                        alert(data.errorMessage);
+                    })
                 }
-            })
-            .then((data) => {
-                alert(data.errorMessage);
             })
             .catch((error) => {
                 console.error('로그인 실패', error);
