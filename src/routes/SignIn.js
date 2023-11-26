@@ -28,19 +28,17 @@ function SignIn(){
         };
 
         fetch(apiUrl, request)
-            .then((response) => {
-                if (response.ok) {
-                    const roleTpye =response.roleTpye;
-                    const accessToken = response.accessToken;
-                    const refreshToken = response.refreshToken;
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.ok) {
+                    const roleType =data.roleType;
+                    const accessToken = data.accessToken;
+                    const refreshToken = data.refreshToken;
                     setAccessToken(accessToken);
                     navigate('/main');
-                    return;
                 }
                 else {
-                    response.json().then(data => {
-                        alert(data.errorMessage);
-                    })
+                    alert(data.errorMessage);
                 }
             })
             .catch((error) => {
@@ -51,7 +49,7 @@ function SignIn(){
     return(
         <>
             <div className="title_container">
-                <img className='backBtn' src={arrow_left} onClick={()=>{navigate('/');}}></img>
+                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
                 로그인
             </div>
             <form className="signin_form" onSubmit={handleSignIn}>
