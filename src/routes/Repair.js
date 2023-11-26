@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import arrow_left from '../assets/arrow_left.png';
 import arrow_right from '../assets/arrow_right.png';
 import { useNavigate } from 'react-router-dom';
@@ -6,42 +6,56 @@ import Button from '../components/Button';
 import ListView from "../components/ListView";
 import '../css/Repair.css';
 import Modal from "react-modal";
+import AccessTokenContext from '../AccessTokenContext';
+import customModal from '../customModalConfig';
 
 function Repair(){
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const { accessToken } = useContext(AccessTokenContext);
+    console.log(`atk: ${accessToken}`);
 
-    const customModal = {
-        overlay: {
-            backgroundColor: " rgba(0, 0, 0, 0.4)",
-            width: "100%",
-            height: "100vh",
-            zIndex: "10",
-            position: "fixed",
-            top: "0",
-            left: "0",
-        },
-        content: {
-            width: "248px",
-            height: "152px",
-            zIndex: "150",
-            padding: "0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "white",
-            overflow: "auto",
-        }
-    }
-
-    function sendData() {
-
-    }
+    const serverUrl = "http://localhost:8080";
     const submitHandler = async (e) => {
         e.preventDefault(); //submit 됐을 때 동작하는 함수
+        const apiUrl = serverUrl + "/repairApply";
+        const hallName = e.target.dorm.value;
+        const unit = e.target.unit.value;
+        const content = e.target.content.value;
+
+
+        const requestData = {
+            "hallName": hallName,
+            "unit": unit,
+            "content": content
+        }
+
+        console.log(requestData);
+
+        const request = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(requestData),
+        }
+
+        fetch(apiUrl, request)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('here');
+                if (data.ok) {
+                    alert("수리요청이 전송되었습니다.");
+                    setModalIsOpen(false);
+                } else {
+                    console.log('else');
+                    alert(data.errorMessage);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     return (
@@ -51,30 +65,28 @@ function Repair(){
                 수리 요청
             </div>
             <div className='content-container'>
-                <form onSubmit={submitHandler} className='request_container'>
+                <form className='request_container' onSubmit={submitHandler}>
                     <div className="repair_horizontal_container">
                         <div className='repair_dorm_select_container'>
                             건물명
-                            <form action='#'>
-                                <select name='dorm' className='repair_dorm_select'>
-                                    <option value='가온1관'>가온1관</option>
-                                    <option value='가온2관'>가온2관</option>
-                                    <option value='국제관'>국제관</option>
-                                </select>
-                            </form>
+                            <select name='dorm' className='repair_dorm_select'>
+                                <option value='1'>가온1관</option>
+                                <option value='2'>가온2관</option>
+                                <option value='0'>국제관</option>
+                            </select>
                         </div>
                         <div className='repair_room_input'>
                             호실<br/>
-                            <input type='text' className='repair_input_text'/>
+                            <input type='text' name="unit" className='repair_input_text'/>
                         </div>
                     </div>
                     <div className='repair_name_input'>
                         이름<br/>
-                        <input type='text' className='repair_input_text'/>
+                        <input type='text' name="request_user" className='repair_input_text'/>
                     </div>
                     <div className='repair_content_input'>
                         수리 내용<br/>
-                        <textarea className='repair_content_textarea'/>
+                        <textarea name="content" className='repair_content_textarea'/>
                     </div>
                     <div className="submitBtn">
                         <Button
@@ -85,12 +97,12 @@ function Repair(){
                         <Modal
                             isOpen={modalIsOpen}
                             onRequestClose={()=>setModalIsOpen(false)}
-                            style={customModal}> {/*추후 api로 연결*/}
+                            style={customModal}>
                             <div className="unit_modal_container">
                                 수리 요청을 보낼까요?
                                 <div className="unit_modal_btn_container">
                                     <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                    <Button styleClass="modal_btn_yes" label="예" onClick={sendData()} />
+                                    <Button styleClass="modal_btn_yes" label="예" type="submit"/>
                                 </div>
                             </div>
                         </Modal>
