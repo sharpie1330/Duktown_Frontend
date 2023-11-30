@@ -3,13 +3,13 @@ input::placeholder{
     font-size: 15px;
 }
 
-input:focus {
+.sign_input:focus {
     outline: none;
 }
 
 p {
     font-size: 15px;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
 a {
@@ -57,12 +57,12 @@ Input {
 .term_line {
     display: flex;
     align-items: center;
-    margin: 12px 0px;
+    margin: 12px 0;
 }
 
 .bottomBtn {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     padding: 18px;
     border: none;
@@ -80,14 +80,14 @@ Input {
     color: #6A9CFD;
     font-size: 24px;
     font-weight: 700;
-    margin: 0px;
+    margin: 0;
 }
 
 .gray_title {
     color: #A2A2A2;
     font-size: 15px;
     font-weight: 700;
-    margin: 4px 0px;
+    margin: 4px 0;
 }
 
 .term_big {
@@ -114,7 +114,7 @@ Input {
     border-radius: 50%;
     appearance: none;
     cursor: pointer;
-    margin: 0px 0px 0px auto;
+    margin: 0 0 0 auto;
 }
 
 .round_checkbox::before {
@@ -157,8 +157,8 @@ Input {
 .input_box {
     width: 30px;
     height: 31px;
-    margin: 0px 5px 0px 15px;
-    padding: 0px 16px;
+    margin: 0 5px 0 15px;
+    padding: 0 16px;
     text-align: center;
     border-radius: 5px;
     border: 1px solid #E6E6E6;
@@ -177,7 +177,7 @@ Input {
 .screenShotInstruction p {
     font-size: 12px;
     font-weight: 700;
-    margin: 4px 0px;
+    margin: 4px 0;
 }
 
 .screenShotInstruction .blueText {
