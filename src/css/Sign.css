@@ -1,4 +1,4 @@
-input {
+.sign_input {
     border: none;
     border-bottom: solid #A2A2A2 1px;
     margin-bottom: 20px;
@@ -6,18 +6,18 @@ input {
     padding: 4px;
 }
 
-input::placeholder{
+.sign_input::placeholder{
     color: #E6E6E6;
     font-size: 15px;
 }
 
-input:focus {
+.sign_input:focus {
     outline: none;
 }
 
 p {
     font-size: 15px;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
 a {
@@ -47,12 +47,12 @@ a {
 .term_line {
     display: flex;
     align-items: center;
-    margin: 12px 0px;
+    margin: 12px 0;
 }
 
 .bottomBtn {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     padding: 18px;
     border: none;
@@ -70,14 +70,14 @@ a {
     color: #6A9CFD;
     font-size: 24px;
     font-weight: 700;
-    margin: 0px;
+    margin: 0;
 }
 
 .gray_title {
     color: #A2A2A2;
     font-size: 15px;
     font-weight: 700;
-    margin: 4px 0px;
+    margin: 4px 0;
 }
 
 .term_big {
@@ -104,7 +104,7 @@ a {
     border-radius: 50%;
     appearance: none;
     cursor: pointer;
-    margin: 0px 0px 0px auto;
+    margin: 0 0 0 auto;
 }
 
 .round_checkbox::before {
@@ -143,8 +143,8 @@ a {
 .input_box {
     width: 30px;
     height: 31px;
-    margin: 0px 5px 0px 15px;
-    padding: 0px 16px;
+    margin: 0 5px 0 15px;
+    padding: 0 16px;
     text-align: center;
     border-radius: 5px;
     border: 1px solid #E6E6E6;
@@ -163,7 +163,7 @@ a {
 .screenShotInstruction p {
     font-size: 12px;
     font-weight: 700;
-    margin: 4px 0px;
+    margin: 4px 0;
 }
 
 .screenShotInstruction .blueText {
