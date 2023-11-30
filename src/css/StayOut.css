@@ -242,7 +242,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 }
 
 .stayout_reason_container {
-    width: 487px;
+    width: 472px;
     height: 25px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
@@ -254,17 +254,12 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     justify-content: space-between;
 }
 
-.stayout_specAddr_field:focus, .stayout_reason_field:focus {
+.stayout_specAddr_field:focus, .stayout_reason_field:focus, .stayout_addr_field {
     outline: none;
 }
 
-.stayout_specAddr_field, .stayout_reason_field {
-    width: 300px;
-    border: none;
-}
-
-.stayout_addr_field {
-    width: 300px;
+.stayout_specAddr_field, .stayout_reason_field , .stayout_addr_field{
+    width: 80%;
     border: none;
 }
 
@@ -311,8 +306,9 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
-.stayout_title_left_content {
+.stayout_title_left_content { /*ToDo: 모바일 뷰로 생각했을 때 가로 길이*/
     display: flex;
+    align-items: center;
     justify-content: flex-start;
 }
 
