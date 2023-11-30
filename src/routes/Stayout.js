@@ -51,19 +51,20 @@ function Stayout() {
         }
 
         fetch(apiUrl, request)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data.ok) {
-                    alert("외박 신청이 전송되었습니다.");
-                    setModalIsOpen(false);
-                } else {
-                    console.log('else');
-                    alert(data.errorMessage);
-                }
+            .then((response) => {
+                if (response.ok)
+                    return response; //TODO: response를 json 형식으로 주시는지 확인 필요
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then(() => {
+                window.location.reload();
+                setModalIsOpen(false);
+                alert("외박 신청이 전송되었습니다.");
             })
             .catch((error) => {
-                console.error(error);
+                console.error(error.errorMessage);
+                alert(error.errorMessage);
             });
     }
     const handleDateChange = date => {
