@@ -64,6 +64,7 @@ function Stayout() {
             })
             .catch((error) => {
                 console.error(error.errorMessage);
+                setModalIsOpen(false);
                 alert(error.errorMessage);
             });
     }
