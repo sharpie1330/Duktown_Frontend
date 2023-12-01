@@ -1,0 +1,26 @@
+.myPage_title_container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+}
+
+#myUnit, #myPosts, #myComments, #logout {
+    width: 18px;
+    height: 18px;
+}
+
+.myPage_icon {
+    margin-right: 14px;
+}
+
+.myPage_list_container {
+    margin-top: 40px;
+    width: 150px;
+}
+
+.myPage_list_element, .myPage_list_element:focus {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
