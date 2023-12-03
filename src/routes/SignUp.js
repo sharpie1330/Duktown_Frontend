@@ -11,7 +11,7 @@ function SignUp() {
     const [currentPage, setCurrentPage] = useState('terms'); // 초기 페이지: 약관 동의
     const [emailChecked, setEmailChecked] = useState(false); // 초기 상태: 이메일 확인 안됨
     const [emailValue, setEmailValue] = useState(''); // 이메일 값 저장
-    const [idcheckResult, setIdCheckResult] = useState(''); // 아이디 중복 확인
+    const [idCheckResult, setIdCheckResult] = useState(''); // 아이디 중복 확인
     const [passwordCheck, setPasswordCheck] = useState(''); // 비밀번호 일치 확인
     
     // useEffect를 사용하여 DOM 요소에 접근
@@ -48,8 +48,9 @@ function SignUp() {
 
     // 이메일 인증 요청
     function emailCheck(event) {
+        console.log("emailCheck, send code");
         event.preventDefault();
-        const apiUrl = serverUrl + "/auth/email-cert";
+        const apiUrl = serverUrl + "/auth/email";
         const email = event.target.email.value
         setEmailValue(email); // 이메일 값 저장
 
@@ -84,7 +85,7 @@ function SignUp() {
     // 이메일 인증 코드 확인
     function codeCheck(event){
         event.preventDefault();
-        const apiUrl = serverUrl + "/auth/email-cert/check";
+        const apiUrl = serverUrl + "/auth/email/cert";
         const cert_code = event.target.cert_code.value;
         const userData = {
             "email": emailValue,
@@ -103,17 +104,19 @@ function SignUp() {
                     setCurrentPage("signup");
                 }
                 else{
-                    alert(response.errorMessage);
+                    return response.json().then(errorResponse => {
+                        throw new EvalError(errorResponse.errorMessage);
+                    });
                 }
             })
             .catch((error) => {
-                console.error(error);
+                alert(error);
         });
     }
 
     // 아이디 중복 확인
     const idCheck = async () => {
-        const apiUrl = serverUrl + "/auth/id-duplicate";
+        const apiUrl = serverUrl + "/auth/id/duplicate";
         const id = document.getElementsByName('id')[0].value;
         try {
             const response = await fetch(apiUrl, {
@@ -134,12 +137,14 @@ function SignUp() {
                 else{
                     setIdCheckResult('사용 가능한 아이디예요');
                 }
-            } else {
-                // 서버 응답이 실패인 경우
-                console.error('중복 확인 요청 실패');
+            } 
+            else{
+                return response.json().then(errorResponse => {
+                    throw new EvalError(errorResponse.errorMessage);
+                });
             }
         } catch (error) {
-            console.error('요청 오류:', error);
+            alert(error);
         }
     };
 
@@ -154,6 +159,9 @@ function SignUp() {
         if(pwd !== pwd_check){
             setPasswordCheck('비밀번호를 다시 확인해주세요');
             return;
+        }
+        else{
+            setPasswordCheck(null)
         }
 
         const userData = {
@@ -210,21 +218,19 @@ function SignUp() {
                                     <input className='round_checkbox' id="thirdPartyInfoCheckbox" type='checkbox'></input>
                                 </div>
                             </form>
-                            
                             {/* 회원가입 하기 버튼을 누르면 setCurrentPage('email')를 호출하여 페이지를 변경 */}
-                            
                         </div>
                         <button className='bottomBtn' onClick={agreementCheck}>회원가입 하기</button>
                     </>
-
                 );
             case 'email':
                 return (
+                    <>
                     <div className="signup_content">
                         <p className='blue_title'>덕우만 입주할 수 있어요!</p>
                         <p className='gray_title'>덕성 이메일 인증이 필요해요.</p>
                         <br/><br/>
-                        <form className="signup_form" onSubmit={emailCheck}>
+                        <form className="signup_form" id="signupForm" onSubmit={emailCheck}>
                             <p>덕성 이메일</p>
                             <input type="email" name="email" placeholder='duktown@duksung.ac.kr'></input>
                             {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
@@ -235,18 +241,25 @@ function SignUp() {
                             }
                         </form>
                         {!emailChecked ? 
-                                <></>
-                                :
-                                <form onSubmit={codeCheck}>
+                            null
+                            :
+                            <>
+                                <form id="codeForm" onSubmit={codeCheck}>
                                     <input type="text" name="cert_code" placeholder='이메일로 발송된 인증번호를 입력하세요'></input>
-                                    <div>
-                                        <span>인증번호가 안 왔어요 &nbsp;</span>
-                                        <span>인증번호 다시 보내기</span>
-                                    </div>
-                                    <button type="submit" className='bottomBtn'>인증하기</button>
                                 </form>
-                            }
+                                <div className='cert_error'>
+                                    <span>인증번호가 안 왔어요! &nbsp;</span>
+                                    <button type="submit" id="blue_link" form='signupForm'>인증번호 다시 보내기</button>
+                                </div>
+                            </>
+                        }
                     </div>
+                    {!emailChecked ?
+                        <></>
+                        :
+                        <button type="submit" form="codeForm" className='bottomBtn'>인증하기</button>
+                    }
+                    </>
                 );
                 case 'signup':
                     return (
@@ -258,15 +271,16 @@ function SignUp() {
                             <form className="signup_form" onSubmit={handleSignUp}>
                                 <div className='signup_content'>
                                     <p>아이디</p>
-                                    <input type="text" name="id" placeholder="6~12자 영문, 숫자 조합"></input>
-                                    <span onClick={idCheck}>중복확인</span>
-                                    <p>{idcheckResult}</p>
-                                    <br/>
+                                    <div className="inputFlexContainer">
+                                        <input type="text" className='noLineInput' name="id" placeholder="6~12자 영문, 숫자 조합"></input>
+                                        <span id="duplicateCheckBtn" onClick={idCheck}>중복확인</span>
+                                    </div>
+                                    {idCheckResult !== '' ? <p id="blueResultText">{idCheckResult}</p> : null}
                                     <p>비밀번호</p>
                                     <input type="password" name="pwd" placeholder="8자 이상 영문, 숫자 조합"></input>
                                     <p>비밀번호 확인</p>
                                     <input type="password" name="pwd_check" placeholder="다시 한 번 입력해주세요"></input>
-                                    <p>{passwordCheck}</p>
+                                    {passwordCheck !== '' ? <p id="redResultText">{passwordCheck}</p> : null }
                                 </div>
                                 <button type="submit" className='bottomBtn'>덕타운 시작하기</button>
                             </form>

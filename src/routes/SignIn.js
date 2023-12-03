@@ -28,21 +28,23 @@ function SignIn(){
         };
 
         fetch(apiUrl, request)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.ok) {
-                    const roleType =data.roleType;
-                    const accessToken = data.accessToken;
-                    const refreshToken = data.refreshToken;
-                    setAccessToken(accessToken);
-                    navigate('/main');
+            .then((response) => {
+                if(!response.ok){
+                    return response.json().then(errorResponse => {
+                        throw new EvalError(errorResponse.errorMessage);
+                    });
                 }
-                else {
-                    alert(data.errorMessage);
-                }
+                return response.json();
+            })
+            .then(data => {
+                const roleType =data.roleType;
+                const accessToken = data.accessToken;
+                const refreshToken = data.refreshToken;
+                setAccessToken(accessToken);
+                navigate('/main');
             })
             .catch((error) => {
-                console.error('로그인 실패', error);
+                alert(error);
             });
     }
 
