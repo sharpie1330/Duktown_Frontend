@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import logo from '../assets/duktown_logo.png';
 import notification from '../assets/notification.png';
 import mypage from '../assets/mypage.png';
@@ -15,6 +16,7 @@ import Unit from './Unit';
 import Community from './Community';
 
 function MainTemplate(){
+    const navigate = useNavigate();
     const [activePage, setActivePage] = useState('home');
     const handlePageChange = (page) => {
         setActivePage(page);
@@ -25,7 +27,7 @@ function MainTemplate(){
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
                 <img src={notification} alt="Notification" className="upper_bar_icon"/>
-                <img src={mypage} alt="My Page" className="upper_bar_icon"/>
+                <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
             <div className='content_container'>
                 <div className="page" style={{ display: activePage === 'community' ? 'block' : 'none' }}>

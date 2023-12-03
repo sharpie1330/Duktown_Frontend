@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import AccessTokenContext from '../AccessTokenContext';
 import '../css/Sign.css';
 import arrow_left from '../assets/arrow_left.png';
@@ -58,10 +58,10 @@ function SignIn(){
             {/* <form className="signin_form"> */}
                 <div className='content_container'>
                     <p>아이디</p>
-                    <input type="text" name="id" placeholder="6~12자 영문, 숫자 조합"></input>
+                    <input className="sign_input" type="text" name="id" placeholder="6~12자 영문, 숫자 조합"/>
                     <br/>
                     <p>비밀번호</p>
-                    <input type="text" name="pwd" placeholder="8자 이상 영문, 숫자 조합"></input>
+                    <input className="sign_input" type="text" name="pwd" placeholder="8자 이상 영문, 숫자 조합"/>
                     <a href=''>아이디 및 비밀번호 찾기</a>
                 </div>
                 <button type="submit" className='bottomBtn'>

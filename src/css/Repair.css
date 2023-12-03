@@ -3,18 +3,13 @@
     align-items: center;
     font-size: 16px;
     padding: 10px;
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
 .request_container {
     background-color: #F9F9F9;
     border-radius: 10px;
     padding: 17px;
-}
-
-.repair_horizontal_container {
-    display: flex;
-    margin-bottom: 12px;
 }
 
 .repair_dorm_select {
@@ -31,6 +26,7 @@
     height: 30px;
     border: 1px solid #E6E6E6;
     border-radius: 5px;
+    background: rgba(217, 217, 217, 0.00);
 }
 
 .repair_dorm_select_container {
@@ -48,9 +44,10 @@
     width: 100%;
     resize: none;
     min-height: 100px;
+    background: rgba(217, 217, 217, 0.00);
 }
 
-.repair_name_input {
+.repair_room_input {
     margin-top: 12px;
 }
 
@@ -62,6 +59,7 @@
 
 .request_history {
     margin-top: 30px;
+    padding: 17px;
 }
 
 .request_history_title {
@@ -78,8 +76,8 @@
 .history_container {
     margin-top: 11px;
     border-radius: 10px;
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.1);
-    padding: 20px 0px;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+    padding: 20px 0;
 }
 
 li {

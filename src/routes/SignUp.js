@@ -38,7 +38,7 @@ function SignUp() {
         event.preventDefault();
         const personalInfoCheckbox = document.querySelector('#personalInfoCheckbox');
         const thirdPartyInfoCheckbox = document.querySelector('#thirdPartyInfoCheckbox');
-        if(personalInfoCheckbox.checked == true & thirdPartyInfoCheckbox.checked == true){
+        if(personalInfoCheckbox.checked === true && thirdPartyInfoCheckbox.checked === true){
             setCurrentPage('email');
         }
         else{
@@ -232,7 +232,7 @@ function SignUp() {
                         <br/><br/>
                         <form className="signup_form" id="signupForm" onSubmit={emailCheck}>
                             <p>덕성 이메일</p>
-                            <input type="email" name="email" placeholder='duktown@duksung.ac.kr'></input>
+                            <input className="sign_input" type="email" name="email" placeholder='duktown@duksung.ac.kr'/>
                             {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
                             {!emailChecked ? 
                                 <button type="submit" className='emailAuthBtn'>이메일로 인증 보내기</button> 
@@ -265,7 +265,7 @@ function SignUp() {
                     return (
                         <>
                             <div className="title_container">
-                                <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('email')}></img>
+                                <img className='backBtn' src={arrow_left} alt="뒤로 가" onClick={() => setCurrentPage('email')}></img>
                                 회원가입
                             </div>
                             <form className="signup_form" onSubmit={handleSignUp}>
@@ -277,9 +277,9 @@ function SignUp() {
                                     </div>
                                     {idCheckResult !== '' ? <p id="blueResultText">{idCheckResult}</p> : null}
                                     <p>비밀번호</p>
-                                    <input type="password" name="pwd" placeholder="8자 이상 영문, 숫자 조합"></input>
+                                    <input className="sign_input" type="password" name="pwd" placeholder="8자 이상 영문, 숫자 조합"/>
                                     <p>비밀번호 확인</p>
-                                    <input type="password" name="pwd_check" placeholder="다시 한 번 입력해주세요"></input>
+                                    <input className="sign_input" type="password" name="pwd_check" placeholder="다시 한 번 입력해주세요"/>
                                     {passwordCheck !== '' ? <p id="redResultText">{passwordCheck}</p> : null }
                                 </div>
                                 <button type="submit" className='bottomBtn'>덕타운 시작하기</button>
@@ -290,7 +290,7 @@ function SignUp() {
                 return (
                     <>
                         <div className="title_container">
-                            <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('signup')}></img>
+                            <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('signup')} alt="뒤로 가"></img>
                             사생 인증
                         </div>
                         <div className='content_container'>
@@ -316,7 +316,7 @@ function SignUp() {
                                 <br/>
                                 <p>덕성 포털 스크린 샷</p>
                                 <div className='screenShot'>
-                                    <img src={file}/>
+                                    <img src={file} alt="포털 스크린샷 시"/>
                                 </div>
                                     <div className='screenShotInstruction'>
                                     <p className='grayText'>덕성여대 포털시스템 &gt; 통합정보시스템 &gt; 학적 &gt; 개인정보변경 스크린 샷</p>

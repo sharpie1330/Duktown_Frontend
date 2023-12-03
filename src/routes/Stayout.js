@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Calendar from "react-calendar";
 import { useNavigate } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
@@ -8,6 +8,9 @@ import moment from "moment";
 import edit from '../assets/edit_blue.png'
 import arrow_right from '../assets/arrow_right.png';
 import Modal from "react-modal";
+import customModal from "../customModalConfig";
+import DaumPostCode from "react-daum-postcode";
+import AccessTokenContext from "../AccessTokenContext";
 
 function Stayout() {
     const navigate = useNavigate();
@@ -15,35 +18,55 @@ function Stayout() {
     const [rangeEnd, setRangeEnd] = useState();
     const [range, setRange] = useState(0);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [address, setAddress] = useState("");
+    const [specAddress, setSpecAddress] = useState("");
+    const [addrModalOpen, setAddrModalOpen] = useState(false);
+    const [zonecode, setZonecode] = useState("");
+    const { accessToken } = useContext(AccessTokenContext);
+    console.log(`atk: ${accessToken}`);
 
-    const customModal = {
-        overlay: {
-            backgroundColor: " rgba(0, 0, 0, 0.4)",
-            width: "100%",
-            height: "100vh",
-            zIndex: "10",
-            position: "fixed",
-            top: "0",
-            left: "0",
-        },
-        content: {
-            width: "248px",
-            height: "152px",
-            zIndex: "150",
-            padding: "0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "white",
-            overflow: "auto",
-        }
-    }
-
+    const serverUrl = 'http://localhost:8080'
     function sendData() {
+        const apiUrl = serverUrl + '/sleepoverApply';
 
+        const requestData = {
+            "startDate": new Date(rangeStart),
+            "endDate": new Date(rangeEnd),
+            "period": range/86400000,
+            "zipcode": zonecode,
+            "streetAddress": address,
+            "detailAddress": specAddress,
+            "reason": inputReason
+        }
+
+        console.log(requestData);
+
+        const request = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(requestData),
+        }
+
+        fetch(apiUrl, request)
+            .then((response) => {
+                if (response.ok)
+                    return response; //TODO: response를 json 형식으로 주시는지 확인 필요
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then(() => {
+                window.location.reload();
+                setModalIsOpen(false);
+                alert("외박 신청이 전송되었습니다.");
+            })
+            .catch((error) => {
+                console.error(error.errorMessage);
+                setModalIsOpen(false);
+                alert(error.errorMessage);
+            });
     }
     const handleDateChange = date => {
         const setStartDate = moment(date[0]).format('YYYY.MM.DD');
@@ -58,10 +81,15 @@ function Stayout() {
         setRange(rangeVal);
     }, [rangeStart, rangeEnd]);
 
-    const [inputAddr, setAddr] = useState('');
+    const addrCompleteHandler = data => {
+        setZonecode(data.zonecode);
+        setAddress(data.roadAddress);
+        setAddrModalOpen(false);
+    }
+
     const inputRef1 = useRef(null);
     const handleAddr = () => {
-        setAddr('');
+        setSpecAddress('');
         inputRef1.current.focus();
     }
 
@@ -98,7 +126,7 @@ function Stayout() {
                       외박 신청서를 보낼까요?
                       <div className="unit_modal_btn_container">
                           <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                          <Button styleClass="modal_btn_yes" label="예" onClick={sendData()} />
+                          <Button styleClass="modal_btn_yes" label="예" onClick={sendData} />
                       </div>
                   </div>
               </Modal>
@@ -128,11 +156,22 @@ function Stayout() {
               </div>
               <div className="stayout_input_container">
                   머무르는 곳의 주소
-                  <div className="stayout_addr_container">
-                      <input type='text' className='stayout_addr_field' value={inputAddr} onChange={(e) => setAddr(e.target.value)} ref={inputRef1}/>
-                      <button type='button' className='edit_btn' onClick={handleAddr}>
-                          <img className="edit_icon" alt="주소 수정하기" src={edit}/>
-                      </button>
+                  <div className="stayout_addr_vertical_container">
+                      <div className="stayout_addr_container">
+                          <input className='stayout_addr_field' value={address} readOnly={true} placeholder="도로명 주소"/>
+                          <button type='button' className='search_addr_btn' onClick={() => setAddrModalOpen(true)}>
+                              주소 검색
+                          </button>
+                          <Modal isOpen={addrModalOpen} ariaHideApp={false} onRequestClose={()=>setAddrModalOpen(false)}>
+                              <DaumPostCode onComplete={addrCompleteHandler} />
+                          </Modal>
+                      </div>
+                      <div className="stayout_specAddr_container">
+                          <input type='text' className='stayout_specAddr_field' value={specAddress} onChange={(e) => setSpecAddress(e.target.value)} ref={inputRef1} placeholder="세부 주소"/>
+                          <button type='button' className='edit_btn' onClick={handleAddr}>
+                              <img className="edit_icon" alt="주소 수정하기" src={edit}/>
+                          </button>
+                      </div>
                   </div>
               </div>
               <div className="stayout_input_container">
