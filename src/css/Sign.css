@@ -1,12 +1,4 @@
-.sign_input {
-    border: none;
-    border-bottom: solid #A2A2A2 1px;
-    margin-bottom: 20px;
-    width: 100%;
-    padding: 4px;
-}
-
-.sign_input::placeholder{
+input::placeholder{
     color: #E6E6E6;
     font-size: 15px;
 }
@@ -26,6 +18,11 @@ a {
     font-size: 12px;
 }
 
+button {
+    border: none;
+    background: none;
+}
+
 .signup_content {
     display: flex;
     flex-direction: column;
@@ -36,8 +33,21 @@ a {
     margin: 0 auto;
 }
 
+.signup_form {
+    display: flex;
+    flex-direction: column;
+}
+
 .signup_form p {
     font-size: 15px;
+}
+
+Input {
+    border: none;
+    border-bottom: solid #A2A2A2 1px;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 4px;
 }
 
 .term_title {
@@ -140,6 +150,10 @@ a {
     align-items: center;
 }
 
+.inputContainer {
+    border-bottom: 1px solid #A2A2A2;
+}
+
 .input_box {
     width: 30px;
     height: 31px;
@@ -172,4 +186,45 @@ a {
 
 .screenShotInstruction .grayText {
     color: #A2A2A2;
+}
+
+.cert_error {
+    font-size: 14px;
+}
+
+.inputFlexContainer {
+    display: flex;
+    border-bottom: 1px solid #A2A2A2;;
+}
+
+.noLineInput {
+    border: none;
+    width: 100%;
+    margin: 0px;
+}
+
+#blue_link {
+    color: #6A9CFD;
+    font-weight: 700;
+    border: none;
+    background: none;
+}
+
+#duplicateCheckBtn {
+    color: #6A9CFD;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#blueResultText {
+    color: #6A9CFD;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#redResultText {
+    color: #FD5959;
+    font-size: 12px;
+    font-weight: 700;
 }

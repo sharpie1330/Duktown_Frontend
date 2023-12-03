@@ -29,12 +29,14 @@ function SignIn(){
 
         fetch(apiUrl, request)
             .then((response) => {
-                if (response.ok)
-                    return response.json()
-                else
-                    alert(response.errorMessage);
+                if(!response.ok){
+                    return response.json().then(errorResponse => {
+                        throw new EvalError(errorResponse.errorMessage);
+                    });
+                }
+                return response.json();
             })
-            .then((data) => {
+            .then(data => {
                 const roleType =data.roleType;
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
@@ -42,7 +44,7 @@ function SignIn(){
                 navigate('/main');
             })
             .catch((error) => {
-                console.error('로그인 실패', error);
+                alert(error);
             });
     }
 
