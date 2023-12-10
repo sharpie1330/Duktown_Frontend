@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from "../components/Button";
 import arrow_right from "../assets/arrow_right.png";
 import { useNavigate } from 'react-router-dom';
-import ListView from "../components/ListView";
+import ListView from "../components/TableView";
 import Modal from 'react-modal'
 import "../css/Unit.css";
 function Unit() {
