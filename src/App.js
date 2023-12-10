@@ -15,6 +15,7 @@ import FindFillIn from "./routes/FindFillIn";
 import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
 import MyPage from "./routes/MyPage";
+import NewPost from "./routes/NewPost";
 import { AccessTokenProvider } from './AccessTokenContext';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/findFillIn" element={<FindFillIn />} />
             <Route path="/unit" element={<Unit />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/newpost" element={<NewPost />} />
           </Routes>
       </AccessTokenProvider>
   </Router>
