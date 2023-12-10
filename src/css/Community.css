@@ -57,3 +57,27 @@ hr {
     font-size: 12px;
     font-weight: 400;
 }
+
+.button-container {
+    position: fixed;
+    bottom: 70px;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.newPostBtn {
+    color: white;
+    border-radius: 20px;
+    background: #6A9CFD;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.newPostBtn img{
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
+}

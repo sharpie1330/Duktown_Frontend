@@ -3,6 +3,8 @@ import AccessTokenContext from '../AccessTokenContext';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import '../css/Community.css';
+import plus from '../assets/plus_icon.png';
+import { useNavigate } from 'react-router-dom';
 
 function Community() {
     // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
@@ -14,6 +16,7 @@ function Community() {
     //     { id: 5, title: '게시글 5', category: '일상', like: 12, comment: 6, time: '9:00' },
     //     { id: 6, title: '게시글 6', category: '장터', like: 25, comment: 10, time: '10:20' },
     // ]);
+    const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
     const [posts, setPosts] = useState([]);
 
@@ -49,8 +52,6 @@ function Community() {
 
     // 현재 선택된 카테고리에 맞게 게시글을 필터링하는 함수
     const filteredPosts = posts.filter((post) => post.category === selectedCategory);
-
-    
 
     return (
         <>
@@ -95,6 +96,12 @@ function Community() {
                 />
             );
             })}
+        </div>
+        <div className='button-container'>
+            <button className='newPostBtn' onClick={()=>{navigate('/newpost')}}>
+                <img src={plus}/>
+                글쓰기
+            </button>
         </div>
         </>
     );
