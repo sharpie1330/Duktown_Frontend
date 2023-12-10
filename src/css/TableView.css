@@ -1,0 +1,61 @@
+.repair .dateCol {
+    width: 55px;
+    font-size: 11px;
+}
+
+.repair .contentCol {
+    width: 89px;
+    font-size: 11px;
+    padding-left: 24px;
+}
+
+.repair .confirmCol {
+    width: 29px;
+    font-size: 11px;
+    text-align: center;
+    padding-left: 32px;
+}
+
+.repair .statusCol {
+    color: #6A9CFD;
+    font-size: 11px;
+    font-weight: 600;
+    width: 29px;
+    text-align: center;
+    padding-left: 36px;
+}
+
+.repair {
+    border-spacing: 0 10px;
+}
+
+.repairHistory {
+    font-size: 12px;
+}
+
+.repairHistory .dateCol {
+    padding: 0 0 25px 0;
+}
+
+.repairHistory .contentCol {
+    width: 175px;
+    padding: 0 0 25px 14px;
+}
+
+.repairHistory .contentCol a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.repairHistory .confirmCol {
+    width: 32px;
+    text-align: center;
+    padding: 0 0 25px 15px;
+}
+
+.repairHistory .statusCol {
+    width: 32px;
+    text-align: center;
+    padding: 0 0 25px 12px;
+}

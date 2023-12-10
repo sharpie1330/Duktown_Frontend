@@ -16,6 +16,9 @@ import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
 import MyPage from "./routes/MyPage";
 import NewPost from "./routes/NewPost";
+import RepairHistory from "./routes/RepairHistory";
+import RepairHistoryDetail from "./routes/RepairHistoryDetail";
+
 import { AccessTokenProvider } from './AccessTokenContext';
 
 function App() {
@@ -28,12 +31,14 @@ function App() {
             <Route path="/signin" element={<SignIn />}/>
             <Route path="/main" element={<MainTemplate />}/>
             <Route path="/announcement" element={<Announcement />}/>
-            <Route path="/repair" element={<Repair />}/>
+            <Route path="/repairs" element={<Repair />}/>
             <Route path="/stayout" element={<Stayout />}/>
             <Route path="/findFillIn" element={<FindFillIn />} />
             <Route path="/unit" element={<Unit />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/newpost" element={<NewPost />} />
+            <Route path="/repairs/historys" element={<RepairHistory />}/>
+            <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>
