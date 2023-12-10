@@ -1,3 +1,8 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+body {
+    font-family: Pretendard, serif;
+}
+
 .repair_title_container {
     display: flex;
     align-items: center;
@@ -6,35 +11,45 @@
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
+.repair_title_container img {
+    cursor: pointer;
+}
+
 .request_container {
-    background-color: #F9F9F9;
-    border-radius: 10px;
-    padding: 17px;
+    margin: 21px 42px 0 42px;
+}
+
+.request_horizontal_container {
+    display: flex;
 }
 
 .repair_dorm_select {
+    height: 30px;
     margin-top: 5px;
-    padding: 8px;
+    padding: 7px;
+    font-size: 13px;
     border-radius: 5px;
     border: 1px solid #E6E6E6;
     background: rgba(217, 217, 217, 0.00);
 }
 
 .repair_input_text {
-    margin-top: 5px;
+    margin: 5px 0 0 0;
     width: 90px;
     height: 30px;
+    box-sizing: border-box;
     border: 1px solid #E6E6E6;
     border-radius: 5px;
     background: rgba(217, 217, 217, 0.00);
 }
 
 .repair_dorm_select_container {
+    height: 60px;
     margin-right: 17px;
 }
 
 .repair_content_input {
-    margin-top: 12px;
+    margin-top: 24px;
 }
 
 .repair_content_textarea {
@@ -47,18 +62,27 @@
     background: rgba(217, 217, 217, 0.00);
 }
 
+.repair_content_textarea:focus, .repair_input_text:focus {
+    outline: none;
+}
+
 .repair_room_input {
-    margin-top: 12px;
+    height: 60px;
+    margin-left: 13px;
 }
 
 .submitBtn {
     margin-top: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+}
+
+.submitBtn .blue_rec_btn{
+    width: 40%;
 }
 
 .request_history {
-    margin-top: 30px;
+    margin-top: 60px;
     padding: 17px;
 }
 
@@ -71,19 +95,46 @@
 .history_icon {
     width: 20px;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .history_container {
+    display: grid;
+    place-items: center;
     margin-top: 11px;
     border-radius: 10px;
     box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
-li {
-    list-style: none;
-    font-size: 15px;
+.round_checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #D9D9D9;
+    border-radius: 50%;
+    appearance: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.round_checkbox::before {
+    content: '\2713'; /* 체크 모양 아이콘 (유니코드) */
+    font-size: 18px;
+    line-height: 12px; /* 수직 정렬을 위한 줄 높이 설정 */
+    color: white;
+}
+
+.round_checkbox:checked {
+    background-color: #6A9CFD;
+}
+
+.repair_user_profile {
+    margin-top: 12px;
     display: flex;
     align-items: center;
-    height: 34px;
+}
+
+.repair_user_profile span {
+    margin-left: 6px;
+    font-size: 12px;
 }

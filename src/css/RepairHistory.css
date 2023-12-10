@@ -1,0 +1,70 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+body {
+    font-family: Pretendard, serif;
+}
+
+.repairHistory_title_container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+}
+
+.repairHistory_title_container img {
+    cursor: pointer;
+}
+
+.repairHistory_range{
+    width: 198px;
+    height: 48px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    border-radius: 20px;
+    background-color: #F7F7F7;
+    margin: 24px;
+}
+
+.repairHistory_range_icon {
+    margin: 0 10px 0 0;
+}
+
+.repairHistory_table_container {
+    margin-top: 28px;
+    align-self: center;
+}
+
+.pagination_modal {
+    display: flex;
+    align-content: center;
+    padding-inline-start: 0;
+}
+
+.pagination_modal li {
+    list-style-type: none;
+}
+
+.pagination_modal li .active {
+    font-weight: 600 ;
+    color: #6A9CFD;
+}
+
+.pagination_modal li a {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.previous, .pageNum {
+    margin: 0 19px 0 0;
+}
+
+.paging_container {
+    margin: 48px 0 0 0;
+    align-self: center;
+}
