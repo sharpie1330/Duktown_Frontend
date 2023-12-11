@@ -49,7 +49,7 @@
 .year_and_month {
     font-size: 16px;
     width: 95%;
-    margin: 0px auto 13px;
+    margin: 0 auto 13px;
 }
 
 .unit_today_date {
@@ -92,7 +92,7 @@
 }
 
 .weekly_schedule {
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 13px;
 }
 
@@ -178,7 +178,7 @@
     visibility: hidden;
 }
 
-abbr {
+.unit_weekly_calendar__weekdays__weekday abbr, .unit_weekly_calendar__weekdays__weekday__num abbr{
     font-size: 10px;
 }
 
