@@ -1,3 +1,7 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+body {
+    font-family: Pretendard, serif;
+}
 .calendar {
     display: flex;
     justify-content: center;
@@ -44,7 +48,7 @@
 }
 
 .react-calendar__navigation button {
-    min-width: 44px;
+    min-width: 5px;
     background: none;
 }
 
@@ -77,7 +81,13 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
+    font-size: 11px;
     color: #6A9CFD;
+}
+
+.react-calendar__month-view__days__day {
+    font-size: 11px;
+    color: #616161;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {
@@ -149,51 +159,59 @@
     color: white;
 }
 
-.input_text {
-    width: 100px;
-    height: 25px;
+.input_text1 {
+    width: 85px;
+    height: 24px;
+    font-size: 13px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    margin-right: 12px;
+    margin: 0 17px 0 10px;
     text-align: center;
-    margin-left: 12px;
+    background-color: white;
+    color: #000000;
+}
+
+.input_text2 {
+    width: 85px;
+    height: 24px;
+    font-size: 13px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    margin: 0 10px 0 10px;
+    text-align: center;
     background-color: white;
     color: #000000;
 }
 
 .range_container{
+    font-size: 12px;
     display: flex;
     align-items: center;
     margin-top: 48px;
 }
 
 .calculate_day {
+    font-size: 12px;
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 .range_field {
-    width: 100px;
-    height: 25px;
+    font-size: 13px;
+    width: 20px;
+    height: 24px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
     text-align: center;
-    margin-left: 44px;
+    margin: 0 5px 0 10px;
     background-color: white;
     color: #000000;
 }
 
-.stayout_input_container {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    width: 550px;
-}
-
 abbr[title="토요일"], abbr[title="일요일"] {
     text-decoration: none;
-    font-size: 115%;
+    font-size: 13px;
     font-weight: normal;
     color: #6A9CFD;
     margin-bottom: 12px;
@@ -201,12 +219,13 @@ abbr[title="토요일"], abbr[title="일요일"] {
 
 abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[title="목요일"], abbr[title="금요일"] {
     text-decoration: none;
-    font-size: 115%;
+    font-size: 13px;
     font-weight: normal;
+    color: #616161;
 }
 
-.edit_icon {
-    width: 15px;
+.title_icon {
+    cursor: pointer;
 }
 
 .edit_btn {
@@ -214,12 +233,12 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     border: none;
 }
 
-.stayout_specAddr_container {
-    width: 390px;
+.stayout_addr_container {
+    width: 250px;
     height: 25px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    margin-left: 15px;
+    margin: 0 0 5px 10px;
     text-align: center;
     background-color: white;
     color: #000000;
@@ -227,13 +246,31 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     justify-content: space-between;
 }
 
-.stayout_addr_container {
-    width: 390px;
+.stayout_addr_horizontal_container {
+    width: 250px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stayout_zipcode_container {
+    width: 190px;
     height: 25px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    margin-left: 15px;
     margin-bottom: 5px;
+    text-align: center;
+    background-color: white;
+    color: #000000;
+}
+
+.stayout_specAddr_container {
+    width: 250px;
+    height: 25px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    margin: 0 0 0 54px;
     text-align: center;
     background-color: white;
     color: #000000;
@@ -242,11 +279,11 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 }
 
 .stayout_reason_container {
-    width: 472px;
-    height: 25px;
+    width: 294px;
+    height: 66px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    margin-left: 25px;
+    margin: 0 0 0 10px;
     text-align: center;
     background-color: white;
     color: #000000;
@@ -254,13 +291,18 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     justify-content: space-between;
 }
 
-.stayout_specAddr_field:focus, .stayout_reason_field:focus, .stayout_addr_field {
+.stayout_specAddr_field:focus, .stayout_reason_field:focus, .stayout_addr_field:focus, .stayout_zipcode_field:focus {
     outline: none;
 }
 
-.stayout_specAddr_field, .stayout_reason_field , .stayout_addr_field{
-    width: 80%;
+.stayout_specAddr_field, .stayout_reason_field , .stayout_addr_field, .stayout_zipcode_field{
+    font-size: 13px;
+    margin: 0;
+    width: 96%;
+    padding: 4px;
     border: none;
+    overflow: scroll;
+    resize: none;
 }
 
 .react-calendar__month-view__weekdays__weekday, .react-calendar__month-view__weekdays__weekday--weekend {
@@ -315,5 +357,89 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .search_addr_btn {
     border: none;
     background: none;
+    margin: 0 0 5px 0;
+    font-size: 12px;
+    font-weight: 700;
     color: #6A9CFD;
+    cursor: pointer;
+}
+
+.stayout_range_description {
+    align-self: center;
+    margin: 24px 0 31px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6A9CFD;
+}
+
+.navigationLabel {
+    font-size: 11px;
+}
+
+.stayout_input_container {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    margin: 12px 0 0 0;
+}
+
+.stayout_input_container2 {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+}
+
+.stayout_input_container p {
+    font-size: 12px;
+    align-self: flex-start;
+    margin-block: 0;
+}
+
+.recent_selection_container {
+    margin: 0 0 9px 10px;
+}
+
+.user_recent_selection {
+    font-size: 12px;
+    color: #616161;
+    margin: 0 0 0 6px;
+}
+
+.stayout_round_checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #D9D9D9;
+    border-radius: 50%;
+    appearance: none;
+    cursor: pointer;
+    margin: 0 0 0 auto;
+    padding: 0 0 3px 3px;
+}
+
+.stayout_round_checkbox::before {
+    content: '\2713'; /* 체크 모양 아이콘 (유니코드) */
+    font-size: 12px;
+    color: white;
+}
+
+.stayout_round_checkbox:checked {
+    background-color: #6A9CFD;
+}
+
+.stayout_reason_input_container{
+    max-width: 100%;
+    height: 100%;
+    padding: 24px;
+}
+
+.stayout_reason_input {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    resize: none;
+    border: none;
+}
+
+.stayout_reason_input:focus{
+    outline: none;
 }
