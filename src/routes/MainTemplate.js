@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import logo from '../assets/duktown_logo.png';
 import notification from '../assets/notification.png';
 import mypage from '../assets/mypage.png';
@@ -21,6 +21,22 @@ function MainTemplate(){
     const handlePageChange = (page) => {
         setActivePage(page);
     }
+
+    useEffect(() => {
+        // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
+        const previousPageInfo = JSON.parse(localStorage.getItem('previousPageInfo'));
+
+        // 이전 페이지의 정보가 있다면 해당 정보를 사용하여 렌더링
+        if (previousPageInfo) {
+            if (previousPageInfo.page === 'community') {
+                // 페이지가 Community인 경우의 처리 로직
+                setActivePage('community');
+            }
+
+            // 로컬 스토리지에서 정보를 사용한 후에는 해당 데이터를 삭제하는 것이 좋습니다.
+            localStorage.removeItem('previousPageInfo');
+        }
+    }, []);
 
     return (
         <>
