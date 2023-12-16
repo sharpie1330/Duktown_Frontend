@@ -203,6 +203,59 @@ Input {
     margin: 0px;
 }
 
+.otherLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otherLink span {
+    font-size: 12px;
+    padding: 0px 16px;
+}
+
+.otherLink .blue_link {
+    color: #6A9CFD;
+    font-weight: 500;  
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blueInfo {
+    color: #6A9CFD;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.idInfo {
+    font-size: 18px;
+}
+
+.bottomButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.bottomButtonContainer button {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#findPasswordButton {
+    background-color: #F7F7F7;
+    color: #8E8E8E;
+}
+
+#loginButton {
+    background-color: #6A9CFD;
+    color: #FFFFFF;
+}
+
 #blue_link {
     color: #6A9CFD;
     font-weight: 700;
@@ -210,7 +263,7 @@ Input {
     background: none;
 }
 
-#duplicateCheckBtn {
+#inputCheckBtn {
     color: #6A9CFD;
     font-size: 12px;
     font-weight: 700;
