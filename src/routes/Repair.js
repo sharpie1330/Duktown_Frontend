@@ -3,7 +3,7 @@ import arrow_left from '../assets/arrow_left.png';
 import arrow_right from '../assets/arrow_right.png';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import ListView from "../components/ListView";
+import TableView from "../components/TableView";
 import '../css/Repair.css';
 import Modal from "react-modal";
 import AccessTokenContext from '../AccessTokenContext';
@@ -86,21 +86,27 @@ function Repair(){
             </div>
             <div className='content-container'>
                 <div className='request_container'>
-                    <div className='repair_dorm_select_container'>
-                        건물명<br/>
-                        <select name='dorm' className='repair_dorm_select' onChange={(e) => setHallName(e.target.value)}>
-                            <option value='1'>가온1관</option>
-                            <option value='2'>가온2관</option>
-                            <option value='0'>국제관</option>
-                        </select>
+                    <div className='request_horizontal_container'>
+                        <div className='repair_dorm_select_container'>
+                            건물명<br/>
+                            <select name='dorm' className='repair_dorm_select' onChange={(e) => setHallName(e.target.value)}>
+                                <option value='1'>가온1관</option>
+                                <option value='2'>가온2관</option>
+                                <option value='0'>국제관</option>
+                            </select>
+                        </div>
+                        <div className='repair_room_input'>
+                            호실<br/>
+                            <input type='text' name="request_user" className='repair_input_text' onChange={(e) => setRoom(e.target.value)}/>
+                        </div>
                     </div>
-                    <div className='repair_room_input'>
-                        호실<br/>
-                        <input type='text' name="request_user" className='repair_input_text' onChange={(e) => setRoom(e.target.value)}/>
+                    <div className='repair_user_profile'>
+                        <input className='round_checkbox' id="userProfile" type='checkbox'/>
+                        <span className="user_profile">내 기숙사 정보 입력하기</span>
                     </div>
                     <div className='repair_content_input'>
                         수리 내용<br/>
-                        <textarea name="content" className='repair_content_textarea' onChange={(e) => setContent(e.target.value)}/>
+                        <textarea name="content" className='repair_content_textarea' readOnly={true} onChange={(e) => setContent(e.target.value)}/>
                     </div>
                     <div className="submitBtn">
                         <Button
@@ -125,11 +131,12 @@ function Repair(){
                 <div className='request_history'>
                     <div className="request_history_title">
                         수리 요청 내역
-                        <img className='history_icon' src={arrow_right} alt="수리 요청 내역 보기" onClick={()=>{navigate('/home');}}/> {/*나중에 수리 내역 페이지 연결*/}
+                        <img className='history_icon' src={arrow_right} alt="수리 요청 내역 보기" onClick={()=>{navigate('/repairs/historys');}}/> {/*나중에 수리 내역 페이지 연결*/}
                     </div>
                     <div className='history_container'>
-                        <ListView
-                            items = {[{ id:1, text: 'ex1'}, { id:2, text:'ex2'}]}
+                        <TableView
+                            tableFor='repair'
+                            items = {[{date: '2023.12.09', content: '어쩌고저쩌고수리', confirm: '미확인', status: '미해결'}, {date: '2023.12.09', content: '어쩌고', confirm: '확인', status: '해결'}]}
                         />
                     </div>
                 </div>

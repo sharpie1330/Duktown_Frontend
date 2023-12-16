@@ -4,6 +4,7 @@ import unit_blue from '../assets/unit_blue.png';
 import edit_blue from '../assets/edit_blue.png';
 import comment from '../assets/comment.png';
 import logout from '../assets/logout.png';
+import profile from '../assets/profile.png';
 import { useNavigate } from 'react-router-dom';
 import Modal from "react-modal";
 import AccessTokenContext from '../AccessTokenContext';
@@ -24,6 +25,10 @@ function MyPage() {
             </div>
             <div className="myPage_list_container">
                 <ul className="myPage_list">
+                    <li className="myPage_list_element" onClick={() => navigate('/user/info')}>
+                        <img className="myPage_icon" id='myInfo' src={profile} alt="내 정보"/>
+                        내 정보
+                    </li>
                     <li className="myPage_list_element" onClick={() => navigate('/user/unit')}>
                         <img id='myUnit' className="myPage_icon" src={unit_blue} alt="나의 유닛"/>
                         나의 유닛
@@ -53,6 +58,12 @@ function MyPage() {
                         </div>
                     </Modal>
                 </ul>
+            </div>
+            <div className='myPage_footer'>
+                <p className='duksung_dorm_info'>덕성여자대학교 기숙사 정보</p>
+                <p className='duksung_dorm_number'>02-901-8000</p>
+                <p className='gaon_dorm_addr'>가온1,2관 : (01370) 서울특별시 도봉구 우이천로 381</p>
+                <p className='international_dorm_addr'>국제기숙사 : (01378) 서울특별시 도봉구 우이천로 380</p>
             </div>
         </>
     )
