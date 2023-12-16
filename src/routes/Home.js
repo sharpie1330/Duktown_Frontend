@@ -23,7 +23,7 @@ function Home(){
                 </div>
             </div>
             <div className='menu_container'>
-                <div className='menu' onClick={()=>{navigate('/repair')}}>
+                <div className='menu' onClick={()=>{navigate('/repairs')}}>
                     <img src={repair} className='menu_icon'/>
                     수리 요청
                 </div>
