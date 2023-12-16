@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import LoggedOut from "./routes/LoggedOut";
 import SignIn from "./routes/SignIn";
-import Home from "./routes/Home";
+import FindId from './routes/FindId';
+import FindPassword from './routes/FindPassword';
 import Announcement from "./routes/Announcement";
 import Repair from "./routes/Repair";
 import Stayout from "./routes/Stayout";
@@ -26,6 +27,8 @@ function App() {
             <Route path="/" element={<LoggedOut />}/>
             <Route path='signup' element={<SignUp />}/>
             <Route path="/signin" element={<SignIn />}/>
+            <Route path="/findid" element={<FindId />}/>
+            <Route path="/findpassword" element={<FindPassword />}/>
             <Route path="/main" element={<MainTemplate />}/>
             <Route path="/announcement" element={<Announcement />}/>
             <Route path="/repair" element={<Repair />}/>
