@@ -27,7 +27,7 @@ function FindPassword(){
                     </div>
                 </div>
                 <button type="submit" className='bottomBtn'>
-                    입력한 메일로 비밀번호 변경 링크 받기
+                    이메일로 임시 비밀번호 보내기
                 </button>
             </form>
         </>

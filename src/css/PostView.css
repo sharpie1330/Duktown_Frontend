@@ -1,0 +1,69 @@
+.content_container {
+    position: relative;
+}
+
+hr {
+    height: 1px;
+    background: #E6E6E6;
+}
+
+.functionBtn {
+    margin-left: auto;
+}
+
+#profileImage {
+    width: 20px;
+    height: 24px;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid #E6E6E6;
+}
+
+#upperInfo {
+    display: flex;
+    align-items: center;
+}
+
+#nameAndTime {
+    padding: 3px;
+}
+
+#userName {
+    font-size: 14px;
+}
+
+#post-time {
+    color: #8E8E8E;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+#postComment {
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+}
+
+#post-content {
+    font-size: 12px;
+}
+
+#commentForm {
+    display: flex;
+    align-items: center;
+}
+
+#comment-input {
+    border-radius: 5px;
+    background: #F7F7F7;
+    border: none;
+    padding: 10px 14px;
+    margin: 2px;
+}
+
+#comment-input::placeholder {
+    font-family: Pretendard;
+    font-size: 12px;
+    color: #8E8E8E;
+    font-weight: 700;
+}

@@ -114,7 +114,8 @@ Input {
     border-radius: 50%;
     appearance: none;
     cursor: pointer;
-    margin: 0 0 0 auto;
+    margin: 0px 5px;
+    padding: 2px;
 }
 
 .round_checkbox::before {

@@ -1,0 +1,43 @@
+#comment-profileImage {
+    width: 15px;
+    height: 18px;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid #E6E6E6;
+}
+
+#comment-user {
+    flex-grow: 1;
+    padding: 4px;
+    font-size: 12px;
+}
+
+#comment-time {
+    color: #8E8E8E;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+#comment-content {
+    font-size: 12px;
+}
+
+#comment-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#comment-details span {
+    margin: 0px 5px;
+    color: #8E8E8E;
+    font-size: 10px;
+}
+
+.child-comment {
+    margin-left: 20px;
+}
+
+.reply-form {
+    width: 100%;
+}

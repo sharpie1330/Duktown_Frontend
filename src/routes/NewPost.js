@@ -70,6 +70,26 @@ function NewPost(){
                         placeholder='제목을 입력해주세요'
                     >
                     </input>
+                    {selectedCategory === "배달팟" ?
+                    <>
+                        <div className='deliveryInfo'>
+                            <span>최대 모집 인원</span>
+                            <input type="number"></input>
+                        </div>
+                        <div className='deliveryInfo'>
+                            <span>주문 예정 시각</span>
+                            <input type="time"></input>
+                        </div>
+                        <div className='deliveryInfo'>
+                            <span>송금 받을 계좌</span>
+                            <input type="text"></input>
+                        </div>
+                    </>
+                        
+                    :
+                        <></>
+                    }
+                    <br/>
                     <textarea 
                         id='post-content' 
                         placeholder='내용을 입력하세요'
