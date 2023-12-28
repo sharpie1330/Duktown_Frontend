@@ -33,6 +33,11 @@ hr {
     font-weight: 400;
 }
 
+.post-details {
+    display: flex;
+    align-items: center;
+}
+
 .post-details span {
     margin-left: 2px;
     margin-right: 6px;
