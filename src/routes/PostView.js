@@ -107,6 +107,33 @@ function PostView() {
             alert(error);
         }
     };
+
+    const handleLike = async () => {
+        try {
+            const response = await fetch(serverUrl + "/likes", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ 
+                    "postId": id,
+                    "commentId": null,
+                })
+            });
+
+            if (response.ok) {
+                fetchPost();
+            } 
+            else{
+                return response.json().then(errorResponse => {
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
     
     useEffect(() => {
         fetchPost();
@@ -134,7 +161,7 @@ function PostView() {
                 <p className="post-title">{post.title}</p>
                 <p className="post-content">{post.content}</p>
                 <div className="post-details">
-                    <img src={like_icon}/><span className="post-likes">{post.likeCount}</span>
+                    <img src={like_icon} onClick={handleLike}/><span className="post-likes">{post.likeCount}</span>
                     <img src={comment_icon}/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
@@ -153,6 +180,7 @@ function PostView() {
                                     deleted={comment.deleted}
                                     childComments={comment.childComments}
                                     setReplyToCommentId={setReplyToCommentId}
+                                    fetchComments={fetchComments}
                                 />
                             );
                         })}
