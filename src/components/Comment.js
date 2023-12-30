@@ -6,15 +6,12 @@ import profile_image from '../assets/profile_image.png';
 import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 
-import { useNavigate } from 'react-router-dom';
-
 function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, setReplyToCommentId }) {
 
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
 
     const handleReply = () => {
-        console.log("답글쓰기");
         setReplyToCommentId(commentId);
     };
 

@@ -39,9 +39,7 @@ hr {
 }
 
 #postComment {
-    position: absolute;
-    bottom: 8px;
-    width: 100%;
+    flex-grow: 1;
 }
 
 #post-content {

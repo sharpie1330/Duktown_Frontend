@@ -32,7 +32,6 @@ function Community() {
         .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
         .then(data => {
             setPosts(data.content);
-            console.log(data.content[0]);
         })
         .catch(error => console.error('Error:', error));
     };
@@ -59,9 +58,6 @@ function Community() {
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
     };
-
-    // 현재 선택된 카테고리에 맞게 게시글을 필터링하는 함수
-    // const filteredPosts = posts.filter((post) => post.category === selectedCategory);
 
     return (
         <>
@@ -114,12 +110,10 @@ function Community() {
             ) : (
             <div>게시글이 없습니다</div>
         )}
-        <div className='button-container'>
-            <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
+        <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
                 <img src={plus}/>
                 글쓰기
-            </button>
-        </div>
+        </button>
         </>
     );
 }

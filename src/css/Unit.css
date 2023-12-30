@@ -1,5 +1,4 @@
 .unit_today_record_container, .unit_record_container {
-    width: 95%;
     margin: 0 auto;
 }
 
@@ -17,6 +16,7 @@
 .done_and_confirm {
     margin-top: 27px;
     display: flex;
+    justify-content: center;
 }
 
 .status {
