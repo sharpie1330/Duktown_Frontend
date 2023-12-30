@@ -12,19 +12,55 @@ import Comment from '../components/Comment';
 
 function PostView() {
     const location = useLocation();
-    const postData = location.state; // URL의 state 속성을 가져옴
-    const category = {0: '일상', 1: '장터'}
+    const id = location.state.id; // URL의 state 속성을 가져옴
+    const category_name = {0: '일상', 1: '장터'}
     const [comments, setComments] = useState([]);
+    const [post, setPost] = useState({
+        userId: '',
+        category: '',
+        title: '',
+        content: '',
+        liked: false,
+        likeCount: 0,
+        commentCount: 0,
+        datetime: ''
+    });
 
     const { accessToken } = useContext(AccessTokenContext);
 
     const serverUrl = "http://localhost:8080";
-    const apiUrl = serverUrl + "/comments";
     const [replyToCommentId, setReplyToCommentId] = useState(null);
+    var userId, category, title, content, liked, likeCount, commentCount, datetime;
+
+    const fetchPost = async () => {
+        fetch(serverUrl + '/posts' + `/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            method: 'GET',
+        })
+        .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
+        .then(data => {
+            setPost({
+                userId: data.userId,
+                category: data.category,
+                title: data.title,
+                content: data.content,
+                liked: data.liked,
+                likeCount: data.likeCount,
+                commentCount: data.commentCount,
+                datetime: data.datetime
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
     const fetchComments = async () => {
         
-        fetch(apiUrl+`?postId=${postData.id}`, {
+        fetch(serverUrl + "/comments" +`?postId=${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -36,7 +72,6 @@ function PostView() {
         .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
         .then(data => {
             setComments(data.content);
-            console.log(data);
         })
         .catch(error => console.error('Error:', error));
     };
@@ -44,17 +79,16 @@ function PostView() {
     const postComment = async (event) => {
         event.preventDefault();
         const content = event.target['comment-input'].value;
-        console.log(replyToCommentId);
 
         try {
-            const response = await fetch(apiUrl, {
+            const response = await fetch(serverUrl + "/comments", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({ 
-                    "postId": postData.id,
+                    "postId": id,
                     "content": content,
                     "parentCommentId": replyToCommentId // 대댓글이면 어떤 댓글에 대한 대댓글인지 식별
                 })
@@ -66,7 +100,33 @@ function PostView() {
             } 
             else{
                 return await response.json().then(errorResponse => {
-                    console.log(errorResponse);
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    const handleLike = async () => {
+        try {
+            const response = await fetch(serverUrl + "/likes", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ 
+                    "postId": id,
+                    "commentId": null,
+                })
+            });
+
+            if (response.ok) {
+                fetchPost();
+            } 
+            else{
+                return response.json().then(errorResponse => {
                     throw new EvalError(errorResponse.errorMessage);
                 });
             }
@@ -76,6 +136,7 @@ function PostView() {
     };
     
     useEffect(() => {
+        fetchPost();
         fetchComments();
     }, []);
 
@@ -83,25 +144,25 @@ function PostView() {
         <>
             <div className='title_container'>
                 <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}}></img>
-                {category[postData.category]}
+                {category_name[post.category]}
             </div>
             <div className='content_container'>
                 <div id='upperInfo'>
                     <img id='profileImage' src={profile_image} />
                     <table id='nameAndTime'>
                         <tr id='userName'>익명</tr>
-                        <tr id='post-time'>{postData.datetime}</tr>    
+                        <tr id='post-time'>{post.datetime}</tr>    
                     </table>
                     <button className='functionBtn' type='submit' form='post-form'>
                         <img src={function_button}/>
                     </button>
                 </div>
                 
-                <p className="post-title">{postData.title}</p>
-                <p className="post-content">{postData.content}</p>
+                <p className="post-title">{post.title}</p>
+                <p className="post-content">{post.content}</p>
                 <div className="post-details">
-                    <img src={like_icon}/><span className="post-likes">{postData.likeCount}</span>
-                    <img src={comment_icon}/><span className="post-comments">{postData.commentCount}</span>
+                    <img src={like_icon} onClick={handleLike}/><span className="post-likes">{post.likeCount}</span>
+                    <img src={comment_icon}/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>
@@ -119,6 +180,7 @@ function PostView() {
                                     deleted={comment.deleted}
                                     childComments={comment.childComments}
                                     setReplyToCommentId={setReplyToCommentId}
+                                    fetchComments={fetchComments}
                                 />
                             );
                         })}
@@ -127,6 +189,8 @@ function PostView() {
                     <></>
                 )}
                 </div>
+            </div>
+            <div className='bottom_bar'>
                 <div id='postComment'>
                     <form id='commentForm' onSubmit={postComment}>
                         <input id='comment-input' placeholder='댓글을 입력하세요'></input>
@@ -135,7 +199,6 @@ function PostView() {
                         </button>
                     </form>
                 </div>
-
             </div>
         </>
     );

@@ -34,10 +34,10 @@
     font-size: 10px;
 }
 
-.child-comment {
-    margin-left: 20px;
-}
-
 .reply-form {
     width: 100%;
+}
+
+.reply-form img {
+    max-width: 20px;
 }

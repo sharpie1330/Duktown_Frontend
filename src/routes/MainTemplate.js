@@ -45,7 +45,7 @@ function MainTemplate(){
                 <img src={notification} alt="Notification" className="upper_bar_icon"/>
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
-            <div className='content_container'>
+            <div className='center_content_container'>
                 <div className="page" style={{ display: activePage === 'community' ? 'block' : 'none' }}>
                     <Community />
                 </div>
