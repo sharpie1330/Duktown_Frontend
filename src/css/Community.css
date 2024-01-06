@@ -33,6 +33,11 @@ hr {
     font-weight: 400;
 }
 
+.post-details {
+    display: flex;
+    align-items: center;
+}
+
 .post-details span {
     margin-left: 2px;
     margin-right: 6px;
@@ -61,7 +66,7 @@ hr {
 .button-container {
     position: fixed;
     bottom: 70px;
-    min-width: 400px;
+    min-width: 320px;
     max-width: 500px;
 }
 
@@ -73,7 +78,9 @@ hr {
     align-items: center;
     padding: 10px;
     font-size: 16px;
-    margin-left: auto;
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
 }
 
 .newPostBtn img{

@@ -59,3 +59,8 @@ body {
     height: 20px;
     cursor: pointer;
 }
+
+.page {
+    display: flex;
+    flex-grow: 1;
+}

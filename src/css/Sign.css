@@ -27,10 +27,9 @@ button {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 80px;
-    min-width: 400px;
+    padding: 32px 24px 80px 24px;
+    min-width: 320px;
     max-width: 700px;
-    margin: 0 auto;
 }
 
 .signup_form {
@@ -107,17 +106,18 @@ Input {
     margin-left: 10px;
 }
 
-.round_checkbox {
+.term_line .round_checkbox {
     width: 24px;
     height: 24px;
     border: 2px solid #D9D9D9;
     border-radius: 50%;
     appearance: none;
     cursor: pointer;
-    margin: 0 0 0 auto;
+    margin: 0 5px;
+    padding: 2px;
 }
 
-.round_checkbox::before {
+.term_line .round_checkbox::before {
     content: '\2713'; /* 체크 모양 아이콘 (유니코드) */
     font-size: 18px;
     line-height: 18px; /* 수직 정렬을 위한 줄 높이 설정 */
@@ -203,6 +203,59 @@ Input {
     margin: 0px;
 }
 
+.otherLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otherLink span {
+    font-size: 12px;
+    padding: 0px 16px;
+}
+
+.otherLink .blue_link {
+    color: #6A9CFD;
+    font-weight: 500;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blueInfo {
+    color: #6A9CFD;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.idInfo {
+    font-size: 18px;
+}
+
+.bottomButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.bottomButtonContainer button {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#findPasswordButton {
+    background-color: #F7F7F7;
+    color: #8E8E8E;
+}
+
+#loginButton {
+    background-color: #6A9CFD;
+    color: #FFFFFF;
+}
+
 #blue_link {
     color: #6A9CFD;
     font-weight: 700;
@@ -210,7 +263,7 @@ Input {
     background: none;
 }
 
-#duplicateCheckBtn {
+#inputCheckBtn {
     color: #6A9CFD;
     font-size: 12px;
     font-weight: 700;

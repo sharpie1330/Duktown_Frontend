@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import LoggedOut from "./routes/LoggedOut";
 import SignIn from "./routes/SignIn";
-import Home from "./routes/Home";
+import FindId from './routes/FindId';
+import FindPassword from './routes/FindPassword';
 import Announcement from "./routes/Announcement";
 import RepairApply from "./routes/RepairApply";
 import Stayout from "./routes/Stayout";
@@ -21,6 +22,7 @@ import RepairHistoryDetail from "./routes/RepairHistoryDetail";
 import NoticeList from "./routes/NoticeList";
 import NoticeListDetail from "./routes/NoticeListDetail";
 import { AccessTokenProvider } from './AccessTokenContext';
+import PostView from './routes/PostView';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path="/" element={<LoggedOut />}/>
             <Route path='signup' element={<SignUp />}/>
             <Route path="/signin" element={<SignIn />}/>
+            <Route path="/findid" element={<FindId />}/>
+            <Route path="/findpassword" element={<FindPassword />}/>
             <Route path="/main" element={<MainTemplate />}/>
             <Route path="/announcement/historys" element={<Announcement />}/>
             <Route path="/repairs/apply" element={<RepairApply />}/>
@@ -42,6 +46,7 @@ function App() {
             <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
             <Route path="/notice/list" element={<NoticeList />}/>
             <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
+            <Route path="/post/:postId" element={<PostView />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>
