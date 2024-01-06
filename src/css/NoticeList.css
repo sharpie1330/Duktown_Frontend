@@ -3,73 +3,79 @@ body {
     font-family: Pretendard, serif;
 }
 
-.announcement_title_container {
+.noticeList_title_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+    padding: 0 16px;
+    height: 48px;
+}
+
+.noticeList_title_container div{
     display: flex;
     align-items: center;
     font-size: 16px;
-    padding: 0 25px 0 16px;
-    height: 49px;
-    justify-content: space-between;
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
-.announcement_search_icon {
+.noticeList_title_container img {
+    margin: 0 8px 0 0;
+    cursor: pointer;
+}
+
+.noticeList_search_icon {
     width: 23px;
     margin: 0 4px 0 5px;
     cursor: pointer;
 }
 
-.content_container {
-    flex-grow: 1;
-    padding: 20px;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-}
-
-.date_container {
+.noticeList_range{
+    width: 198px;
+    height: 48px;
+    font-size: 12px;
+    font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #6A9CFD;
-    font-weight: 700;
-    padding: 12px;
+    align-self: center;
+    border-radius: 20px;
+    background-color: #F7F7F7;
+    margin: 24px 0 20px 0;
 }
 
-.announcement_icon {
-    height: 22px;
-}
-
-.dorm_select {
-    padding: 3px;
-    border-radius: 5px;
-    border: 1px solid #E6E6E6;
-    background: rgba(217, 217, 217, 0.00);
-    width: 90px;
-    height: 30px;
+.noticeList_range p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    width: 140px;
     text-align: center;
 }
 
-.announcement_table_container {
-    margin: 20px 0 0 0;
+.noticeList_range_icon {
+    margin: 0 10px 0 0;
+    cursor: pointer;
 }
 
-.announcement_pagination_modal {
+.noticeList_table_container {
+    align-self: center;
+}
+
+.pagination_modal {
     display: flex;
     align-content: center;
     padding-inline-start: 0;
 }
 
-.announcement_pagination_modal li {
+.pagination_modal li {
     list-style-type: none;
 }
 
-.announcement_pagination_modal li .active {
+.pagination_modal li .active {
     font-weight: 600 ;
     color: #6A9CFD;
 }
 
-.announcement_pagination_modal li a {
+.pagination_modal li a {
     text-decoration: none;
     color: black;
     font-size: 15px;
@@ -80,18 +86,14 @@ body {
     margin: 0 19px 0 0;
 }
 
-.announcement_paging_container {
+.paging_container {
     margin: 0;
     align-self: center;
     position: absolute;
-    bottom: 2%;
+    bottom: 5%;
 }
 
-.announcement_history_container {
-    align-self: center;
-}
-
-.announcement_searchBar_container {
+.noticeList_searchBar_container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -112,13 +114,13 @@ body {
     cursor: pointer;
 }
 
-.announcement_searchBar_icon {
+.noticeList_searchBar_icon {
     width: 21px;
     margin: 0 8px 0 0;
     cursor: pointer;
 }
 
-.announcement_searchBar_container div {
+.noticeList_searchBar_container div {
     height: 32px;
     border-radius: 5px;
     background: #F7F7F7;
@@ -132,7 +134,7 @@ body {
     display: none;
 }
 
-.announcement_searchBar_field {
+.noticeList_searchBar_field {
     font-size: 14px;
     font-weight: 700;
     margin: 0;
@@ -140,6 +142,18 @@ body {
     background: none;
 }
 
-.announcement_searchBar_field:focus {
+.noticeList_searchBar_field:focus {
     outline: none;
+}
+
+#rangePickerModal {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+}
+
+.rdrDateInput input{
+    margin: 0;
 }

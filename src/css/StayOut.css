@@ -9,7 +9,7 @@ body {
 }
 
 .react-calendar {
-    width: 350px;
+    width: 95%;
 }
 
 .react-calendar--doubleView .react-calendar__viewContainer {
@@ -43,8 +43,8 @@ body {
 
 .react-calendar__navigation {
     display: flex;
-    height: 44px;
-    margin-bottom: 1em;
+    height: fit-content;
+    margin: 0 0 20px 0;
 }
 
 .react-calendar__navigation button {
@@ -101,7 +101,7 @@ body {
 }
 
 .react-calendar__tile {
-    height: 50px;
+    height: 40px;
     padding: 10px 6.6667px;
     background: none;
     text-align: center;
@@ -161,8 +161,8 @@ body {
 
 .input_text1 {
     width: 85px;
-    height: 24px;
-    font-size: 13px;
+    height: 18px;
+    font-size: 12px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
     margin: 0 17px 0 10px;
@@ -173,11 +173,11 @@ body {
 
 .input_text2 {
     width: 85px;
-    height: 24px;
-    font-size: 13px;
+    height: 18px;
+    font-size: 12px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    margin: 0 10px 0 10px;
+    margin: 0 0 0 10px;
     text-align: center;
     background-color: white;
     color: #000000;
@@ -187,20 +187,20 @@ body {
     font-size: 12px;
     display: flex;
     align-items: center;
-    margin-top: 48px;
+    margin-top: 26px;
 }
 
 .calculate_day {
     font-size: 12px;
     display: flex;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 4px;
 }
 
 .range_field {
-    font-size: 13px;
+    font-size: 12px;
     width: 20px;
-    height: 24px;
+    height: 18px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
     text-align: center;
@@ -323,20 +323,12 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     align-items: center;
 }
 
-.stayout_description {
-    font-size: 12px;
-    color: #000000;
-    opacity: 60%;
-    align-self: center;
-    width: 80%;
-    position: absolute;
-    bottom: 5%;
-    line-height: 150%;
-}
-
 .stayout_form {
-    width: 80%;
+    min-width: 85%;
+    display: flex;
+    flex-direction: column;
     align-self: center;
+    border-top: 1px solid #D9D9D9;
 }
 
 .stayout_title_container {
@@ -366,7 +358,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 
 .stayout_range_description {
     align-self: center;
-    margin: 24px 0 31px 0;
+    margin: 20px 0;
     font-size: 15px;
     font-weight: 600;
     color: #6A9CFD;
@@ -380,7 +372,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     display: flex;
     font-size: 12px;
     align-items: center;
-    margin: 12px 0 0 0;
+    margin: 5px 0 0 0;
 }
 
 .stayout_input_container2 {
@@ -442,4 +434,95 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 
 .stayout_reason_input:focus{
     outline: none;
+}
+
+.stayout_calendar {
+    display: flex;
+    justify-content: center;
+}
+
+.stayout_drag_container {
+    padding: 28px 26px;
+    width: 85%;
+    height: 800px;
+    align-self: center;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 -4px 10px 0 rgba(0, 0, 0, 0.05);
+    position: fixed;
+    bottom: -770px;
+    background: white;
+}
+
+.stayout_scroll_tab {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+.stayout_scroll_vertical_container {
+    font-size: 10px;
+    color: #B3B3B3;
+}
+
+.stayout_day_left {
+    font-size: 16px;
+    color: #6A9CFD;
+    font-weight: 600;
+    text-align: right;
+}
+
+.stayout_history_list_container {
+    width: 100%;
+    height: 84%;
+    overflow: scroll;
+}
+
+.stayout_history_list_container::-webkit-scrollbar{
+    display: none;
+}
+
+.stayout_final_modal {
+    margin: 20px;
+    width: 220px;
+}
+
+.stayout_final_modal_title {
+    color: #6A9CFD;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 9px 5px;
+}
+
+.stayout_final_modal_content {
+    color: #666666;
+    font-size: 12px;
+    margin: 3px 0;
+}
+
+.stayout_setShowRule_container {
+    display: flex;
+    align-items: center;
+    margin: 13px 0 19px 10px;
+}
+
+.checkbox {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    margin: 0 5px 0 0;
+    accent-color: #6A9CFD;
+    color: white;
+    border: 1px solid #8E8E8E;
+}
+
+.stayout_setShowRule_container span {
+    font-size: 10px;
+    color: #8E8E8E;
+}
+
+.stayout_final_modal_btn_container {
+    display: flex;
+    justify-content: center;
 }

@@ -3,13 +3,12 @@ import arrow_left from '../assets/arrow_left.png';
 import arrow_right from '../assets/arrow_right.png';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import TableView from "../components/TableView";
-import '../css/Repair.css';
+import '../css/RepairApply.css';
 import Modal from "react-modal";
 import AccessTokenContext from '../AccessTokenContext';
 import customModal from '../customModalConfig';
 
-function Repair(){
+function RepairApply(){
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const { accessToken } = useContext(AccessTokenContext);
@@ -81,8 +80,29 @@ function Repair(){
     return (
         <>
             <div className='repair_title_container'>
-                <img className='repair_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
-                수리 요청
+                <div className='repair_title'>
+                    <img className='repair_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                    수리 요청
+                </div>
+                <div className="submitBtn">
+                    <Button
+                        label="보내기"
+                        styleClass="blue_rec_btn"
+                        onClick={() => setModalIsOpen(true)}
+                    />
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={()=>setModalIsOpen(false)}
+                        style={customModal}>
+                        <div className="unit_modal_container">
+                            수리 요청을 보낼까요?
+                            <div className="unit_modal_btn_container">
+                                <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
+                                <Button styleClass="modal_btn_yes" label="예" onClick={submitHandler}/>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
             </div>
             <div className='content-container'>
                 <div className='request_container'>
@@ -105,39 +125,7 @@ function Repair(){
                         <span className="user_profile">내 기숙사 정보 입력하기</span>
                     </div>
                     <div className='repair_content_input'>
-                        수리 내용<br/>
-                        <textarea name="content" className='repair_content_textarea' readOnly={true} onChange={(e) => setContent(e.target.value)}/>
-                    </div>
-                    <div className="submitBtn">
-                        <Button
-                            label="보내기"
-                            styleClass="blue_rec_btn"
-                            onClick={() => setModalIsOpen(true)}
-                        />
-                        <Modal
-                            isOpen={modalIsOpen}
-                            onRequestClose={()=>setModalIsOpen(false)}
-                            style={customModal}>
-                            <div className="unit_modal_container">
-                                수리 요청을 보낼까요?
-                                <div className="unit_modal_btn_container">
-                                    <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                    <Button styleClass="modal_btn_yes" label="예" onClick={submitHandler}/>
-                                </div>
-                            </div>
-                        </Modal>
-                    </div>
-                </div>
-                <div className='request_history'>
-                    <div className="request_history_title">
-                        수리 요청 내역
-                        <img className='history_icon' src={arrow_right} alt="수리 요청 내역 보기" onClick={()=>{navigate('/repairs/historys');}}/> {/*나중에 수리 내역 페이지 연결*/}
-                    </div>
-                    <div className='history_container'>
-                        <TableView
-                            tableFor='repair'
-                            items = {[{date: '2023.12.09', content: '어쩌고저쩌고수리', confirm: '미확인', status: '미해결'}, {date: '2023.12.09', content: '어쩌고', confirm: '확인', status: '해결'}]}
-                        />
+                        <textarea name="content" className='repair_content_textarea' placeholder='수리를 요청할 사항을 입력하세요.' onChange={(e) => setContent(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -145,4 +133,4 @@ function Repair(){
     );
 }
 
-export default Repair;
+export default RepairApply;

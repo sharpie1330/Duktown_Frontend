@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import arrow_left from "../assets/arrow_left.png";
 import arrow_right from "../assets/arrow_right.png";
-import calendar from "../assets/calendar.png";
+import edit_blue from "../assets/edit_blue.png";
 import TableView from "../components/TableView";
 import '../css/RepairHistory.css';
 import AccessTokenContext from "../AccessTokenContext";
@@ -66,12 +66,11 @@ function RepairHistory() {
     return (
         <>
             <div className='repairHistory_title_container'>
-                <img className='repairHistory_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/repairs');}}/>
-                수리 요청 내역
-            </div>
-            <div className='repairHistory_range'>
-                <img className='repairHistory_range_icon' src={calendar} alt="달력"/>
-                2023.06.23 ~ 2023.12.31
+                <div className='repairHistory_title'>
+                    <img className='repairHistory_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                    수리 요청 내역
+                </div>
+                <img className='repairHistory_title_img' src={edit_blue} alt="수리신청 작성" onClick={()=> {navigate('/repairs/apply');}}/>
             </div>
             <div className='repairHistory_table_container'>
                 <TableView

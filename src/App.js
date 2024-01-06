@@ -8,7 +8,7 @@ import LoggedOut from "./routes/LoggedOut";
 import SignIn from "./routes/SignIn";
 import Home from "./routes/Home";
 import Announcement from "./routes/Announcement";
-import Repair from "./routes/Repair";
+import RepairApply from "./routes/RepairApply";
 import Stayout from "./routes/Stayout";
 import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
@@ -18,7 +18,8 @@ import MyPage from "./routes/MyPage";
 import NewPost from "./routes/NewPost";
 import RepairHistory from "./routes/RepairHistory";
 import RepairHistoryDetail from "./routes/RepairHistoryDetail";
-
+import NoticeList from "./routes/NoticeList";
+import NoticeListDetail from "./routes/NoticeListDetail";
 import { AccessTokenProvider } from './AccessTokenContext';
 
 function App() {
@@ -30,8 +31,8 @@ function App() {
             <Route path='signup' element={<SignUp />}/>
             <Route path="/signin" element={<SignIn />}/>
             <Route path="/main" element={<MainTemplate />}/>
-            <Route path="/announcement" element={<Announcement />}/>
-            <Route path="/repairs" element={<Repair />}/>
+            <Route path="/announcement/historys" element={<Announcement />}/>
+            <Route path="/repairs/apply" element={<RepairApply />}/>
             <Route path="/stayout" element={<Stayout />}/>
             <Route path="/findFillIn" element={<FindFillIn />} />
             <Route path="/unit" element={<Unit />} />
@@ -39,6 +40,8 @@ function App() {
             <Route path="/newpost" element={<NewPost />} />
             <Route path="/repairs/historys" element={<RepairHistory />}/>
             <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
+            <Route path="/notice/list" element={<NoticeList />}/>
+            <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>

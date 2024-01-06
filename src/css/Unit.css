@@ -1,3 +1,7 @@
+.unit_body_container {
+    width: 100%;
+}
+
 .unit_today_record_container, .unit_record_container {
     width: 95%;
     margin: 0 auto;
@@ -17,6 +21,7 @@
 .done_and_confirm {
     margin-top: 27px;
     display: flex;
+    justify-content: space-between;
 }
 
 .status {
@@ -39,11 +44,6 @@
     margin-top: 20px;
     display: flex;
     justify-content: flex-end;
-}
-
-.stayout_calendar {
-    display: flex;
-    justify-content: center;
 }
 
 .year_and_month {
@@ -76,15 +76,6 @@
     font-size: 11px;
     margin-top: 5px;
     margin-left: 17px;
-}
-
-.unit_done {
-    margin-right: 27px;
-    flex-grow: 1;
-}
-
-.unit_confirm {
-    flex-grow: 1;
 }
 
 .unit_record_title {

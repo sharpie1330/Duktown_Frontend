@@ -7,7 +7,9 @@ body {
     display: flex;
     align-items: center;
     font-size: 16px;
-    padding: 10px;
+    padding: 0 25px 0 16px;
+    height: 49px;
+    justify-content: space-between;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
@@ -44,7 +46,7 @@ body {
 }
 
 .repair_dorm_select_container {
-    height: 60px;
+    font-size: 12px;
     margin-right: 17px;
 }
 
@@ -53,13 +55,17 @@ body {
 }
 
 .repair_content_textarea {
-    margin-top: 5px;
-    border: 1px solid #E6E6E6;
+    border: none;
     border-radius: 5px;
     width: 100%;
     resize: none;
-    min-height: 100px;
+    min-height: 500px;
+    font-size: 14px;
     background: rgba(217, 217, 217, 0.00);
+}
+
+.repair_content_textarea::placeholder {
+    color: #A2A2A2;
 }
 
 .repair_content_textarea:focus, .repair_input_text:focus {
@@ -67,18 +73,13 @@ body {
 }
 
 .repair_room_input {
-    height: 60px;
+    font-size: 12px;
     margin-left: 13px;
 }
 
 .submitBtn {
-    margin-top: 10px;
     display: flex;
     justify-content: center;
-}
-
-.submitBtn .blue_rec_btn{
-    width: 40%;
 }
 
 .request_history {
@@ -115,6 +116,7 @@ body {
     appearance: none;
     cursor: pointer;
     margin: 0;
+    padding: 3px;
 }
 
 .round_checkbox::before {
@@ -129,7 +131,7 @@ body {
 }
 
 .repair_user_profile {
-    margin-top: 12px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
 }
@@ -137,4 +139,9 @@ body {
 .repair_user_profile span {
     margin-left: 6px;
     font-size: 12px;
+}
+
+.repair_title {
+    display: flex;
+    align-items: center;
 }
