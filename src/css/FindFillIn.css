@@ -9,7 +9,7 @@
 }
 
 .react-calendar__navigation button {
-    min-width: 44px;
+    min-width: 5px;
     background: none;
 }
 
@@ -100,7 +100,7 @@
 
 abbr[title="토요일"], abbr[title="일요일"] {
     text-decoration: none;
-    font-size: 115%;
+    font-size: 13px;
     font-weight: normal;
     color: #6A9CFD;
     margin-bottom: 12px;
@@ -108,8 +108,9 @@ abbr[title="토요일"], abbr[title="일요일"] {
 
 abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[title="목요일"], abbr[title="금요일"] {
     text-decoration: none;
-    font-size: 115%;
+    font-size: 13px;
     font-weight: normal;
+    color: #616161;
 }
 
 .edit_icon {
