@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import LoggedOut from "./routes/LoggedOut";
 import SignIn from "./routes/SignIn";
-import Home from "./routes/Home";
+import FindId from './routes/FindId';
+import FindPassword from './routes/FindPassword';
 import Announcement from "./routes/Announcement";
 import Repair from "./routes/Repair";
 import Stayout from "./routes/Stayout";
@@ -20,6 +21,7 @@ import RepairHistory from "./routes/RepairHistory";
 import RepairHistoryDetail from "./routes/RepairHistoryDetail";
 
 import { AccessTokenProvider } from './AccessTokenContext';
+import PostView from './routes/PostView';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
             <Route path="/" element={<LoggedOut />}/>
             <Route path='signup' element={<SignUp />}/>
             <Route path="/signin" element={<SignIn />}/>
+            <Route path="/findid" element={<FindId />}/>
+            <Route path="/findpassword" element={<FindPassword />}/>
             <Route path="/main" element={<MainTemplate />}/>
             <Route path="/announcement" element={<Announcement />}/>
             <Route path="/repairs" element={<Repair />}/>
@@ -37,6 +41,7 @@ function App() {
             <Route path="/unit" element={<Unit />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/newpost" element={<NewPost />} />
+            <Route path="/post/:postId" element={<PostView />}/>
             <Route path="/repairs/historys" element={<RepairHistory />}/>
             <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
           </Routes>
