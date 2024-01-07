@@ -57,7 +57,7 @@
 }
 
 .react-calendar__tile {
-    height: 50px;
+    height: 40px;
     padding: 10px 6.6667px;
     background: none;
     text-align: center;
@@ -165,7 +165,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 }
 
 .react-calendar {
-    width: 90%;
+    width: 95%;
 }
 
 .request_to {

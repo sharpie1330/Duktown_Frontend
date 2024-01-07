@@ -31,19 +31,20 @@
 
 .repairHistory {
     font-size: 12px;
+    border-spacing: 4px 0;
 }
 
-.repairHistory .dateCol {
-    padding: 0 0 25px 0;
+.repairHistory .dateRow {
+    color: #8E8E8E;
 }
 
 .repairHistory .contentCol {
-    width: 175px;
-    padding: 0 0 25px 14px;
+    width: 236px;
 }
 
 .repairHistory .contentCol a {
     text-decoration: none;
+    font-size: 15px;
     color: black;
     cursor: pointer;
 }
@@ -51,11 +52,171 @@
 .repairHistory .confirmCol {
     width: 32px;
     text-align: center;
-    padding: 0 0 25px 15px;
+    padding: 0;
 }
 
 .repairHistory .statusCol {
     width: 32px;
     text-align: center;
-    padding: 0 0 25px 12px;
+    padding: 0;
+}
+
+.repairHistory .space {
+    display: block;
+    padding: 0 0 8px 0;
+}
+
+.repairHistory .confirmCol .confirm, .repairHistory .statusCol .solve {
+    border-radius: 5px;
+    background: #CDDEFE;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 28px;
+    color: #0358FC;
+    display: flex;
+}
+
+.repairHistory .confirmCol .unconfirmed, .repairHistory .statusCol .unresolved {
+    border-radius: 5px;
+    background: #F2F2F2;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 28px;
+    color: #8E8E8E;
+    display: flex;
+}
+
+.noticeList .titleCol {
+    display: flex;
+    align-items: center;
+}
+
+.noticeList .titleCol .newA{
+    margin: 0 0 0 6px;
+    font-size: 15px;
+    color: black;
+}
+
+.noticeList .titleCol .oldA {
+    font-size: 15px;
+    color: black;
+}
+
+.noticeList .titleCol .new {
+    background: #6A9CFD;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 1px 3.5px 1px 3.5px;
+}
+
+.noticeList .titleCol .old {
+    display: none;
+}
+
+.noticeList .tableRow1{
+    font-size: 12px;
+    color: #8E8E8E;
+}
+
+.noticeList .tableRow2{
+    font-size: 12px;
+    color: #8E8E8E;
+}
+
+.noticeList .space {
+    display: block;
+    padding: 5px 0;
+}
+
+.noticeList {
+    width: 341px;
+}
+
+.search {
+    width: 100%;
+    padding: 20px 26px;
+    border-spacing: 0 4px;
+}
+
+.search .space {
+    display: block;
+    padding: 3px 0;
+}
+
+.search .titleRow .keyword{
+    font-size: 15px;
+    font-weight: 700;
+    color: #6A9CFD;
+}
+
+.search .titleRow {
+    font-size: 15px;
+}
+
+.search .dateRow {
+    font-size: 12px;
+    color: #8E8E8E;
+}
+
+.stayout {
+    width: 100%;
+    border-spacing: 10px;
+    border-collapse: collapse;
+}
+
+.stayout .tableRow {
+    border-bottom: 0.5px solid #A2A2A2;
+}
+
+.stayout .requestDateCol {
+    font-size: 15px;
+    font-weight: 600;
+    color: #616161;
+    height: 25px;
+}
+
+.stayout .rangeCol {
+    display: flex;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8E8E8E;
+    width: 100%;
+    justify-content: flex-end;
+    height: 25px;
+    align-items: center;
+}
+
+.stayout .rangeCol .range_highlight {
+    font-size: 12px;
+    margin: 0 5px;
+    font-weight: 700;
+    color: #6A9CFD;
+}
+.stayout .startDateRow, .stayout .endDateRow {
+    font-size: 12px;
+    font-weight: 600;
+    height: 21px;
+    display: flex;
+    align-items: center;
+}
+
+.stayout .addressRow {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8E8E8E;
+    height: 21px;
+    display: flex;
+    align-items: center;
+}
+
+.stayout .space {
+    height: 21px;
+}
+
+.stayout .space2 {
+    height: 70px;
 }

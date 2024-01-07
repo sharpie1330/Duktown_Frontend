@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Calendar from "react-calendar";
+import Draggable from "react-draggable";
 import { useNavigate } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import Button from '../components/Button';
@@ -7,9 +8,10 @@ import '../css/StayOut.css';
 import moment from "moment";
 import arrow_right from '../assets/arrow_right.png';
 import Modal from "react-modal";
-import customModal from "../customModalConfig";
+import {customModal, customModal3} from "../customModalConfig";
 import DaumPostCode from "react-daum-postcode";
 import AccessTokenContext from "../AccessTokenContext";
+import TableView from "../components/TableView";
 
 function Stayout() {
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ function Stayout() {
     const [rangeEnd, setRangeEnd] = useState('');
     const [range, setRange] = useState(0);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modal2IsOpen, setModal2IsOpen] = useState(false);
     const [address, setAddress] = useState("");
     const [specAddress, setSpecAddress] = useState("");
     const [addrModalOpen, setAddrModalOpen] = useState(false);
@@ -25,7 +28,48 @@ function Stayout() {
     const [currentPage, setCurrentPage] = useState('apply');
     const { accessToken } = useContext(AccessTokenContext);
     console.log(`atk: ${accessToken}`);
+    const test = new Date('2023-12-31T12:34');
+    console.log(test.toISOString());
 
+    //외박신청 규정 확인 여부
+    const [showRule, setShowRule] = useState(true);
+    useEffect(() => {
+        localStorage.setItem('hideRule', 'false');
+        const isRuleHidden = localStorage.getItem('hideRule');
+
+        if (isRuleHidden === 'true') {
+            setShowRule(false);
+        }
+    }, []);
+
+    // 다시 보지 않기 선택
+    const [isChecked, setIsChecked] = useState(false);
+    const handleChecked = () => {
+        setIsChecked(!isChecked);
+    }
+    const modal2Submit = () => {
+        if (isChecked) {
+            hideRule();
+        }
+        sendData();
+        setModal2IsOpen(false);
+    }
+    const hideRule = () => {
+        localStorage.setItem('hideRule', 'true');
+        setShowRule(false);
+    }
+
+    const chooseModalNext = () => {
+        if (showRule) { //외박신청 규정을 보여줄 경우
+            setModalIsOpen(false);
+            setModal2IsOpen(true);
+        } else {
+            sendData();
+            setModalIsOpen(false);
+        }
+    }
+
+    //데이터 전송
     const serverUrl = 'http://localhost:8080'
     function sendData() {
         const apiUrl = serverUrl + '/sleepoverApply';
@@ -69,7 +113,7 @@ function Stayout() {
                 alert(error.errorMessage);
             });
     }
-    const handleDateChange = date => {
+    const handleDateChange = date => { //TODO: 금토일 빼야됨
         const setStartDate = moment(date[0]).format('YYYY.MM.DD');
         const setEndDate = moment(date[1]).format('YYYY.MM.DD');
 
@@ -125,7 +169,26 @@ function Stayout() {
                                     외박 신청서를 보낼까요?
                                     <div className="unit_modal_btn_container">
                                         <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                        <Button styleClass="modal_btn_yes" label="예" onClick={sendData} />
+                                        <Button styleClass="modal_btn_yes" label="예" onClick={chooseModalNext} />
+                                    </div>
+                                </div>
+                            </Modal>
+                            <Modal
+                                isOpen={modal2IsOpen}
+                                onRequestClose={()=> setModal2IsOpen(false)}
+                                style={customModal3}>
+                                <div className="stayout_final_modal">
+                                    <div className="stayout_final_modal_title">외박신청 규정</div>
+                                    <div className="stayout_final_modal_content">&#183; 외박은 당일 22시 전까지만 신청 가능</div>
+                                    <div className="stayout_final_modal_content">&#183; 무단 외박 시 벌점 3점 부과</div>
+                                    <div className="stayout_final_modal_content">&#183; 새벽 1~5시 사이에 귀소시 벌점 부과</div>
+                                    <div className="stayout_final_modal_content">&#183; 7일 초과 외박 시 장기 외박 사유서 제출 필수</div>
+                                    <div className="stayout_setShowRule_container">
+                                        <input type='checkbox' className='checkbox' checked={isChecked} onChange={handleChecked}/>
+                                        <span>다시 보지 않기</span>
+                                    </div>
+                                    <div className="stayout_final_modal_btn_container">
+                                        <Button styleClass="modal_btn_yes" label="확인" onClick={modal2Submit} />
                                     </div>
                                 </div>
                             </Modal>
@@ -196,11 +259,33 @@ function Stayout() {
                                 </div>
                             </div>
                         </form>
-                        <p className="stayout_description">
-                            *외박은 당일 22시 전까지만 신청 가능합니다.<br/>
-                            &nbsp;무단 외박 시 벌점 3점이 부과됩니다.<br/>
-                            &nbsp;새벽 1~5시 사이에 귀소시 벌점이 부과됩니다.
-                        </p>
+                        <Draggable axis='y' bounds={{top: -(window.innerHeight * 0.78), bottom:0}}>
+                            <div className='stayout_drag_container'>
+                                <div className='stayout_scroll_tab'>
+                                    외박 신청 내역
+                                    <div className='stayout_scroll_vertical_container'>
+                                        이번 학기 남은 외박
+                                        <div className='stayout_day_left'>
+                                            10박
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='stayout_history_list_container'>
+                                    <TableView
+                                        tableFor='stayout'
+                                        items={[{id:1, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:2, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:3, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:4, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:5, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:6, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:7, requestDate:'2023.12.17', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                            {id:8, requestDate:'2023.12.17', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                        </Draggable>
                     </>
                 );
             case 'reason':
@@ -209,10 +294,10 @@ function Stayout() {
                         <div className='stayout_title_container'>
                             <div className='stayout_title_left_content'>
                                 <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=> {setReason(''); setCurrentPage('apply');}}/>
-                                외박 신청
+                                외박 신청 사유
                             </div>
                             <Button
-                                label="신청하기"
+                                label="확인"
                                 styleClass="blue_rec_btn"
                                 onClick={() => setCurrentPage('apply')}
                             />
