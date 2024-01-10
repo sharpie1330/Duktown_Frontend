@@ -220,3 +220,29 @@
 .stayout .space2 {
     height: 70px;
 }
+
+.chatRoom {
+    width: 100%;
+    min-width: 300px;
+    overflow: scroll;
+}
+
+.chatRoom .chatRoom_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+}
+
+.chatRoom .chatRoom_container:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.chatRoom .chatRoom_title {
+    font-size: 16px;
+    margin: 0 0 2px 0;
+}
+
+.chatRoom .chatRoom_recentChatMessage, .chatRoom .chatRoom_recentChatCreatedAt{
+    font-size: 12px;
+    color: #8E8E8E;
+}

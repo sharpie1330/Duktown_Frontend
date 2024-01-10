@@ -11,12 +11,15 @@ import home_blue from '../assets/home_blue.png';
 import unit_blue from '../assets/unit_blue.png';
 import chat from '../assets/chat.png';
 import chat_blue from '../assets/chat_blue.png';
+import search from '../assets/search.png';
 import '../css/Bottombar.css';
 import '../css/Upperbar.css';
+import '../css/hideScrollbar.css';
 import Home from './Home';
 import Unit from './Unit';
 import Community from './Community';
-import ChatroomList from './ChatroomList';
+import ChatRoom from "./ChatRoom";
+import MyPage from "./MyPage";
 
 function MainTemplate(){
     const navigate = useNavigate();
@@ -45,21 +48,22 @@ function MainTemplate(){
         <>
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
+                {activePage === 'community' ? <img src={search} alt='search' className='upper_bar_icon'/> : null }
                 <img src={notification} alt="Notification" className="upper_bar_icon"/>
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
-            <div className='center_content_container'>
+            <div className='center_content_container' style={{overflow:"scroll"}}>
                 <div className="page" style={{ display: activePage === 'community' ? 'block' : 'none' }}>
                     <Community />
                 </div>
                 <div className="page" style={{ display: activePage === 'home' ? 'block' : 'none' }}>
                     <Home />
                 </div>
-                <div className='page' style={{ display: activePage === 'chat' ? 'block' : 'none' }}>
-                    <ChatroomList />
-                </div>
                 <div className="page" style={{ display: activePage === 'unit' ? 'block' : 'none' }}>
                     <Unit />
+                </div>
+                <div className="page" style={{ display: activePage === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
+                    <ChatRoom />
                 </div>
             </div>
             <div className='bottom_bar'>
@@ -69,20 +73,20 @@ function MainTemplate(){
                     className="bottom_bar_icon" 
                     onClick={() => handlePageChange('community')}
                 />
+                <img src={activePage === 'unit' ? unit_blue : unit}
+                     alt="unit"
+                     className="bottom_bar_icon"
+                     onClick={() => handlePageChange('unit')}
+                />
                 <img src={activePage === 'home' ? home_blue : home} 
                     alt="home" 
                     className="bottom_bar_icon" 
                     onClick={() => handlePageChange('home')}
                 />
-                <img src={activePage === 'chat' ? chat_blue : chat} 
-                    alt="chat" 
-                    className="bottom_bar_icon" 
-                    onClick={() => handlePageChange('chat')}
-                />
-                <img src={activePage === 'unit' ? unit_blue : unit} 
-                    alt="unit" 
-                    className="bottom_bar_icon" 
-                    onClick={() => handlePageChange('unit')}
+                <img src={activePage === 'chat' ? chat_blue : chat}
+                     alt='chat'
+                     className='bottom_bar_icon'
+                     onClick={() => handlePageChange('chat')}
                 />
             </div>
         </>

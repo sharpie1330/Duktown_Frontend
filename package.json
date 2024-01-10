@@ -23,6 +23,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
     "source-map-loader": "^4.0.2",
+    "sockjs-client": "^1.6.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
