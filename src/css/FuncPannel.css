@@ -1,0 +1,45 @@
+.funcPannel_container1 {
+    border-radius: 10px;
+    width: 90px;
+    font-size: 12px;
+    font-weight: 300;
+    background: white;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.20);
+    position: absolute;
+    top: 35px;
+    right: 15px;
+}
+
+.funcPannel_recruit_fin, .funcPannel_delivery_post {
+    padding: 7px 10px;
+    text-align: center;
+}
+
+.funcPannel_account_modify{
+    padding: 7px 10px;
+    text-align: center;
+    border-top: solid 0.2px #B3B3B3;
+}
+
+.funcPannel_order_fin, .funcPannel_go_out{
+    padding: 7px 10px;
+    text-align: center;
+    border-top: solid 0.2px #B3B3B3;
+}
+
+.funcPannel_container2 {
+    border-radius: 10px;
+    width: 90px;
+    font-size: 12px;
+    font-weight: 300;
+    background: white;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.20);
+    position: absolute;
+    top: 35px;
+    right: 15px;
+}
+
+.funcPannel_kick {
+    padding: 7px 10px;
+    text-align: center;
+}
