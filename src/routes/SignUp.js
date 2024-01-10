@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AccessTokenContext from '../AccessTokenContext';
 import '../css/Sign.css';
 import arrow_left from '../assets/arrow_left.png';
+import arrow_right_gray from '../assets/arrow_right_gray.png';
 import file from '../assets/file.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,8 @@ function SignUp() {
     const navigate = useNavigate();
     const { setAccessToken } = useContext(AccessTokenContext);
     const [currentPage, setCurrentPage] = useState('terms'); // 초기 페이지: 약관 동의
+    // const [firstTermChecked, setFirstTermChecked] = useState(false) // 첫번째 약관 동의 상태
+    // const [secondTermChecked, setSecondTermChecked] = useState(false) // 두번째 약관 동의 상태
     const [emailChecked, setEmailChecked] = useState(false); // 초기 상태: 이메일 확인 안됨
     const [emailValue, setEmailValue] = useState(''); // 이메일 값 저장
     const [idCheckResult, setIdCheckResult] = useState(''); // 아이디 중복 확인
@@ -152,6 +155,7 @@ function SignUp() {
     function handleSignUp(event) {
         event.preventDefault();
         const apiUrl = serverUrl + "/auth/signup"
+        const name = event.target.name.value;
         const id = event.target.id.value;
         const pwd = event.target.pwd.value;
         const pwd_check = event.target.pwd_check.value;
@@ -167,7 +171,8 @@ function SignUp() {
         const userData = {
             "loginId": id,
             "email": emailValue,
-            "password": pwd
+            "password": pwd,
+            "name": name
         }
         const request = {
             method: 'POST',
@@ -211,11 +216,13 @@ function SignUp() {
                                     <span className='term_small'>개인정보 수집제공 동의 </span>
                                     <span className='blue_text'>필수</span>
                                     <input className='round_checkbox' id="personalInfoCheckbox" type='checkbox'></input>
+                                    <img src={arrow_right_gray}/>
                                 </div>
                                 <div className='term_line'>
                                     <span className='term_small'>제 3자 정보제공 동의 </span>
                                     <span className='blue_text'>필수</span>
                                     <input className='round_checkbox' id="thirdPartyInfoCheckbox" type='checkbox'></input>
+                                    <img src={arrow_right_gray} />
                                 </div>
                             </form>
                             {/* 회원가입 하기 버튼을 누르면 setCurrentPage('email')를 호출하여 페이지를 변경 */}
@@ -265,11 +272,13 @@ function SignUp() {
                     return (
                         <>
                             <div className="title_container">
-                                <img className='backBtn' src={arrow_left} alt="뒤로 가" onClick={() => setCurrentPage('email')}></img>
+                                <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => setCurrentPage('email')}></img>
                                 회원가입
                             </div>
                             <form className="signup_form" onSubmit={handleSignUp}>
                                 <div className='signup_content'>
+                                    <p>이름</p>
+                                    <input type='text' name='name' placeholder='실명을 입력해주세요'></input>
                                     <p>아이디</p>
                                     <div className="inputFlexContainer">
                                         <input type="text" className='noLineInput' name="id" placeholder="6~12자 영문, 숫자 조합"></input>
