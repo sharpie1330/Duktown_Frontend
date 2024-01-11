@@ -24,6 +24,8 @@ import NoticeListDetail from "./routes/NoticeListDetail";
 import { AccessTokenProvider } from './AccessTokenContext';
 import PostView from './routes/PostView';
 import DeliveryPostView from './routes/DeliveryPostView';
+import DeliveryChat from "./routes/DeliveryChat";
+import WSTEST from "./routes/wsTest";
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
             <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
             <Route path="/post/:postId" element={<PostView />}/>
             <Route path="/delivery/:deliveryId" element={<DeliveryPostView />}/>
+            <Route path="/chatRoom/:chatRoomId" element={<DeliveryChat />}/>
+            <Route path="/test" element={<WSTEST />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>

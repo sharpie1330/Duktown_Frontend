@@ -89,6 +89,61 @@ function NewPost(){
         }
     };
 
+    const uploadDeliveryPost = async (event) => {
+        event.preventDefault();
+
+        const title = event.target['post-title'].value;
+        const orderTime = event.target['deliveryTime'].value;
+        const maxPeople = event.target['maxPeople'].value;
+        const accountNumber = event.target['account'].value;
+        const content = event.target['post-content'].value;
+        const test = new Date(2024,1,10,orderTime.split(':')[0],orderTime.split(':')[1]);
+        const req = JSON.stringify({
+            "title": title,
+            "orderTime": test,
+            "maxPeople": maxPeople,
+            "accountNumber": accountNumber,
+            "content": content,
+        });
+
+        console.log(req);
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    "title": title,
+                    "orderTime": test,
+                    "maxPeople": maxPeople,
+                    "accountNumber": accountNumber,
+                    "content": content,
+                })
+            });
+
+            if (response.ok) {
+                // 서버 응답이 성공인 경우
+                // 게시글 작성 후 로컬 스토리지에 데이터 저장
+                localStorage.setItem('previousPageInfo', JSON.stringify({
+                    page: 'community',
+                    category: selectedCategory,
+                }));
+                navigate('/main');
+            }
+            else{
+                return await response.json().then(errorResponse => {
+                    console.log(errorResponse);
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    }
+
     return (
         <>
             <div className='title_container'>

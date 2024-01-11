@@ -1,7 +1,9 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import '../css/TableView.css';
 function TableView({ items, tableFor, keyword }) {
+    const navigate = useNavigate();
+
     let table = [];
     switch (tableFor) {
         case 'repair':
@@ -97,6 +99,38 @@ function TableView({ items, tableFor, keyword }) {
                 return rows;
             })
             table = searchTableArr;
+            break;
+        case 'chatRoom':
+            const chatRoomTableArr = items.map(item => {
+                const today = new Date();
+                const recentMsgDate = new Date(item.recentChatCreatedAt);
+                let recentDate = ``;
+                if (today.getFullYear()===recentMsgDate.getFullYear()
+                    && today.getMonth()===recentMsgDate.getMonth()
+                    && today.getDate()===recentMsgDate.getDate()) {
+                    recentDate = `${recentMsgDate.getHours()}시 ${recentMsgDate.getMinutes()}분`
+                } else {
+                    recentDate = `${recentMsgDate.getFullYear()-2000}. ${recentMsgDate.getMonth()+1}. ${recentMsgDate.getDate()}`
+                }
+
+                let rows = [];
+                rows.push(
+                    <div className='chatRoom_container' key={item.chatRoomId} onClick={() => navigate(`/chatRoom/${item.chatRoomId}`)}>
+                        <div className='chatRoom_horizontal_container1'>
+                            <div className='chatRoom_title'>{item.title}</div>
+                            <div className='chatRoom_recentChatMessage'>{item.recentChatMessage}</div>
+                        </div>
+                        <div className='chatRoom_horizontal_container2'>
+                            <div className='chatRoom_recentChatCreatedAt'>{recentDate}</div>
+                        </div>
+                    </div>
+                );
+                return rows;
+            })
+            table = chatRoomTableArr;
+            break;
+        default:
+            table = [];
             break;
     }
 
