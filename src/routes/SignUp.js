@@ -306,7 +306,8 @@ function SignUp() {
                                         <input type="text" className='noLineInput' name="id" placeholder="6~12자 영문, 숫자 조합"></input>
                                         <span id="inputCheckBtn" onClick={idCheck}>중복확인</span>
                                     </div>
-                                    {idCheckResult !== '' ? <p id="blueResultText">{idCheckResult}</p> : null}
+                                    {idCheckResult === '이미 사용중인 아이디예요' ? <p id="redResultText">{idCheckResult}</p> : null}
+                                    {idCheckResult === '사용 가능한 아이디예요' ? <p id="blueResultText">{idCheckResult}</p> : null}
                                     <p>비밀번호</p>
                                     <input className="sign_input" type="password" name="pwd" placeholder="8자 이상 영문, 숫자 조합"/>
                                     <p>비밀번호 확인</p>
