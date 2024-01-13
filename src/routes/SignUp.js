@@ -4,14 +4,17 @@ import '../css/Sign.css';
 import arrow_left from '../assets/arrow_left.png';
 import arrow_right_gray from '../assets/arrow_right_gray.png';
 import file from '../assets/file.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function SignUp() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const isFirstTermsChecked = location.state && location.state.isFirstTermsChecked;
+    const isSecondTermsChecked = location.state && location.state.isSecondTermsChecked;
     const { setAccessToken } = useContext(AccessTokenContext);
     const [currentPage, setCurrentPage] = useState('terms'); // 초기 페이지: 약관 동의
-    // const [firstTermChecked, setFirstTermChecked] = useState(false) // 첫번째 약관 동의 상태
-    // const [secondTermChecked, setSecondTermChecked] = useState(false) // 두번째 약관 동의 상태
+    const [firstTermsChecked, setFirstTermsChecked] = useState(isFirstTermsChecked || false) // 첫번째 약관 동의 상태
+    const [secondTermsChecked, setSecondTermsChecked] = useState(isSecondTermsChecked || false) // 두번째 약관 동의 상태
     const [emailChecked, setEmailChecked] = useState(false); // 초기 상태: 이메일 확인 안됨
     const [emailValue, setEmailValue] = useState(''); // 이메일 값 저장
     const [idCheckResult, setIdCheckResult] = useState(''); // 아이디 중복 확인
@@ -19,29 +22,48 @@ function SignUp() {
     
     // useEffect를 사용하여 DOM 요소에 접근
     useEffect(() => {
+        // 페이지가 새로 고쳐질 때 쿼리 매개변수를 초기화하는 코드
+        navigate('/signup?isFirstTermsChecked=false&isSecondTermsChecked=false');
+    }, [navigate]);
+
+    useEffect(() => {
         // DOM 요소에 접근
         const allTermsCheckbox = document.querySelector('#allTermsCheckbox');
+        const applicationTermsCheckbox = document.querySelector('#applicationTermsCheckbox');
         const personalInfoCheckbox = document.querySelector('#personalInfoCheckbox');
-        const thirdPartyInfoCheckbox = document.querySelector('#thirdPartyInfoCheckbox');
+
+        applicationTermsCheckbox.checked = firstTermsChecked;
+        personalInfoCheckbox.checked = secondTermsChecked;
 
         // 이용약관 전체 동의 체크박스가 변경될 때 이벤트 리스너 추가
         if (allTermsCheckbox) {
             allTermsCheckbox.addEventListener('change', function() {
                 const isChecked = allTermsCheckbox.checked;
+                applicationTermsCheckbox.checked = isChecked;
                 personalInfoCheckbox.checked = isChecked;
-                thirdPartyInfoCheckbox.checked = isChecked;
             });
         }
-    }, []);
+    }, [firstTermsChecked, secondTermsChecked]);
 
     const serverUrl = "http://localhost:8080"; // 서버 주소
+
+    // 약관 상세 페이지로 이동
+    const navigateToTerms = (termsNumber) => {
+        navigate('/terms', {
+            state: {
+                terms: termsNumber,
+                isFirstTermsChecked: firstTermsChecked,
+                isSecondTermsChecked: secondTermsChecked,
+            },
+        });
+    };
 
     // 모든 약관 동의 시에만 이메일 페이지로 전환
     function agreementCheck(event){ 
         event.preventDefault();
+        const applicationTermsCheckbox = document.querySelector('#applicationTermsCheckbox');
         const personalInfoCheckbox = document.querySelector('#personalInfoCheckbox');
-        const thirdPartyInfoCheckbox = document.querySelector('#thirdPartyInfoCheckbox');
-        if(personalInfoCheckbox.checked === true && thirdPartyInfoCheckbox.checked === true){
+        if(personalInfoCheckbox.checked === true && applicationTermsCheckbox.checked === true){
             setCurrentPage('email');
         }
         else{
@@ -213,16 +235,16 @@ function SignUp() {
                                 </div>
                                 <hr></hr>
                                 <div className='term_line'>
+                                    <span className='term_small'>덕타운 이용약관 동의 </span>
+                                    <span className='blue_text'>필수</span>
+                                    <input className='round_checkbox' id="applicationTermsCheckbox" type='checkbox'></input>
+                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(1)}}/>
+                                </div>
+                                <div className='term_line'>
                                     <span className='term_small'>개인정보 수집제공 동의 </span>
                                     <span className='blue_text'>필수</span>
                                     <input className='round_checkbox' id="personalInfoCheckbox" type='checkbox'></input>
-                                    <img src={arrow_right_gray}/>
-                                </div>
-                                <div className='term_line'>
-                                    <span className='term_small'>제 3자 정보제공 동의 </span>
-                                    <span className='blue_text'>필수</span>
-                                    <input className='round_checkbox' id="thirdPartyInfoCheckbox" type='checkbox'></input>
-                                    <img src={arrow_right_gray} />
+                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(2)}}/>
                                 </div>
                             </form>
                             {/* 회원가입 하기 버튼을 누르면 setCurrentPage('email')를 호출하여 페이지를 변경 */}

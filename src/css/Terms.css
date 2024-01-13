@@ -1,0 +1,28 @@
+p {
+    color: #404040;
+    white-space: pre-wrap;
+    line-height: 24px;
+}
+
+ol {
+    color: #404040;
+    padding-inline-start: 14px;
+    line-height: 20px;
+    margin: 8px 0px;
+}
+
+ul {
+    color: #404040;
+    padding-inline-start: 2px;
+    line-height: 20px;
+}
+
+.term-box {
+    border-radius: 5px;
+    border: 1.5px solid #E6E6E6;
+    padding: 6px 16px;
+}
+
+.term-box p {
+    line-height: 20px;
+}

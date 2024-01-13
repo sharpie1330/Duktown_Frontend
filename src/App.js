@@ -15,6 +15,7 @@ import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
 import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
+import Terms from './routes/Terms';
 import MyPage from "./routes/MyPage";
 import NewPost from "./routes/NewPost";
 import RepairHistory from "./routes/RepairHistory";
@@ -33,7 +34,8 @@ function App() {
       <AccessTokenProvider>
         <Routes>
             <Route path="/" element={<LoggedOut />}/>
-            <Route path='signup' element={<SignUp />}/>
+            <Route path='/signup' element={<SignUp />}/>
+            <Route path='/terms' element={<Terms />}/>
             <Route path="/signin" element={<SignIn />}/>
             <Route path="/findid" element={<FindId />}/>
             <Route path="/findpassword" element={<FindPassword />}/>
