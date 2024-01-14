@@ -15,95 +15,73 @@ function NewPost(){
     const apiUrl2 = serverUrl + "/delivery";
 
     const uploadPost = async (additionalData) => {
-        const category = {'일상': 0, '장터': 1}
-        const title = event.target['post-title'].value;
-        const content = event.target['post-content'].value;
-        try {
-            const response = await fetch(apiUrl1, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({
-                    "category": category[selectedCategory],
-                    "title": title,
-                    "content": content,
-                })
-            });
-
-            if (response.ok) {
-                // 서버 응답이 성공인 경우
-                // 게시글 작성 후 로컬 스토리지에 데이터 저장
-                localStorage.setItem('previousPageInfo', JSON.stringify({
-                    page: 'community',
-                    category: selectedCategory,
-                }));
-                navigate('/main');
-            }
-            else{
-                return await response.json().then(errorResponse => {
-                    console.log(errorResponse);
-                    throw new EvalError(errorResponse.errorMessage);
+        const category = {'daily': 0, 'market': 1}
+        const title = document.getElementById('post-title').value;
+        const content = document.getElementById('post-content').value;
+        if(selectedCategory === "delivery"){
+            try {
+                const response = await fetch(apiUrl2, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({
+                        "title": title,
+                        "content": content,
+                        ...additionalData,
+                    })
                 });
+
+                if (response.ok) {
+                    console.log("배달팟 등록 성공");
+                    navigate('/community?category=delivery');
+                }
+                else{
+                    return await response.json().then(errorResponse => {
+                        console.log(errorResponse);
+                        throw new EvalError(errorResponse.errorMessage);
+                    });
+                }
+            } catch (error) {
+                alert(error);
             }
-        } catch (error) {
-            alert(error);
+        }
+        else {
+            try {
+                const response = await fetch(apiUrl1, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({
+                        "category": category[selectedCategory],
+                        "title": title,
+                        "content": content,
+                    })
+                });
+
+                if (response.ok) {
+                    // 서버 응답이 성공인 경우
+                    // 게시글 작성 후 로컬 스토리지에 데이터 저장
+                    localStorage.setItem('previousPageInfo', JSON.stringify({
+                        page: 'community',
+                        category: selectedCategory,
+                    }));
+                    navigate(`/community?category=${selectedCategory}`);
+                }
+                else{
+                    return await response.json().then(errorResponse => {
+                        console.log(errorResponse);
+                        throw new EvalError(errorResponse.errorMessage);
+                    });
+                }
+            } catch (error) {
+                alert(error);
+            }
         }
     };
-
-    const uploadDeliveryPost = async (event) => {
-        event.preventDefault();
-
-        const title = event.target['post-title'].value;
-        const orderTime = event.target['orderTime'].value;
-        const maxPeople = event.target['maxPeople'].value;
-        const accountNumber = event.target['accountNumber'].value;
-        const content = event.target['post-content'].value;
-        // const test = new Date(2024,1,10,orderTime.split(':')[0],orderTime.split(':')[1]);
-        // const req = JSON.stringify({
-        //     "title": title,
-        //     "orderTime": orderTime,
-        //     "maxPeople": maxPeople,
-        //     "accountNumber": accountNumber,
-        //     "content": content,
-        // });
-
-        try {
-            const response = await fetch(apiUrl2, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({
-                    "title": title,
-                    "orderTime": orderTime,
-                    "maxPeople": maxPeople,
-                    "accountNumber": accountNumber,
-                    "content": content,
-                })
-            });
-
-            if (response.ok) {
-                // 서버 응답이 성공인 경우
-                // 게시글 작성 후 로컬 스토리지에 데이터 저장
-                localStorage.setItem('previousPageInfo', JSON.stringify({
-                    page: 'community',
-                    category: selectedCategory,
-                }));
-                navigate('/main');
-            }
-            else{
-                return await response.json().then(errorResponse => {
-                    console.log(errorResponse);
-                    throw new EvalError(errorResponse.errorMessage);
-                });
-            }
-        } catch (error) {
-            alert(error);
-        }
-    }
 
     return (
         <>
