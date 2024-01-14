@@ -29,7 +29,7 @@ function DeliveryPost({ userId, deliveryId, title, createdAt, maxPeople, orderTi
         </table>
         <div className='recruitment-details'>
             <span className="post-recruitment">{peopleCount}/{maxPeople}</span>
-            <img src={comment_icon}/><span className="post-comments">{commentCount}</span>
+            <img src={comment_icon} style={{width: "15px"}}/><span className="post-comments">{commentCount}</span>
             <span className="post-time">| {createdAt}</span>
         </div>
         <hr/>

@@ -526,3 +526,39 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     display: flex;
     justify-content: center;
 }
+
+.range_modal_container {
+    padding: 27px 26px 25px 26px;
+    width: 194px;
+    height: fit-content;
+}
+
+.range_modal_container span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    height: 52px;
+    margin: 0 0 10px 0;
+}
+
+.range_modal_btn_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stayout_modal_container {
+    font-size: 13px;
+    text-align: center;
+    width: 194px;
+    height: fit-content;
+    padding: 45px 27px 26px 27px;
+}
+
+.stayout_modal_btn_container{
+    margin-top: 26px;
+    display: flex;
+    justify-content: space-between;
+}

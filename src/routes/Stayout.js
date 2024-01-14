@@ -15,6 +15,7 @@ import TableView from "../components/TableView";
 
 function Stayout() {
     const navigate = useNavigate();
+    //신청
     const [rangeStart, setRangeStart] = useState('');
     const [rangeEnd, setRangeEnd] = useState('');
     const [range, setRange] = useState(0);
@@ -25,22 +26,44 @@ function Stayout() {
     const [addrModalOpen, setAddrModalOpen] = useState(false);
     const [zonecode, setZonecode] = useState("");
     const [inputReason, setReason] = useState('');
+    const [rangeModalOpen, setRangeModalOpen] = useState(false);
+    //화면 전환
     const [currentPage, setCurrentPage] = useState('apply');
+    //조회
+    const [availablePeriod, setAvailablePeriod] = useState(null);
+    const [stayoutArr, setStayoutArr] = useState([]);
     const { accessToken } = useContext(AccessTokenContext);
-    console.log(`atk: ${accessToken}`);
-    const test = new Date('2023-12-31T12:34');
-    console.log(test.toISOString());
 
     //외박신청 규정 확인 여부
     const [showRule, setShowRule] = useState(true);
     useEffect(() => {
         localStorage.setItem('hideRule', 'false');
         const isRuleHidden = localStorage.getItem('hideRule');
-
         if (isRuleHidden === 'true') {
             setShowRule(false);
         }
+
+        const apiUrl = serverUrl + '/sleepoverApply/student?pageNo=1';
+        fetch(apiUrl, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            method: 'GET',
+        })
+        .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
+        .then(data => {
+            setAvailablePeriod(data.availablePeriod);
+            setStayoutArr(data.content);
+        })
+        .catch(error => console.error('Error:', error));
+
     }, []);
+
+    useEffect(() => {
+        console.log(stayoutArr);
+        console.log(availablePeriod);
+    }, [availablePeriod, stayoutArr]);
 
     // 다시 보지 않기 선택
     const [isChecked, setIsChecked] = useState(false);
@@ -77,7 +100,7 @@ function Stayout() {
         const requestData = {
             "startDate": new Date(rangeStart),
             "endDate": new Date(rangeEnd),
-            "period": range/86400000,
+            "period": range,
             "zipcode": zonecode,
             "streetAddress": address,
             "detailAddress": specAddress,
@@ -113,7 +136,7 @@ function Stayout() {
                 alert(error.errorMessage);
             });
     }
-    const handleDateChange = date => { //TODO: 금토일 빼야됨
+    const handleDateChange = date => {
         const setStartDate = moment(date[0]).format('YYYY.MM.DD');
         const setEndDate = moment(date[1]).format('YYYY.MM.DD');
 
@@ -121,8 +144,29 @@ function Stayout() {
         setRangeEnd(setEndDate);
     }
 
+    const weekendFilter = (startDate, endDate) => {
+        const excludeDays = [5, 6, 0]; //금토일
+        const current = new Date(startDate);
+        const end = new Date(endDate);
+        const result = [];
+
+        while (current <= end) {
+            const day = current.getDay();
+
+            if (!excludeDays.includes(day)){
+                result.push(current);
+            }
+
+            current.setDate(current.getDate() + 1);
+        }
+
+        return result.length;
+    }
+
     useEffect(()=>{
-        const rangeVal = new Date(rangeEnd) - new Date(rangeStart);
+        const rangeVal = weekendFilter(rangeStart, rangeEnd);
+        if (rangeVal >= 7)
+            setRangeModalOpen(true);
         setRange(rangeVal);
     }, [rangeStart, rangeEnd]);
 
@@ -153,7 +197,7 @@ function Stayout() {
                     <>
                         <div className='stayout_title_container'>
                             <div className='stayout_title_left_content'>
-                                <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                                <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/home');}}/>
                                 외박 신청
                             </div>
                             <Button
@@ -164,10 +208,10 @@ function Stayout() {
                             <Modal
                                 isOpen={modalIsOpen}
                                 onRequestClose={()=>setModalIsOpen(false)}
-                                style={customModal}> {/*추후 api로 연결*/}
-                                <div className="unit_modal_container">
+                                style={customModal}>
+                                <div className="stayout_modal_container">
                                     외박 신청서를 보낼까요?
-                                    <div className="unit_modal_btn_container">
+                                    <div className="stayout_modal_btn_container">
                                         <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
                                         <Button styleClass="modal_btn_yes" label="예" onClick={chooseModalNext} />
                                     </div>
@@ -218,8 +262,17 @@ function Stayout() {
                             </div>
                             <div className="calculate_day">
                                 외박 일 수
-                                <input type='text' className='range_field' value={range/86400000 || 0 } disabled={true}/>
+                                <input type='text' className='range_field' value={range || 0 } disabled={true}/>
                                 일
+                                <Modal isOpen={rangeModalOpen} onRequestClose={()=> setRangeModalOpen(false)} style={customModal}>
+                                    <div className='range_modal_container'>
+                                        <span>7일 초과 외박 신청 시<br/>장기 외박 사유서를 제출해야 해요</span>
+                                        <div className="range_modal_btn_container">
+                                            <Button styleClass="range_modal_btn_cancel" label="취소" onClick={()=>setModalIsOpen(false)} />
+                                            <Button styleClass="range_modal_btn_download" label="사유서 다운받기" /> {/*TODO: 다운로드 api 연결*/}
+                                        </div>
+                                    </div>
+                                </Modal>
                             </div>
                             <div className="stayout_input_container">
                                 <p>머무르는 곳의 주소</p>
@@ -266,22 +319,14 @@ function Stayout() {
                                     <div className='stayout_scroll_vertical_container'>
                                         이번 학기 남은 외박
                                         <div className='stayout_day_left'>
-                                            10박
+                                            {availablePeriod}
                                         </div>
                                     </div>
                                 </div>
                                 <div className='stayout_history_list_container'>
                                     <TableView
                                         tableFor='stayout'
-                                        items={[{id:1, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:2, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:3, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:4, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:5, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:6, requestDate:'2023.12.13', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:7, requestDate:'2023.12.17', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                            {id:8, requestDate:'2023.12.17', startDate: '2023.12.25', endDate: '2023.12.30', range: 6, address: '서울특별시 도봉구 쌍문동 429-9', specAddress: '경영학과 과방'},
-                                        ]}
+                                        items={stayoutArr}
                                     />
                                 </div>
                             </div>

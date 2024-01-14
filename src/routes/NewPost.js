@@ -14,8 +14,7 @@ function NewPost(){
     const apiUrl1 = serverUrl + "/posts";
     const apiUrl2 = serverUrl + "/delivery";
 
-    const uploadPost = async (event) => {
-        event.preventDefault();
+    const uploadPost = async (additionalData) => {
         const category = {'일상': 0, '장터': 1}
         const title = event.target['post-title'].value;
         const content = event.target['post-content'].value;

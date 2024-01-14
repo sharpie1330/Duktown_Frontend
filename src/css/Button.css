@@ -85,6 +85,7 @@
     height: 38px;
     width: 92px;
     font-size: 13px;
+    font-weight: 600;
     text-align: center;
     color: #B3B3B3;
     cursor: pointer;
@@ -97,6 +98,33 @@
     height: 38px;
     width: 92px;
     font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.range_modal_btn_cancel {
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 10px;
+    height: 38px;
+    width: 96px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    color: #8E8E8E;
+    cursor: pointer;
+}
+
+.range_modal_btn_download {
+    background-color: #6A9CFD;
+    border: none;
+    border-radius: 10px;
+    height: 38px;
+    width: 96px;
+    font-size: 11px;
+    font-weight: 600;
     text-align: center;
     color: white;
     cursor: pointer;

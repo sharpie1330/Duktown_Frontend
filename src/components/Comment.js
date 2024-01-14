@@ -95,7 +95,7 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                                 <table className='reply-form'>
                                     <tr>
                                         <td>
-                                            <img src={reply_icon} />
+                                            <img src={reply_icon} style={{width: "15px"}}/>
                                         </td>
                                         <td>
                                             <Comment

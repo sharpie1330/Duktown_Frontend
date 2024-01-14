@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import logo from '../assets/duktown_logo.png';
 import notification from '../assets/notification.png';
 import mypage from '../assets/mypage.png';
@@ -12,24 +12,24 @@ import unit_blue from '../assets/unit_blue.png';
 import chat from '../assets/chat.png';
 import chat_blue from '../assets/chat_blue.png';
 import search from '../assets/search.png';
-import '../css/Bottombar.css';
-import '../css/Upperbar.css';
 import '../css/hideScrollbar.css';
+import '../css/Upperbar.css';
+import '../css/Bottombar.css';
 import Home from './Home';
 import NewHome from './NewHome';
 import Unit from './Unit';
 import Community from './Community';
-import ChatRoom from "./ChatRoom";
-import MyPage from "./MyPage";
+import ChatRoomList from "./ChatRoomList";
 
 function MainTemplate(){
+    const params = useParams();
     const navigate = useNavigate();
-    const [activePage, setActivePage] = useState('home');
-    const handlePageChange = (page) => {
-        setActivePage(page);
-    }
+    const [activePage, setActivePage] = useState(params.page);
+    const [searchParam, setSearchParam] = useSearchParams();
+    const [activeTopic, setActiveTopic] = useState('daily');
 
     useEffect(() => {
+
         // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
         const previousPageInfo = JSON.parse(localStorage.getItem('previousPageInfo'));
 
@@ -45,50 +45,69 @@ function MainTemplate(){
         }
     }, []);
 
+    useEffect(() => {
+        if (activePage === 'community'){
+            navigate(`/${activePage}?category=daily`);
+        } else {
+            setActiveTopic('daily');
+            navigate(`/${activePage}`);
+        }
+
+    }, [activePage, navigate]);
+
+    useEffect(() => {
+        if (searchParam) {
+            setActiveTopic(searchParam.get('category'));
+        }
+    }, [searchParam]);
+
+    useEffect(() => {
+        console.log(activeTopic)
+    }, [activeTopic]);
+
     return (
         <>
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
-                {activePage === 'community' ? <img src={search} alt='search' className='upper_bar_icon'/> : null }
+                {params.page === 'community' ? <img src={search} alt='search' className='upper_bar_icon'/> : null }
                 <img src={notification} alt="Notification" className="upper_bar_icon"/>
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
             <div className='center_content_container' style={{overflow:"scroll"}}>
-                <div className="page" style={{ display: activePage === 'community' ? 'block' : 'none' }}>
-                    <Community />
+                <div className="page" style={{ display: params.page === 'community' ? 'block' : 'none' }}>
+                    <Community topic={activeTopic}/>
                 </div>
                 <div className="page" style={{ display: activePage === 'home' ? 'block' : 'none' }}>
                     <NewHome />
                 </div>
-                <div className="page" style={{ display: activePage === 'unit' ? 'block' : 'none' }}>
+                <div className="page" style={{ display: params.page === 'unit' ? 'block' : 'none' }}>
                     <Unit />
                 </div>
-                <div className="page" style={{ display: activePage === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
-                    <ChatRoom />
+                <div className="page" style={{ display: params.page === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
+                    <ChatRoomList />
                 </div>
             </div>
             <div className='bottom_bar'>
-                <img src={activePage === 'home' ? home_blue : home} 
-                    alt="home" 
-                    className="bottom_bar_icon" 
-                    onClick={() => handlePageChange('home')}
+                <img src={activePage === 'home' ? home_blue : home}
+                     alt="home"
+                     className="bottom_bar_icon"
+                     onClick={() => setActivePage('home')}
                 />
-                <img 
-                    src={activePage === 'community' ? community_blue : community} 
-                    alt="community" 
-                    className="bottom_bar_icon" 
-                    onClick={() => handlePageChange('community')}
+                <img
+                    src={activePage === 'community' ? community_blue : community}
+                    alt="community"
+                    className="bottom_bar_icon"
+                    onClick={() => setActivePage('community')}
+                />
+                <img src={activePage === 'chat' ? chat_blue : chat}
+                     alt='chat'
+                     className='bottom_bar_icon'
+                     onClick={() => setActivePage('chat')}
                 />
                 <img src={activePage === 'unit' ? unit_blue : unit}
-                    alt="unit"
-                    className="bottom_bar_icon"
-                    onClick={() => handlePageChange('unit')}
-                />
-                
-                <img src={activePage === 'chat' ? chat_blue : chat}
-                    alt='chat'
-                    className='bottom_bar_icon'
-                    onClick={() => handlePageChange('chat')}
+                     alt="unit"
+                     className="bottom_bar_icon"
+                     onClick={() => setActivePage('unit')}
                 />
             </div>
         </>

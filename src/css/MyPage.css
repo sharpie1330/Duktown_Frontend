@@ -7,8 +7,13 @@ body {
     display: flex;
     align-items: center;
     font-size: 16px;
-    padding: 10px;
+    height: 24px;
+    padding: 12px 24px 12px 16px;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+}
+
+.myPage_title_icon {
+    margin-right: 8px;
 }
 
 #myUnit, #myPosts, #myComments, #logout {
@@ -22,7 +27,7 @@ body {
 
 .myPage_list_container {
     margin-top: 30px;
-    width: 150px;
+    width: fit-content;
 }
 
 .myPage_list_element, .myPage_list_element:focus {
@@ -32,6 +37,8 @@ body {
 
 .myPage_list li {
     list-style-type: none;
+    display: flex;
+    align-items: center;
 }
 
 .duksung_dorm_info {
@@ -61,4 +68,100 @@ body {
     margin: 0 0 0 40px;
     position: absolute;
     bottom: 5%;
+}
+
+.myPage_profile{
+    width: 342px;
+    height: fit-content;
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    margin: 24px 24px 0 24px;
+}
+
+.myPage_profile_info {
+    padding: 12px 10px 22px 24px;
+}
+
+.myPage_edit_profile_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 0 2px 0;
+}
+
+.myPage_edit_profile_container span {
+    color: #6A9CFD;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 0 4px 0 0;
+}
+
+.myPage_profile_edit_btn {
+    height: 7px;
+}
+
+.myPage_profile_horizon_container{
+    display: flex;
+}
+
+.myPage_profile_icon {
+    width: 56px;
+}
+
+.myPage_user_name {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    margin: 3px 0 0 0;
+}
+
+.myPage_user_email {
+    font-size: 10px;
+    color: #616161;
+    margin: 3px 0 0 0;
+}
+
+.myPage_user_dorm {
+    font-size: 12px;
+    color: #616161;
+    margin: 3px 0 0 0;
+}
+
+.myPage_user_role {
+    display: flex;
+    align-items: center;
+    background: #6A9CFD;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: white;
+    width: fit-content;
+    height: 18px;
+    padding: 0 6px;
+    margin: 5px 0 0 0;
+}
+
+.myPage_profile_container {
+    margin: 0 0 0 22px;
+}
+
+.myPage_profile_status {
+    padding: 14px 100px;
+    text-align: center;
+    color: #8E8E8E;
+    background: #F7F7F7;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 0 0 10px 10px;
+}
+
+#dormGuid, #myPenalty {
+    width: 17px;
+}
+
+.myPage_body_container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
 }
