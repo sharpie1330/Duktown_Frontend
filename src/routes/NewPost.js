@@ -19,73 +19,37 @@ function NewPost(){
         const category = {'일상': 0, '장터': 1}
         const title = event.target['post-title'].value;
         const content = event.target['post-content'].value;
-        if(selectedCategory === "배달팟"){
-            const orderTime = event.target['orderTime'].value;
-            const maxPeople = Number(event.target['maxPeople'].value);
-            const accountNumber = event.target['accountNumber'].value;
-            try {
-                const response = await fetch(apiUrl2, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "title": title,
-                        "orderTime": orderTime,
-                        "maxPeople": maxPeople,
-                        "accountNumber": accountNumber,
-                        "content": content,
-                    })
-                });
+        try {
+            const response = await fetch(apiUrl1, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    "category": category[selectedCategory],
+                    "title": title,
+                    "content": content,
+                })
+            });
 
-                if (response.ok) {
-                    console.log("배달팟 등록 성공");
-                    navigate('/main');
-                }
-                else{
-                    return await response.json().then(errorResponse => {
-                        console.log(errorResponse);
-                        throw new EvalError(errorResponse.errorMessage);
-                    });
-                }
-            } catch (error) {
-                alert(error);
+            if (response.ok) {
+                // 서버 응답이 성공인 경우
+                // 게시글 작성 후 로컬 스토리지에 데이터 저장
+                localStorage.setItem('previousPageInfo', JSON.stringify({
+                    page: 'community',
+                    category: selectedCategory,
+                }));
+                navigate('/main');
             }
-        }
-        else {
-            try {
-                const response = await fetch(apiUrl1, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "category": category[selectedCategory],
-                        "title": title,
-                        "content": content,
-                    })
+            else{
+                return await response.json().then(errorResponse => {
+                    console.log(errorResponse);
+                    throw new EvalError(errorResponse.errorMessage);
                 });
-
-                if (response.ok) {
-                    // 서버 응답이 성공인 경우
-                    // 게시글 작성 후 로컬 스토리지에 데이터 저장
-                    localStorage.setItem('previousPageInfo', JSON.stringify({
-                        page: 'community',
-                        category: selectedCategory,
-                    }));
-                    navigate('/main');
-                }
-                else{
-                    return await response.json().then(errorResponse => {
-                        console.log(errorResponse);
-                        throw new EvalError(errorResponse.errorMessage);
-                    });
-                }
-            } catch (error) {
-                alert(error);
             }
+        } catch (error) {
+            alert(error);
         }
     };
 
@@ -93,20 +57,18 @@ function NewPost(){
         event.preventDefault();
 
         const title = event.target['post-title'].value;
-        const orderTime = event.target['deliveryTime'].value;
+        const orderTime = event.target['orderTime'].value;
         const maxPeople = event.target['maxPeople'].value;
-        const accountNumber = event.target['account'].value;
+        const accountNumber = event.target['accountNumber'].value;
         const content = event.target['post-content'].value;
-        const test = new Date(2024,1,10,orderTime.split(':')[0],orderTime.split(':')[1]);
-        const req = JSON.stringify({
-            "title": title,
-            "orderTime": test,
-            "maxPeople": maxPeople,
-            "accountNumber": accountNumber,
-            "content": content,
-        });
-
-        console.log(req);
+        // const test = new Date(2024,1,10,orderTime.split(':')[0],orderTime.split(':')[1]);
+        // const req = JSON.stringify({
+        //     "title": title,
+        //     "orderTime": orderTime,
+        //     "maxPeople": maxPeople,
+        //     "accountNumber": accountNumber,
+        //     "content": content,
+        // });
 
         try {
             const response = await fetch(apiUrl2, {
@@ -117,7 +79,7 @@ function NewPost(){
                 },
                 body: JSON.stringify({
                     "title": title,
-                    "orderTime": test,
+                    "orderTime": orderTime,
                     "maxPeople": maxPeople,
                     "accountNumber": accountNumber,
                     "content": content,
@@ -153,7 +115,7 @@ function NewPost(){
             </div>
             <div className='content_container'>
                 <p id='post-category'>{selectedCategory}</p>
-                <form id='post-form' onSubmit={selectedCategory === "배달팟" && uploadPost}>
+                <form id='post-form' onSubmit={selectedCategory === "배달팟" ? uploadDeliveryPost : uploadPost}>
                     <input 
                         id='post-title' 
                         type='text' 

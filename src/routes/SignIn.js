@@ -54,7 +54,7 @@ function SignIn(){
                 <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
                 로그인
             </div>
-            <form className="signin_form" onSubmit={handleSignIn}>
+            <form className="signin_form" id="signin_form" onSubmit={handleSignIn}>
                 <div className='content_container'>
                     <p>아이디</p>
                     <input className="sign_input" type="text" name="id" placeholder="6~12자 영문, 숫자 조합"/>
@@ -67,10 +67,10 @@ function SignIn(){
                         <span className='blue_link' onClick={() => navigate('/signup')}>회원가입</span>
                     </div>
                 </div>
-                <button type="submit" className='bottomBtn'>
-                    로그인하기
-                </button>
             </form>
+            <button type="submit" className='bottomBtn' form='signin_form'>
+                로그인하기
+            </button>
         </>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import like_icon from '../assets/like.png';
-import comment_icon from '../assets/comment.png';
+import like_icon from '../assets/like_blue.png';
+import comment_icon from '../assets/comment_blue.png';
 import { useNavigate } from 'react-router-dom';
 
 function GeneralPost({ category, commentCount, content, datetime, id, likeCount, liked, title, userId }) {

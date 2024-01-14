@@ -16,6 +16,7 @@ import '../css/Bottombar.css';
 import '../css/Upperbar.css';
 import '../css/hideScrollbar.css';
 import Home from './Home';
+import NewHome from './NewHome';
 import Unit from './Unit';
 import Community from './Community';
 import ChatRoom from "./ChatRoom";
@@ -57,7 +58,7 @@ function MainTemplate(){
                     <Community />
                 </div>
                 <div className="page" style={{ display: activePage === 'home' ? 'block' : 'none' }}>
-                    <Home />
+                    <NewHome />
                 </div>
                 <div className="page" style={{ display: activePage === 'unit' ? 'block' : 'none' }}>
                     <Unit />
@@ -67,6 +68,11 @@ function MainTemplate(){
                 </div>
             </div>
             <div className='bottom_bar'>
+                <img src={activePage === 'home' ? home_blue : home} 
+                    alt="home" 
+                    className="bottom_bar_icon" 
+                    onClick={() => handlePageChange('home')}
+                />
                 <img 
                     src={activePage === 'community' ? community_blue : community} 
                     alt="community" 
@@ -74,19 +80,15 @@ function MainTemplate(){
                     onClick={() => handlePageChange('community')}
                 />
                 <img src={activePage === 'unit' ? unit_blue : unit}
-                     alt="unit"
-                     className="bottom_bar_icon"
-                     onClick={() => handlePageChange('unit')}
+                    alt="unit"
+                    className="bottom_bar_icon"
+                    onClick={() => handlePageChange('unit')}
                 />
-                <img src={activePage === 'home' ? home_blue : home} 
-                    alt="home" 
-                    className="bottom_bar_icon" 
-                    onClick={() => handlePageChange('home')}
-                />
+                
                 <img src={activePage === 'chat' ? chat_blue : chat}
-                     alt='chat'
-                     className='bottom_bar_icon'
-                     onClick={() => handlePageChange('chat')}
+                    alt='chat'
+                    className='bottom_bar_icon'
+                    onClick={() => handlePageChange('chat')}
                 />
             </div>
         </>

@@ -30,12 +30,17 @@ button {
     padding: 32px 24px 80px 24px;
     margin: auto;
     min-width: 320px;
-    max-width: 700px;
+    max-width: 500px;
 }
 
 .signup_form {
     display: flex;
     flex-direction: column;
+}
+
+.signin_form {
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .signup_form p {

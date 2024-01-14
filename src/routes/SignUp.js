@@ -73,7 +73,6 @@ function SignUp() {
 
     // 이메일 인증 요청
     function emailCheck(event) {
-        console.log("emailCheck, send code");
         event.preventDefault();
         const apiUrl = serverUrl + "/auth/email";
         const email = event.target.email.value
@@ -155,7 +154,6 @@ function SignUp() {
             if (response.ok) {
                 // 서버 응답이 성공인 경우
                 const data = await response.json();
-                console.log('중복 확인 결과:', data);
                 if(data.isDuplicated){
                     setIdCheckResult('이미 사용중인 아이디예요');
                 }
@@ -206,7 +204,6 @@ function SignUp() {
             .then((response) => response.json())
             .then((data) => {
                 // 백엔드에서 회원가입에 대한 응답을 처리
-                console.log('회원가입 성공', data);
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
                 setAccessToken(accessToken);
