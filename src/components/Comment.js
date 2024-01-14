@@ -56,8 +56,8 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
             </div>
             <p id="comment-content">{content}</p>
             <div id="comment-details">
-                <img src={like_icon} onClick={handleLike}/><span className="post-likes">좋아요 {likeCount}</span>
-                <img src={comment_icon}/><span className="reply" onClick={handleReply}>답글쓰기</span>
+                <img src={like_icon} style={{width: "15px"}} onClick={handleLike}/><span className="post-likes">좋아요 {likeCount}</span>
+                <img src={comment_icon} style={{width: "15px"}}/><span className="reply" onClick={handleReply}>답글쓰기</span>
             </div>
             {childComments && childComments.length > 0 ?
                 <div id='childComments'>
@@ -66,7 +66,7 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                                 <div className='child-comment'>
                                     <table className='reply-form'>
                                         <td>
-                                            <img src={reply_icon} />
+                                            <img src={reply_icon} style={{width: "15px"}}/>
                                         </td>
                                         <td>
                                             <Comment

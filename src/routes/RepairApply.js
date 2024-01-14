@@ -6,43 +6,31 @@ import Button from '../components/Button';
 import '../css/RepairApply.css';
 import Modal from "react-modal";
 import AccessTokenContext from '../AccessTokenContext';
-import customModal from '../customModalConfig';
+import {customModal} from "../customModalConfig";
 
 function RepairApply(){
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const { accessToken } = useContext(AccessTokenContext);
-    const [hallName, setHallName] = useState("");
+    const [hallName, setHallName] = useState("1");
     const [room, setRoom] = useState("");
     const [content, setContent] = useState("");
     const [history, setHistory] = useState(null);
 
     const serverUrl = "http://localhost:8080";
-    /* 화면 렌더링 시 get으로 수리요청 목록 가져오기
-    useEffect(() => {
-        const apiUrl = serverUrl + "/repairApply";
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            }})
-            .then((response) => {
-                if (response.ok)
-                    return response;
-                else
-                    throw new Error(response.errorMessage);
-            })
-            .then((dataArr) => {
-                setHistory(dataArr);
-            })
-    }, []);*/
     const submitHandler = async () => {
         const apiUrl = serverUrl + "/repairApply";
+        let roomNumber = '';
+
+        if (!room.includes('호')){
+            roomNumber = `${room}호`;
+        } else {
+            roomNumber = room;
+        }
 
         const requestData = {
             "hallName": hallName,
-            "unit": room + "호",
+            "roomNumber": roomNumber,
             "content": content
         }
 
@@ -61,12 +49,11 @@ function RepairApply(){
             .then((response) => {
                 console.log(response);
                 if (response.ok)
-                    return response; //TODO: response를 json 형식으로 주시는지 확인 필요
+                    return response;
                 else
                     throw new Error(response.errorMessage);
             })
             .then(() => {
-                window.location.reload();
                 setModalIsOpen(false);
                 alert("수리요청이 전송되었습니다.");
             })
@@ -75,13 +62,16 @@ function RepairApply(){
                 setModalIsOpen(false);
                 alert(error.errorMessage);
             });
+
+        setModalIsOpen(false);
+        navigate('/repairs/historys');
     }
 
     return (
         <>
             <div className='repair_title_container'>
                 <div className='repair_title'>
-                    <img className='repair_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                    <img className='repair_title_icon' src={arrow_left} alt="뒤로 가기" onClick={() => {navigate('/repairs/historys')}}/>
                     수리 요청
                 </div>
                 <div className="submitBtn">

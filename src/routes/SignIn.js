@@ -41,7 +41,7 @@ function SignIn(){
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
                 setAccessToken(accessToken);
-                navigate('/main');
+                navigate('/home');
             })
             .catch((error) => {
                 alert(error);

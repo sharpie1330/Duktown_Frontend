@@ -11,7 +11,6 @@ import FindPassword from './routes/FindPassword';
 import Announcement from "./routes/Announcement";
 import RepairApply from "./routes/RepairApply";
 import Stayout from "./routes/Stayout";
-import Unit from "./routes/Unit";
 import FindFillIn from "./routes/FindFillIn";
 import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
@@ -25,8 +24,11 @@ import NoticeListDetail from "./routes/NoticeListDetail";
 import { AccessTokenProvider } from './AccessTokenContext';
 import PostView from './routes/PostView';
 import DeliveryPostView from './routes/DeliveryPostView';
-import DeliveryChat from "./routes/DeliveryChat";
-import WSTEST from "./routes/wsTest";
+import ChatRoom from "./routes/ChatRoom";
+import MyPostList from "./routes/MyPostList";
+import DormGuide from "./routes/DormGuide";
+import MyPenalty from "./routes/MyPenalty";
+import Penalty from "./routes/Penalty";
 
 function App() {
   return (
@@ -39,12 +41,11 @@ function App() {
             <Route path="/signin" element={<SignIn />}/>
             <Route path="/findid" element={<FindId />}/>
             <Route path="/findpassword" element={<FindPassword />}/>
-            <Route path="/main" element={<MainTemplate />}/>
+            <Route path="/:page" element={<MainTemplate />}/>
             <Route path="/announcement/historys" element={<Announcement />}/>
             <Route path="/repairs/apply" element={<RepairApply />}/>
             <Route path="/stayout" element={<Stayout />}/>
             <Route path="/findFillIn" element={<FindFillIn />} />
-            <Route path="/unit" element={<Unit />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/newpost" element={<NewPost />} />
             <Route path="/repairs/historys" element={<RepairHistory />}/>
@@ -53,8 +54,11 @@ function App() {
             <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
             <Route path="/post/:postId" element={<PostView />}/>
             <Route path="/delivery/:deliveryId" element={<DeliveryPostView />}/>
-            <Route path="/chatRoom/:chatRoomId" element={<DeliveryChat />}/>
-            <Route path="/test" element={<WSTEST />}/>
+            <Route path="/chatRoom/:chatRoomId" element={<ChatRoom />}/>
+            <Route path="/user/wrote/:type" element={<MyPostList />}/>
+            <Route path="/dormGuide" element={<DormGuide />}/>
+            <Route path="/user/penalty" element={<MyPenalty />}/>
+            <Route path="/penalty" element={<Penalty />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>

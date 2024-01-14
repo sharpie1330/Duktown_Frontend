@@ -30,7 +30,6 @@ function PostView() {
 
     const serverUrl = "http://localhost:8080";
     const [replyToCommentId, setReplyToCommentId] = useState(null);
-    var userId, category, title, content, liked, likeCount, commentCount, datetime;
 
     const fetchPost = async () => {
         fetch(serverUrl + '/posts' + `/${id}`, {
@@ -163,8 +162,8 @@ function PostView() {
                 <p className="post-title">{post.title}</p>
                 <p className="post-content">{post.content}</p>
                 <div className="post-details">
-                    <img src={like_icon} onClick={handleLike}/><span className="post-likes">{post.likeCount}</span>
-                    <img src={comment_icon}/><span className="post-comments">{post.commentCount}</span>
+                    <img src={like_icon} onClick={handleLike} style={{width: "15px"}}/><span className="post-likes">{post.likeCount}</span>
+                    <img src={comment_icon} style={{width: "15px"}}/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>
