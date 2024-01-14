@@ -15,10 +15,10 @@ function NewPost(){
     const apiUrl2 = serverUrl + "/delivery";
 
     const uploadPost = async (additionalData) => {
-        const category = {'일상': 0, '장터': 1}
+        const category = {'daily': 0, 'market': 1}
         const title = document.getElementById('post-title').value;
         const content = document.getElementById('post-content').value;
-        if(selectedCategory === "배달팟"){
+        if(selectedCategory === "delivery"){
             try {
                 const response = await fetch(apiUrl2, {
                     method: 'POST',
@@ -35,7 +35,7 @@ function NewPost(){
 
                 if (response.ok) {
                     console.log("배달팟 등록 성공");
-                    navigate('/main');
+                    navigate('/community?category=delivery');
                 }
                 else{
                     return await response.json().then(errorResponse => {
@@ -69,7 +69,7 @@ function NewPost(){
                         page: 'community',
                         category: selectedCategory,
                     }));
-                    navigate('/main');
+                    navigate(`/community?category=${selectedCategory}`);
                 }
                 else{
                     return await response.json().then(errorResponse => {
