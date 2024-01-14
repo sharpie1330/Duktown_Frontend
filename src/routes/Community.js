@@ -4,23 +4,24 @@ import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import '../css/Community.css';
 import plus from '../assets/plus_icon.png';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
-function Community() {
+function Community({topic}) {
+    console.log(topic);
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
 
     // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
     const [posts, setPosts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('일상'); // 초기 카테고리 설정
+    const [selectedCategory, setSelectedCategory] = useState(topic); // 초기 카테고리 설정
 
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
-    const categoryNumber = {'일상': 0, '장터': 1};
+    const categoryNumber = {'daily': 0, 'market': 1};
 
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
-        if(selectedCategory == '배달팟'){
+        if(selectedCategory === 'delivery'){
             fetch(serverUrl + '/delivery', {
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,67 +77,68 @@ function Community() {
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
+        navigate(`/community?category=${category}`);
     };
 
     return (
         <>
-        <div className='category'>
-            <button 
-                onClick={() => handleCategorySelect('배달팟')} 
-                style={{ borderColor: selectedCategory === '배달팟' ? '#6A9CFD' : '#E6E6E6' }}>
-                    배달팟
-            </button>
-            <button 
-                onClick={() => handleCategorySelect('일상')}
-                style={{ borderColor: selectedCategory === '일상' ? '#6A9CFD' : '#E6E6E6' }}>
-                일상
-            </button>
-            <button 
-                onClick={() => handleCategorySelect('장터')}
-                style={{ borderColor: selectedCategory === '장터' ? '#6A9CFD' : '#E6E6E6' }}>
-                장터
-            </button>
-        </div>
-        <hr/>
-        {posts && posts.length > 0 ? (
-            <div className="post_list">
-                {posts.map((post) => {
-                // 카테고리에 따라 다른 컴포넌트 렌더링
-                return selectedCategory === '배달팟' ? (
-                    <DeliveryPost
-                        userId={post.userId}
-                        deliveryId={post.deliveryId}
-                        title={post.title}
-                        createdAt={post.createdAt}
-                        maxPeople={post.maxPeople}
-                        orderTime={post.orderTime}
-                        content={post.content}
-                        peopleCount={post.peopleCount}
-                        commentCount={post.commentCount}
-                        active={post.active}
-                    />
-                ) : (
-                    <GeneralPost
-                        category={post.category}
-                        commentCount={post.commentCount}
-                        content={post.content}
-                        datetime={post.datetime}
-                        id={post.id}
-                        likeCount={post.likeCount}
-                        liked={post.liked}
-                        title={post.title}
-                        userId={post.userId}
-                    />
-                );
-                })}
+            <div className='category'>
+                <button
+                    onClick={() => handleCategorySelect('delivery')}
+                    style={{ borderColor: selectedCategory === 'delivery' ? '#6A9CFD' : '#E6E6E6' }}>
+                        배달팟
+                </button>
+                <button
+                    onClick={() => handleCategorySelect('daily')}
+                    style={{ borderColor: selectedCategory === 'daily' ? '#6A9CFD' : '#E6E6E6' }}>
+                    일상
+                </button>
+                <button
+                    onClick={() => handleCategorySelect('market')}
+                    style={{ borderColor: selectedCategory === 'market' ? '#6A9CFD' : '#E6E6E6' }}>
+                    장터
+                </button>
             </div>
-            ) : (
-            <div>게시글이 없습니다</div>
-        )}
-        <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
-                <img src={plus}/>
-                글쓰기
-        </button>
+            <hr/>
+            {posts && posts.length > 0 ? (
+                <div className="post_list">
+                    {posts.map((post) => {
+                    // 카테고리에 따라 다른 컴포넌트 렌더링
+                    return selectedCategory === 'delivery' ? (
+                        <DeliveryPost
+                            userId={post.userId}
+                            deliveryId={post.deliveryId}
+                            title={post.title}
+                            createdAt={post.createdAt}
+                            maxPeople={post.maxPeople}
+                            orderTime={post.orderTime}
+                            content={post.content}
+                            peopleCount={post.peopleCount}
+                            commentCount={post.commentCount}
+                            active={post.active}
+                        />
+                    ) : (
+                        <GeneralPost
+                            category={post.category}
+                            commentCount={post.commentCount}
+                            content={post.content}
+                            datetime={post.datetime}
+                            id={post.id}
+                            likeCount={post.likeCount}
+                            liked={post.liked}
+                            title={post.title}
+                            userId={post.userId}
+                        />
+                    );
+                    })}
+                </div>
+                ) : (
+                <div>게시글이 없습니다</div>
+            )}
+            <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
+                    <img src={plus}/>
+                    글쓰기
+            </button>
         </>
     );
 }

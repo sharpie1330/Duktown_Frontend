@@ -11,17 +11,20 @@
 }
 
 .funcPannel_recruit_fin, .funcPannel_delivery_post {
+    cursor: pointer;
     padding: 7px 10px;
     text-align: center;
 }
 
 .funcPannel_account_modify{
+    cursor: pointer;
     padding: 7px 10px;
     text-align: center;
     border-top: solid 0.2px #B3B3B3;
 }
 
 .funcPannel_order_fin, .funcPannel_go_out{
+    cursor: pointer;
     padding: 7px 10px;
     text-align: center;
     border-top: solid 0.2px #B3B3B3;
@@ -30,16 +33,52 @@
 .funcPannel_container2 {
     border-radius: 10px;
     width: 90px;
+    height: fit-content;
     font-size: 12px;
     font-weight: 300;
     background: white;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.20);
-    position: absolute;
-    top: 35px;
-    right: 15px;
 }
 
-.funcPannel_kick {
+.funcPannel_kick, .funcPannel_report {
     padding: 7px 10px;
     text-align: center;
+    cursor: pointer;
+}
+
+.sliding_tab {
+    border-radius: 10px 10px 0 0;
+    background: #FFF;
+    box-shadow: 0 -4px 10px 0 rgba(0, 0, 0, 0.05);
+    padding: 32px 25px 40px 25px;
+}
+
+.sliding_tab span {
+    color: #6A9CFD;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.sliding_horizon_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#bank_name {
+    margin: 20px 0 33px 0;
+    width: 20%;
+}
+
+#number {
+    margin: 20px 0 33px 0;
+    width: 70%;
+}
+
+#bank_name:focus, #number:focus {
+    outline: none;
+}
+
+.sliding_btn_container {
+    display: flex;
+    justify-content: center;
 }

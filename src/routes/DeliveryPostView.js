@@ -1,18 +1,17 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import AccessTokenContext from '../AccessTokenContext';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import '../css/PostView.css';
-import like_icon from '../assets/like.png';
 import comment_icon from '../assets/comment.png';
 import profile_image from '../assets/profile_image.png';
 import post_button from '../assets/post_button.png';
 import Comment from '../components/Comment';
 
 function DeliveryPostView() {
-    const location = useLocation();
-    const deliveryId = location.state.deliveryId; // URL의 state 속성을 가져옴
+    const location = useParams();
+    const deliveryId = location.deliveryId; // URL의 parameter를 가져옴("/:deliveryId" 부분)
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState({
         userId: '',
@@ -41,6 +40,10 @@ function DeliveryPostView() {
         })
         .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
         .then(data => {
+            if (data.code === 40001){
+                alert(data.errorMessage);
+                window.history.back();
+            }
             setPost({
                 userId: data.userId,
                 title: data.title,
@@ -145,7 +148,7 @@ function DeliveryPostView() {
                 <p id="postview-content">{post.content}</p>
                 <div className="post-details">
                     <span className="post-recruitment">{post.peopleCount}/{post.maxPeople}</span>
-                    <img src={comment_icon}/><span className="post-comments">{post.commentCount}</span>
+                    <img src={comment_icon} style={{width: '15px'}}/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>

@@ -1,59 +1,86 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import '../css/TableView.css';
-function TableView({ items, tableFor, keyword }) {
+import likes from '../assets/like.png';
+import comment from '../assets/comment.png';
+function TableView({ items, tableFor, keyword, edit, handler }) {
     const navigate = useNavigate();
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const handleCheckboxChange = (chatRoomId) => {
+        // 아이템이 이미 선택된 경우 해제, 아닌 경우 추가
+        setSelectedItems((prevSelectedItems) => {
+            if (prevSelectedItems.includes(chatRoomId)) {
+                return prevSelectedItems.filter((id) => id !== chatRoomId);
+            } else {
+                return [...prevSelectedItems, chatRoomId];
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (handler){
+            try {
+                handler(selectedItems);
+            } catch (error) {
+                console.error("Error in handler function:", error);
+            }
+        }
+    }, [selectedItems, handler]);
 
     let table = [];
     switch (tableFor) {
         case 'repair':
             const repairTableArr = items.map(item => {
                 let rows = [];
-                const createCols = () => {
-                    let cols = [];
-                    cols.push(<td className='dateCol'>{item.date}</td>);
-                    cols.push(<td className='contentCol'>{item.content}</td>);
-                    cols.push(<td className='confirmCol'>{item.confirm}</td>);
-                    cols.push(<td className='statusCol'>{item.status}</td>);
-                    return cols;
-                }
-                rows.push(<tr className='tableRow'>{createCols()}</tr>);
+                rows.push(
+                    <>
+                        <div className='tableRow'>
+                            <div className='dateCol'>{item.date}</div>
+                            <div className='contentCol'>{item.content}</div>
+                            <div className='confirmCol'>{item.confirm}</div>
+                        </div>
+                        <div className='statusCol'>{item.status}</div>
+                    </>
+                );
                 return rows;
             })
             table = repairTableArr;
             break;
         case 'stayout':
             const stayOutTableArr = items.map(item => {
+                const createdAt = new Date(item.createdAt);
+                const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
+                const requestDay = `${createdAt.getFullYear()}.${createdAt.getMonth()+1}.${createdAt.getDate()}. (${dayArr[createdAt.getDay()]})`;
                 let rows = [];
-                const createCols = () => {
-                    let cols = [];
-                    cols.push(<td className='requestDateCol'>{item.requestDate}</td>);
-                    cols.push(<td className='rangeCol'>총 <p className='range_highlight'>{item.range}</p> 일 외박</td>);
-                    return cols;
-                }
-                rows.push(<tr className='tableRow'>{createCols()}</tr>);
-                rows.push(<tr className='startDateRow'>{`외박 시작 날짜 ${item.startDate}`}</tr>);
-                rows.push(<tr className='endDateRow'>{`돌아오는 날짜 ${item.endDate}`}</tr>);
-                rows.push(<tr className='addressRow'>{`${item.address} ${item.specAddress}`}</tr>);
-                rows.push(<tr className='space'/>);
+                rows.push(
+                    <div className='content'>
+                        <div className='tableRow'>
+                            <span className='requestDateCol'>{requestDay}</span>
+                            <span className='rangeCol'>총 <span className='range_highlight'>{item.period}</span> 일 외박</span>
+                        </div>
+                        <div className='startDateRow'>{`외박 시작 날짜 ${item.startDate}`}</div>
+                        <div className='endDateRow'>{`돌아오는 날짜 ${item.endDate}`}</div>
+                        <div className='addressRow'>{`${item.address}`}</div>
+                    </div>
+                );
                 return rows;
             })
             table = stayOutTableArr;
-            table.push(<tr className='space2'/>);
             break;
         case 'repairHistory':
             const repairHistoryTableArr = items.map(item => {
                 let rows = [];
-                const createCols = () => {
-                    let cols = [];
-                    cols.push(<td className='contentCol'><Link to={`/repairs/historys/detail/${item.id}`}>{item.content}</Link></td>);
-                    cols.push(<td className='confirmCol' rowSpan={2}><div className={item.confirm === '확인' ? 'confirm' : 'unconfirmed'}>{item.confirm}</div></td>);
-                    cols.push(<td className='statusCol' rowSpan={2}><div className={item.status === '해결' ? 'solve' : 'unresolved'}>{item.status}</div></td>);
-                    return cols;
-                }
-                rows.push(<tr className='tableRow'>{createCols()}</tr>);
-                rows.push(<tr className='dateRow' >{item.date}</tr>);
-                rows.push(<tr className='space'/>);
+                rows.push(
+                    <div className='content'>
+                        <div className='tableRow'>
+                            <div className='contentCol'><Link to={`/repairs/historys/detail/${item.id}`}>{item.content}</Link></div>
+                            <div className='confirmCol'><div className={item.checked ? 'confirm' : 'unconfirmed'}>{item.checked ? '확인' : '미확인'}</div></div>
+                            <div className='statusCol'><div className={item.solved ? 'solve' : 'unresolved'}>{item.solved ? '해결' : '미해결'}</div></div>
+                        </div>
+                        <div className='dateRow' >{item.date}</div>
+                    </div>
+                );
                 return rows;
             })
             table = repairHistoryTableArr;
@@ -64,19 +91,17 @@ function TableView({ items, tableFor, keyword }) {
                 const itemDate = new Date(item.date);
                 const isNew = (itemDate.getFullYear()===today.getFullYear())&&(itemDate.getMonth()===today.getMonth())&&(itemDate.getDate()===today.getDate());
                 let rows = [];
-                const createCols = () => {
-                    let cols = [];
-                    cols.push(
-                        <td className='titleCol'>
-                            <div className='titleCol_abbr_container'><abbr className={isNew ? 'new' : 'old'}>N</abbr></div>
-                            <Link className={isNew ? 'newA' : 'oldA'} to={`/notice/list/detail/${item.id}`}>{item.title}</Link>
-                        </td>
-                    );
-                    return cols;
-                }
-                rows.push(<tr className='tableRow1'>{createCols()}</tr>);
-                rows.push(<tr className='tableRow2'><td colSpan={2}> {item.date}</td></tr>);
-                rows.push(<tr className='space'/>);
+                rows.push(
+                    <>
+                        <div className='tableRow1'>
+                            <div className='titleCol'>
+                                <div className='titleCol_abbr_container'><abbr className={isNew ? 'new' : 'old'}>N</abbr></div>
+                                <Link className={isNew ? 'newA' : 'oldA'} to={`/notice/list/detail/${item.id}`}>{item.title}</Link>
+                            </div>
+                        </div>
+                        <div className='tableRow2'><span> {item.date}</span></div>
+                    </>
+                );
                 return rows;
             })
             table = noticeListTableArr;
@@ -93,9 +118,12 @@ function TableView({ items, tableFor, keyword }) {
                     ? (<span className='keyword'>{text}</span>)
                     : (<span>{text}</span>)
                 );
-                rows.push(<tr className='titleRow'><td>{kewordHighlight}</td></tr>);
-                rows.push(<tr className='dateRow'>{item.date}</tr>);
-                rows.push(<tr className='space'/>)
+                rows.push(
+                    <div>
+                        <div className='titleRow'>{kewordHighlight}</div>
+                        <div className='dateRow'>{item.date}</div>
+                    </div>
+                );
                 return rows;
             })
             table = searchTableArr;
@@ -115,13 +143,16 @@ function TableView({ items, tableFor, keyword }) {
 
                 let rows = [];
                 rows.push(
-                    <div className='chatRoom_container' key={item.chatRoomId} onClick={() => navigate(`/chatRoom/${item.chatRoomId}`)}>
-                        <div className='chatRoom_horizontal_container1'>
-                            <div className='chatRoom_title'>{item.title}</div>
-                            <div className='chatRoom_recentChatMessage'>{item.recentChatMessage}</div>
-                        </div>
-                        <div className='chatRoom_horizontal_container2'>
-                            <div className='chatRoom_recentChatCreatedAt'>{recentDate}</div>
+                    <div className='chatRoom_list_container'>
+                        {edit ? <input className='chatRoom_round_checkbox' type='checkbox' value={item.chatRoomId} onChange={() => handleCheckboxChange(item.chatRoomId)} checked={selectedItems.includes(item.chatRoomId)}/> : <></>}
+                        <div className='chatRoom_container' key={item.chatRoomId} onClick={() => navigate(`/chatRoom/${item.chatRoomId}`)}>
+                            <div className='chatRoom_horizontal_container1'>
+                                <div className='chatRoom_title'>{item.title}</div>
+                                <div className='chatRoom_recentChatMessage'>{item.recentChatMessage}</div>
+                            </div>
+                            <div className='chatRoom_horizontal_container2'>
+                                <div className='chatRoom_recentChatCreatedAt'>{recentDate}</div>
+                            </div>
                         </div>
                     </div>
                 );
@@ -129,15 +160,71 @@ function TableView({ items, tableFor, keyword }) {
             })
             table = chatRoomTableArr;
             break;
+        case 'myDeliveryPost':
+            const myDeliveryPostArr = items.map(item => {
+                const content = item.content;
+                let visContent = '';
+                if (content.length >= 75){
+                    const subContent = content.substr(0, 75);
+                    visContent = subContent + '...';
+                } else {
+                    visContent = content;
+                }
+
+                let rows = [];
+                rows.push(
+                    <Link className='myPost_container' to={`/delivery/${item.deliveryId}`}>
+                        <div className='title'>{item.title}</div>
+                        <div className='content'>{visContent}</div>
+                        <div className='myPost_horizontal_container'>
+                            <img className='myPost_comments' src={comment} alt='comment'/>
+                            <span className='commentCount'>{item.commentCount}</span>
+                            <span className='createdAt'>{`| ${item.createdAt}`}</span>
+                        </div>
+                    </Link>
+                );
+                return rows;
+            })
+            table = myDeliveryPostArr;
+            break;
+        case 'myPost':
+            const myPostArr = items.map(item => {
+                const content = item.content;
+                let visContent = '';
+                if (content.length >= 75){
+                    const subContent = content.substr(0, 75);
+                    visContent = subContent + '...';
+                } else {
+                    visContent = content;
+                }
+
+                let rows = [];
+                rows.push(
+                    <Link className='myPost_container' to={`/delivery/${item.deliveryId}`}>
+                        <div className='title'>{item.title}</div>
+                        <div className='content'>{visContent}</div>
+                        <div className='myPost_horizontal_container'>
+                            <img className='myPost_likes' src={likes} alt='comment'/>
+                            <span className='likeCount'>{item.likeCount}</span>
+                            <img className='myPost_comments' src={comment} alt='comment'/>
+                            <span className='commentCount'>{item.commentCount}</span>
+                            <span className='datetime'>{`| ${item.datetime}`}</span>
+                        </div>
+                    </Link>
+                );
+                return rows;
+            })
+            table = myPostArr;
+            break;
         default:
             table = [];
             break;
     }
 
     return (
-        <table className={tableFor}>
+        <div className={tableFor}>
             {table}
-        </table>
+        </div>
     );
 }
 
