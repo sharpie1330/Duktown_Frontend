@@ -207,21 +207,23 @@ function PostView() {
                                 users[comment.userId] = Object.keys(users).length + 1;
                             }
                             return (
-                                <Comment
-                                    commentId={comment.commentId}
-                                    userId={comment.userId}
-                                    content={comment.content}
-                                    liked={comment.liked}
-                                    likeCount={comment.likeCount}
-                                    dateTime={comment.dateTime}
-                                    deleted={comment.deleted}
-                                    childComments={comment.childComments}
-                                    userList={userList}
-                                    anonymousNumber={users[comment.userId] ? users[comment.userId] : 0}
-                                    setReplyToCommentId={setReplyToCommentId}
-                                    fetchComments={fetchComments}
-                                    postComment={postComment}
-                                />
+                                <div key={comment.commentId}>
+                                    <Comment
+                                        commentId={comment.commentId}
+                                        userId={comment.userId}
+                                        content={comment.content}
+                                        liked={comment.liked}
+                                        likeCount={comment.likeCount}
+                                        dateTime={comment.dateTime}
+                                        deleted={comment.deleted}
+                                        childComments={comment.childComments}
+                                        userList={userList}
+                                        anonymousNumber={users[comment.userId] ? users[comment.userId] : 0}
+                                        setReplyToCommentId={setReplyToCommentId}
+                                        fetchComments={fetchComments}
+                                        postComment={postComment}
+                                    />
+                                </div>
                             );
                         })}
                     </div>
