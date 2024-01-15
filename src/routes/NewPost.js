@@ -15,8 +15,10 @@ function NewPost(){
     const apiUrl1 = serverUrl + "/posts";
     const apiUrl2 = serverUrl + "/delivery";
 
-    const uploadPost = async () => {
-        const category = {'daily': 0, 'market': 1}
+    const uploadPost = async (event) => {
+        event.preventDefault();
+
+        const category = {'daily': 0, 'market': 1};
         const title = document.getElementById('post-title').value;
         const content = document.getElementById('post-content').value;
 
@@ -34,7 +36,7 @@ function NewPost(){
                 })
             });
             if (response.ok) {
-                navigate('/main');
+                navigate(`/community?category=${selectedCategory}`);
             }
             else{
                 return await response.json().then(errorResponse => {
@@ -48,6 +50,8 @@ function NewPost(){
     };
 
     const uploadDeliveryPost = async(event) => {
+        event.preventDefault();
+
         const title = event.target['post-title'].value;
         const orderTime = event.target['orderTime'].value;
         const maxPeople = Number(event.target['maxPeople'].value);
@@ -72,7 +76,7 @@ function NewPost(){
 
             if (response.ok) {
                 // 서버 응답이 성공인 경우
-                navigate('/main');
+                navigate(`/community?category=${selectedCategory}`);
             }
             else{
                 return await response.json().then(errorResponse => {
