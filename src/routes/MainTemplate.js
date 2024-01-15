@@ -19,7 +19,7 @@ import Home from './Home';
 import NewHome from './NewHome';
 import Unit from './Unit';
 import Community from './Community';
-import ChatRoomList from "./ChatRoomList";
+import ChatroomList from "./ChatroomList";
 
 function MainTemplate(){
     const params = useParams();
@@ -61,9 +61,9 @@ function MainTemplate(){
         }
     }, [searchParam]);
 
-    useEffect(() => {
-        console.log(activeTopic)
-    }, [activeTopic]);
+    // useEffect(() => {
+    //     console.log(activeTopic)
+    // }, [activeTopic]);
 
     return (
         <>
@@ -84,14 +84,14 @@ function MainTemplate(){
                     <Unit />
                 </div>
                 <div className="page" style={{ display: params.page === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
-                    <ChatRoomList />
+                    <ChatroomList />
                 </div>
             </div>
             <div className='bottom_bar'>
                 <img src={activePage === 'home' ? home_blue : home}
-                     alt="home"
-                     className="bottom_bar_icon"
-                     onClick={() => setActivePage('home')}
+                    alt="home"
+                    className="bottom_bar_icon"
+                    onClick={() => setActivePage('home')}
                 />
                 <img
                     src={activePage === 'community' ? community_blue : community}
@@ -100,14 +100,14 @@ function MainTemplate(){
                     onClick={() => setActivePage('community')}
                 />
                 <img src={activePage === 'chat' ? chat_blue : chat}
-                     alt='chat'
-                     className='bottom_bar_icon'
-                     onClick={() => setActivePage('chat')}
+                    alt='chat'
+                    className='bottom_bar_icon'
+                    onClick={() => setActivePage('chat')}
                 />
                 <img src={activePage === 'unit' ? unit_blue : unit}
-                     alt="unit"
-                     className="bottom_bar_icon"
-                     onClick={() => setActivePage('unit')}
+                    alt="unit"
+                    className="bottom_bar_icon"
+                    onClick={() => setActivePage('unit')}
                 />
             </div>
         </>

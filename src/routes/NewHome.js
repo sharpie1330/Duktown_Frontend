@@ -6,7 +6,6 @@ import repair from '../assets/repair_blue.png';
 import notification from '../assets/notification_blue.png';
 import circle from '../assets/circle_gray.png';
 import { useNavigate } from 'react-router-dom';
-import arrow_right from '../assets/arrow_right.png';
 import '../css/Home.css';
 import '../css/NewHome.css';
 
@@ -56,7 +55,7 @@ function NewHome(){
                 </div>
             </div>
             <div className='info-box'>
-                <div className='info-menu'>
+                <div className='info-menu' onClick={() => {navigate('/appTerms');}}>
                     <img src={circle}/>
                     <p>이용약관</p>
                 </div>
@@ -67,25 +66,11 @@ function NewHome(){
                     </a>
 
                 </div>
-                <div className='info-menu'>
+                <div className='info-menu' onClick={() => {navigate('/penalty');}}>
                     <img src={circle}/>
-                    <p>?????</p>
+                    <p>벌점 기준표</p>
                 </div>
             </div>
-            {/* <div className='menu_container'>
-                <div className='menu' onClick={()=>{navigate('/repairs/historys')}}>
-                    <img src={repair} className='menu_icon'/>
-                    수리 요청
-                </div>
-                <div className='menu' onClick={()=>{navigate('/stayout')}}>
-                    <img src={sleepover} className='menu_icon'/>
-                    외박 신청
-                </div>
-                <div className='menu' onClick={()=>{navigate('/announcement/historys')}}>
-                    <img src={notification} className='menu_icon'/>
-                    점호 방송
-                </div>
-            </div> */}
         </> 
     );
 }

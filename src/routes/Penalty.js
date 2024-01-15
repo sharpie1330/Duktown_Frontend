@@ -230,7 +230,7 @@ function Penalty(){
     return(
         <>
             <div className='penalty_title_container'>
-                <img className='penalty_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/user/penalty');}}/>
+                <img className='penalty_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{window.history.back();}}/>
                 벌점 기준표
             </div>
             <div className='penalty_body_container'>

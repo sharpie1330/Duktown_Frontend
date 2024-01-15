@@ -68,7 +68,7 @@ function Announcement(){
                     <>
                         <div className='announcement_title_container'>
                             <div>
-                                <img className='announcement_icon' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/main');}}></img>
+                                <img className='announcement_icon' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/home');}}></img>
                                 점호 방송
                             </div>
                             <img className='announcement_search_icon' src={search} alt='검색' onClick={() => setCurrentRenderPage('search')}/>

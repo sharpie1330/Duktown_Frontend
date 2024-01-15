@@ -7,7 +7,6 @@ import plus from '../assets/plus_icon.png';
 import {useNavigate} from 'react-router-dom';
 
 function Community({topic}) {
-    console.log(topic);
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
 

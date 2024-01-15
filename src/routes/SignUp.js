@@ -354,7 +354,7 @@ function SignUp() {
                                 </div>
                             </form>
                         </div>
-                        <button className='bottomBtn' onClick={()=>{navigate('/main')}}>
+                        <button className='bottomBtn' onClick={()=>{navigate('/home')}}>
                         사생 인증하기
                         </button>
                     </>

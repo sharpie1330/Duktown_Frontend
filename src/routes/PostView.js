@@ -220,6 +220,7 @@ function PostView() {
                                     anonymousNumber={users[comment.userId] ? users[comment.userId] : 0}
                                     setReplyToCommentId={setReplyToCommentId}
                                     fetchComments={fetchComments}
+                                    postComment={postComment}
                                 />
                             );
                         })}

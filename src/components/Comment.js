@@ -9,23 +9,24 @@ import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 import AccessTokenContext from '../AccessTokenContext';
 
-function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, userList, anonymousNumber, setReplyToCommentId, fetchComments }) {
+function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, userList, anonymousNumber, setReplyToCommentId, fetchComments, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const { accessToken } = useContext(AccessTokenContext);
     const [localUserList, setLocalUserList] = useState(userList);
-    const [sendChildComment, setSendChildComment] = useState(false);
+    const [sendChildComment, setSendChildComment] = useState(true);
+    const [replyIcon, setReplyIcon] = useState(comment_icon);
 
     const handleReply = () => {
         setSendChildComment(!sendChildComment);
         if(sendChildComment){
             setReplyToCommentId(commentId);
-            console.log("change to blue icon");
+            setReplyIcon(comment_blue_icon);
         }
         else {
             setReplyToCommentId(null);
+            setReplyIcon(comment_icon);
         }
-        
     };
 
     const handleLike = async () => {
@@ -54,6 +55,11 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
             alert(error);
         }
     };
+
+    useEffect(() => {
+        setSendChildComment(true);
+        setReplyIcon(comment_icon);
+    }, [postComment]);
 
     // userList가 변경될 때만 useEffect가 호출되도록 설정
     // useEffect(() => {
@@ -84,7 +90,7 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                 <img src={like_icon} onClick={handleLike}/>
                 }
                 <span className="post-likes">좋아요 {likeCount}</span>
-                {sendChildComment ? <img src={comment_blue_icon}/> : <img src={comment_icon}/>}
+                <img src={replyIcon}/>
                 <span className="reply" onClick={handleReply}>답글쓰기</span>
             </div>
             {childComments && childComments.length > 0 ?
@@ -111,6 +117,7 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                                                 anonymousNumber={anonymousNumber}
                                                 setReplyToCommentId={setReplyToCommentId}
                                                 fetchComments={fetchComments}
+                                                postComment={postComment}
                                             />
                                         </td>
                                     </tr>
