@@ -108,6 +108,7 @@ function PostView() {
             if (response.ok) {
                 // 서버 응답이 성공인 경우
                 event.target['comment-input'].value = '';
+                fetchPost();
                 fetchComments();
             } 
             else{
@@ -203,22 +204,18 @@ function PostView() {
                 {comments && comments.length > 0 ? (
                     <div id="commentList">
                         {comments.map((comment) => {
-                            if (comment.userId !== post.userId && !users[comment.userId]) {
-                                users[comment.userId] = Object.keys(users).length + 1;
-                            }
                             return (
                                 <div key={comment.commentId}>
                                     <Comment
                                         commentId={comment.commentId}
                                         userId={comment.userId}
+                                        userTitle={comment.userTitle}
                                         content={comment.content}
                                         liked={comment.liked}
                                         likeCount={comment.likeCount}
                                         dateTime={comment.dateTime}
                                         deleted={comment.deleted}
                                         childComments={comment.childComments}
-                                        userList={userList}
-                                        anonymousNumber={users[comment.userId] ? users[comment.userId] : 0}
                                         setReplyToCommentId={setReplyToCommentId}
                                         fetchComments={fetchComments}
                                         postComment={postComment}

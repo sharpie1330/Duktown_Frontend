@@ -159,6 +159,7 @@ function DeliveryPostView() {
                                 <Comment
                                     commentId={comment.commentId}
                                     userId={comment.userId}
+                                    userTitle={comment.userTitle}
                                     content={comment.content}
                                     liked={comment.liked}
                                     likeCount={comment.likeCount}

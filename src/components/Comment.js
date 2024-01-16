@@ -9,11 +9,10 @@ import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 import AccessTokenContext from '../AccessTokenContext';
 
-function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, userList, anonymousNumber, setReplyToCommentId, fetchComments, postComment }) {
+function Comment({ commentId, userId, userTitle, content, liked, likeCount, dateTime, deleted, childComments, setReplyToCommentId, fetchComments, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const { accessToken } = useContext(AccessTokenContext);
-    const [localUserList, setLocalUserList] = useState(userList);
     const [sendChildComment, setSendChildComment] = useState(true);
     const [replyIcon, setReplyIcon] = useState(comment_icon);
 
@@ -61,20 +60,12 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
         setReplyIcon(comment_icon);
     }, [postComment]);
 
-    // userList가 변경될 때만 useEffect가 호출되도록 설정
-    // useEffect(() => {
-    //     // fetchComments가 호출된 후에 localUserList 업데이트
-    //     fetchComments();
-    //     setLocalUserList(userList);
-    // }, [fetchComments, userList]);
-
     return (
         <>
             <div id='upperInfo'>
                 <img id='comment-profileImage' src={profile_image} />
                 <span id='comment-user'>
-                    {anonymousNumber === 0 ? '글쓴이' : `익명${anonymousNumber}`}
-                    {/* {localUserList[userId] ? `익명${localUserList[userId]}` : '글쓴이'} */}
+                    {userTitle}
                 </span>
 
                 <span id='comment-time'>{dateTime}</span>    
@@ -107,14 +98,13 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                                             <Comment
                                                 commentId={comment.commentId}
                                                 userId={comment.userId}
+                                                userTitle={comment.userTitle}
                                                 content={comment.content}
                                                 liked={comment.liked}
                                                 likeCount={comment.likeCount}
                                                 dateTime={comment.dateTime}
                                                 deleted={comment.deleted}
                                                 childComments={comment.childComments}
-                                                userList={localUserList}  // localUserList로 변경
-                                                anonymousNumber={anonymousNumber}
                                                 setReplyToCommentId={setReplyToCommentId}
                                                 fetchComments={fetchComments}
                                                 postComment={postComment}
