@@ -213,11 +213,13 @@ function PostView() {
                                         content={comment.content}
                                         liked={comment.liked}
                                         likeCount={comment.likeCount}
+                                        isWriter={comment.isWriter}
                                         dateTime={comment.dateTime}
                                         deleted={comment.deleted}
                                         childComments={comment.childComments}
                                         setReplyToCommentId={setReplyToCommentId}
                                         fetchComments={fetchComments}
+                                        fetchPost={fetchPost}
                                         postComment={postComment}
                                     />
                                 </div>

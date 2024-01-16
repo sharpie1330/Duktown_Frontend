@@ -43,3 +43,18 @@
     vertical-align: top;
     padding-top: 5px;
 }
+
+.small-modal {
+    position: absolute;
+    right: 26px;
+    border-radius: 10px;
+    padding: 6px 12px;
+    background: #FFF;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.20);
+}
+
+.small-modal span {
+    color: rgba(0, 0, 0, 0.90);
+    font-size: 12px;
+    font-weight: 300
+}
