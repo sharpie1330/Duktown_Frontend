@@ -29,6 +29,7 @@ import MyPostList from "./routes/MyPostList";
 import DormGuide from "./routes/DormGuide";
 import MyPenalty from "./routes/MyPenalty";
 import Penalty from "./routes/Penalty";
+import ApplicationTerms from './routes/ApplicationTerms';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             <Route path="/dormGuide" element={<DormGuide />}/>
             <Route path="/user/penalty" element={<MyPenalty />}/>
             <Route path="/penalty" element={<Penalty />}/>
+            <Route path="/appTerms" element={<ApplicationTerms />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>

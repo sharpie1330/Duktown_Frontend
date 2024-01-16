@@ -40,4 +40,6 @@
 
 .reply-form td:first-child {
     width: 20px;
+    vertical-align: top;
+    padding-top: 5px;
 }

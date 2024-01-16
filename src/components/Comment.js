@@ -1,20 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import like_icon from '../assets/like.png';
+import like_blue_icon from '../assets/like_blue.png';
 import comment_icon from '../assets/comment.png';
+import comment_blue_icon from '../assets/comment_blue.png';
 import function_button from '../assets/function_button.png';
 import profile_image from '../assets/profile_image.png';
 import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 import AccessTokenContext from '../AccessTokenContext';
 
-function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, setReplyToCommentId, fetchComments }) {
-
+function Comment({ commentId, userId, content, liked, likeCount, dateTime, deleted, childComments, userList, anonymousNumber, setReplyToCommentId, fetchComments, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const { accessToken } = useContext(AccessTokenContext);
+    const [localUserList, setLocalUserList] = useState(userList);
+    const [sendChildComment, setSendChildComment] = useState(true);
+    const [replyIcon, setReplyIcon] = useState(comment_icon);
 
     const handleReply = () => {
-        setReplyToCommentId(commentId);
+        setSendChildComment(!sendChildComment);
+        if(sendChildComment){
+            setReplyToCommentId(commentId);
+            setReplyIcon(comment_blue_icon);
+        }
+        else {
+            setReplyToCommentId(null);
+            setReplyIcon(comment_icon);
+        }
     };
 
     const handleLike = async () => {
@@ -34,7 +46,7 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
             if (response.ok) {
                 fetchComments();
             } 
-            else{
+            else {
                 return response.json().then(errorResponse => {
                     throw new EvalError(errorResponse.errorMessage);
                 });
@@ -44,11 +56,27 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
         }
     };
 
+    useEffect(() => {
+        setSendChildComment(true);
+        setReplyIcon(comment_icon);
+    }, [postComment]);
+
+    // userList가 변경될 때만 useEffect가 호출되도록 설정
+    // useEffect(() => {
+    //     // fetchComments가 호출된 후에 localUserList 업데이트
+    //     fetchComments();
+    //     setLocalUserList(userList);
+    // }, [fetchComments, userList]);
+
     return (
         <>
             <div id='upperInfo'>
                 <img id='comment-profileImage' src={profile_image} />
-                <span id='comment-user'>익명{userId}</span>
+                <span id='comment-user'>
+                    {anonymousNumber === 0 ? '글쓴이' : `익명${anonymousNumber}`}
+                    {/* {localUserList[userId] ? `익명${localUserList[userId]}` : '글쓴이'} */}
+                </span>
+
                 <span id='comment-time'>{dateTime}</span>    
                 <button className='functionBtn'>
                     <img src={function_button}/>
@@ -56,15 +84,22 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
             </div>
             <p id="comment-content">{content}</p>
             <div id="comment-details">
-                <img src={like_icon} style={{width: "15px"}} onClick={handleLike}/><span className="post-likes">좋아요 {likeCount}</span>
-                <img src={comment_icon} style={{width: "15px"}}/><span className="reply" onClick={handleReply}>답글쓰기</span>
+                {liked ?
+                <img src={like_blue_icon} onClick={handleLike}/>
+                :
+                <img src={like_icon} onClick={handleLike}/>
+                }
+                <span className="post-likes">좋아요 {likeCount}</span>
+                <img src={replyIcon}/>
+                <span className="reply" onClick={handleReply}>답글쓰기</span>
             </div>
             {childComments && childComments.length > 0 ?
                 <div id='childComments'>
                     {childComments.map((comment) => {
-                            return (
-                                <div className='child-comment'>
-                                    <table className='reply-form'>
+                        return (
+                            <div className='child-comment'>
+                                <table className='reply-form'>
+                                    <tr>
                                         <td>
                                             <img src={reply_icon} style={{width: "15px"}}/>
                                         </td>
@@ -78,16 +113,18 @@ function Comment({ commentId, userId, content, liked, likeCount, dateTime, delet
                                                 dateTime={comment.dateTime}
                                                 deleted={comment.deleted}
                                                 childComments={comment.childComments}
+                                                userList={localUserList}  // localUserList로 변경
+                                                anonymousNumber={anonymousNumber}
                                                 setReplyToCommentId={setReplyToCommentId}
                                                 fetchComments={fetchComments}
+                                                postComment={postComment}
                                             />
                                         </td>
-                                    </table>
-                                    
-                                    
-                                </div>
-                            );
-                        })}
+                                    </tr>
+                                </table>
+                            </div>
+                        );
+                    })}
                 </div>
             :
             <></>}

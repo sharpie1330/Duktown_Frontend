@@ -110,7 +110,7 @@ function NoticeList() {
                     <>
                         <div className='noticeList_title_container'>
                             <div>
-                                <img className='noticeList_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                                <img className='noticeList_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/home');}}/>
                                 공지사항
                             </div>
                             <img className='noticeList_search_icon' src={search} alt='검색' onClick={() => setCurrentRenderPage('search')}/>

@@ -9,77 +9,83 @@ function NewPost(){
     const { accessToken } = useContext(AccessTokenContext);
     const location = useLocation();
     const selectedCategory = new URLSearchParams(location.search).get('selectedCategory');
+    const categoryName = {'daily': '일상', 'market': '장터', 'delivery': '배달팟'};
 
     const serverUrl = "http://localhost:8080";
     const apiUrl1 = serverUrl + "/posts";
     const apiUrl2 = serverUrl + "/delivery";
 
-    const uploadPost = async (additionalData) => {
-        const category = {'daily': 0, 'market': 1}
+    const uploadPost = async (event) => {
+        event.preventDefault();
+
+        const category = {'daily': 0, 'market': 1};
         const title = document.getElementById('post-title').value;
         const content = document.getElementById('post-content').value;
-        if(selectedCategory === "delivery"){
-            try {
-                const response = await fetch(apiUrl2, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "title": title,
-                        "content": content,
-                        ...additionalData,
-                    })
-                });
 
-                if (response.ok) {
-                    console.log("배달팟 등록 성공");
-                    navigate('/community?category=delivery');
-                }
-                else{
-                    return await response.json().then(errorResponse => {
-                        console.log(errorResponse);
-                        throw new EvalError(errorResponse.errorMessage);
-                    });
-                }
-            } catch (error) {
-                alert(error);
+        try {
+            const response = await fetch(apiUrl1, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    "category": category[selectedCategory],
+                    "title": title,
+                    "content": content,
+                })
+            });
+            if (response.ok) {
+                navigate(`/community?category=${selectedCategory}`);
             }
+            else{
+                return await response.json().then(errorResponse => {
+                    console.log(errorResponse);
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
         }
-        else {
-            try {
-                const response = await fetch(apiUrl1, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({
-                        "category": category[selectedCategory],
-                        "title": title,
-                        "content": content,
-                    })
-                });
+    };
 
-                if (response.ok) {
-                    // 서버 응답이 성공인 경우
-                    // 게시글 작성 후 로컬 스토리지에 데이터 저장
-                    localStorage.setItem('previousPageInfo', JSON.stringify({
-                        page: 'community',
-                        category: selectedCategory,
-                    }));
-                    navigate(`/community?category=${selectedCategory}`);
-                }
-                else{
-                    return await response.json().then(errorResponse => {
-                        console.log(errorResponse);
-                        throw new EvalError(errorResponse.errorMessage);
-                    });
-                }
-            } catch (error) {
-                alert(error);
+    const uploadDeliveryPost = async(event) => {
+        event.preventDefault();
+
+        const title = event.target['post-title'].value;
+        const orderTime = event.target['orderTime'].value;
+        const maxPeople = Number(event.target['maxPeople'].value);
+        const accountNumber = event.target['accountNumber'].value;
+        const content = event.target['post-content'].value;
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    "title": title,
+                    "orderTime": orderTime,
+                    "maxPeople": maxPeople,
+                    "accountNumber": accountNumber,
+                    "content": content,
+                })
+            });
+
+            if (response.ok) {
+                // 서버 응답이 성공인 경우
+                navigate(`/community?category=${selectedCategory}`);
             }
+            else{
+                return await response.json().then(errorResponse => {
+                    console.log(errorResponse);
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
         }
     };
 
@@ -91,25 +97,15 @@ function NewPost(){
                 <button className='postBtn' type='submit' form='post-form'>작성</button>
             </div>
             <div className='content_container'>
-                <p id='post-category'>{selectedCategory}</p>
-                <form id='post-form' onSubmit={(e) => {
-                    e.preventDefault();
-                    const formData = new FormData(e.target);
-                    const additionalData = {
-                        maxPeople: formData.get('maxPeople'),
-                        orderTime: formData.get('orderTime'),
-                        accountNumber: formData.get('accountNumber'),
-                    };
-
-                    uploadPost(additionalData);
-                }}>
+                <p id='post-category'>{categoryName[selectedCategory]}</p>
+                <form id='post-form' onSubmit={selectedCategory === "delivery" ? uploadDeliveryPost : uploadPost}>
                     <input 
                         id='post-title' 
                         type='text' 
                         placeholder='제목을 입력해주세요'
                     >
                     </input>
-                    {selectedCategory === "배달팟" ?
+                    {selectedCategory === "delivery" ?
                     <>
                         <div className='deliveryInfo'>
                             <span>최대 모집 인원</span>

@@ -7,13 +7,13 @@ import plus from '../assets/plus_icon.png';
 import {useNavigate} from 'react-router-dom';
 
 function Community({topic}) {
-    console.log(topic);
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
 
     // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
     const [posts, setPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(topic); // 초기 카테고리 설정
+    const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
 
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
@@ -38,7 +38,7 @@ function Community({topic}) {
             .catch(error => console.error('Error:', error));
         }
         else {
-            fetch(apiUrl+`?category=${categoryNumber[selectedCategory]}`, {
+            fetch(apiUrl+`?category=${categoryNumber[selectedCategory]}&pageNo=${pageNumber}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -69,9 +69,12 @@ function Community({topic}) {
             }
         }
 
-        if (selectedCategory) {
+        const fetchData = async () => {
+            if (selectedCategory) {
             fetchPostsByCategory();
-        }
+            }
+        };
+        fetchData();
     }, [selectedCategory]);
 
     // 카테고리를 선택할 때 호출되는 함수

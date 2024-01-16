@@ -71,7 +71,7 @@ function FindFillIn() {
         <>
             <div className='fillin_title_container'>
                 <div className='fillin_title_left_content'>
-                    <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/main');}}/>
+                    <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{window.history.back();}}/>
                     대타 구하기
                 </div>
                 <Button
