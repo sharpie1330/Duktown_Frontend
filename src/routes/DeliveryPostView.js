@@ -11,7 +11,7 @@ import Comment from '../components/Comment';
 
 function DeliveryPostView() {
     const location = useParams();
-    const deliveryId = location.deliveryId; // URL의 parameter를 가져옴("/:deliveryId" 부분)
+    const deliveryId = Number(location.deliveryId); // URL의 parameter를 가져옴("/:deliveryId" 부분)
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState({
         userId: '',
@@ -159,14 +159,19 @@ function DeliveryPostView() {
                                 <Comment
                                     commentId={comment.commentId}
                                     userId={comment.userId}
+                                    userTitle={comment.userTitle}
                                     content={comment.content}
                                     liked={comment.liked}
                                     likeCount={comment.likeCount}
+                                    isWriter={comment.isWriter}
                                     dateTime={comment.dateTime}
                                     deleted={comment.deleted}
                                     childComments={comment.childComments}
+                                    deliveryId={post.isWriter ? deliveryId : null}
+                                    deliveryWriterId={post.isWriter ? post.userId : null}
                                     setReplyToCommentId={setReplyToCommentId}
                                     fetchComments={fetchComments}
+                                    fetchPost={fetchPost}
                                 />
                             );
                         })}
