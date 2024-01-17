@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import AccessTokenContext from '../AccessTokenContext';
 import arrow_left from '../assets/arrow_left.png';
@@ -18,22 +18,24 @@ function PostView() {
     const category_name = {0: '일상', 1: '장터'}
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState({
-        userId: '',
-        category: '',
+        id: null,
+        userId: null,
+        category: null,
         title: '',
         content: '',
-        liked: false,
-        likeCount: 0,
-        commentCount: 0,
-        datetime: ''
+        liked: null,
+        likeCount: null,
+        commentCount: null,
+        datetime: '',
+        isWriter: null,
     });
 
     const { accessToken } = useContext(AccessTokenContext);
 
     const serverUrl = "http://localhost:8080";
     const [replyToCommentId, setReplyToCommentId] = useState(null);
-    var users = {} // 사용자 익명 번호
-    const [userList, setUserList] = useState({});
+    const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부
+    const functionButtonRef = useRef(null);
 
     // 글 내용 가져오기
     const fetchPost = async () => {
@@ -49,6 +51,7 @@ function PostView() {
         .then(response => response.json())
         .then(data => {
             setPost({
+                id: data.id,
                 userId: data.userId,
                 category: data.category,
                 title: data.title,
@@ -56,7 +59,8 @@ function PostView() {
                 liked: data.liked,
                 likeCount: data.likeCount,
                 commentCount: data.commentCount,
-                datetime: data.datetime
+                datetime: data.datetime,
+                isWriter: data.isWriter,
             });
         })
         .catch(error => console.error('Error:', error));
@@ -148,6 +152,39 @@ function PostView() {
             alert(error);
         }
     };
+
+    const handleFunctionButtonClick = () => {
+        setShowFunctionButton(!showFunctionButton);
+    };
+
+    // 글 삭제하기
+    const handleDeletePost = async () => {
+        try {
+            const response = await fetch(serverUrl + `/posts/${post.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.ok) {
+                window.history.back();
+            } 
+            else {
+                return response.json().then(errorResponse => {
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    // 글 신고하기
+    const handleReportPost = () => {
+
+    }
     
     // 첫 렌더링 시 글과 댓글 내용 가져오기
     useEffect(() => {
@@ -158,19 +195,6 @@ function PostView() {
 
         fetchData();
     }, [id, accessToken]);
-
-    // 댓글 목록이 업데이트된 후에 Comment 컴포넌트를 렌더링 - 시도중
-    // useEffect(() => {
-    //     console.log('Effect2222 start');
-    
-    //     const updatedUserList = { ...userList };
-    
-    //     comments.forEach((comment) => {
-    //         if (comment.userId !== post.userId && !updatedUserList[comment.userId]) {
-    //             updatedUserList[comment.userId] = Object.keys(updatedUserList).length + 1;
-    //         }
-    //     });
-    // }, []);
 
     return (
         <>
@@ -186,8 +210,17 @@ function PostView() {
                         <tr id='post-time'>{post.datetime}</tr>    
                     </table>
                     <button className='functionBtn' type='submit' form='post-form'>
-                        <img src={function_button}/>
+                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
                     </button>
+                    {showFunctionButton && (
+                        <div className='small-modal'>
+                            {post.isWriter ? (
+                                <span onClick={handleDeletePost}>삭제하기</span>
+                            ) : (
+                                <span onClick={handleReportPost}>신고하기</span>
+                            )}
+                        </div>  
+                    )}
                 </div>
                 <p className="post-title">{post.title}</p>
                 <p className="post-content">{post.content}</p>

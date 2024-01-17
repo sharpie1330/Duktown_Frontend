@@ -9,7 +9,7 @@ import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 import AccessTokenContext from '../AccessTokenContext';
 
-function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
+function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, deliveryWriterId, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const { accessToken } = useContext(AccessTokenContext);
@@ -91,9 +91,39 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
     };
 
     // 댓글 신고하기
-    const handleReportComment = () => {
+    const handleReportComment = async () => {
 
-    }
+    };
+
+    // 배달팟 초대
+    const handleInvitation = async () => {
+        console.log(typeof(userId));
+        try {
+            const response = await fetch(serverUrl + '/chatRoom/invite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    'inviteUserId': userId,
+                    'deliveryId': deliveryId,
+                    'userNumber': Number(userTitle.slice(-1))
+                })
+            });
+
+            if (response.ok) {
+                fetchPost();
+            } 
+            else {
+                return response.json().then(errorResponse => {
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
 
     // 댓글 삭제 또는 신고 버튼 외의 부분 클릭 시 버튼 없애기
     const handleDocumentClick = (event) => {
@@ -119,12 +149,12 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
     return (
         <>
             <div id='upperInfo'>
-                <img id='comment-profileImage' src={profile_image} />
-                <span id='comment-user'>
+                <img className='comment-profileImage' src={profile_image} />
+                <span className={userTitle === "글쓴이" ? 'comment-user comment-user-blue': 'comment-user'}>
                     {userTitle}
                 </span>
 
-                <span id='comment-time'>{dateTime}</span>    
+                <span className='comment-time'>{dateTime}</span>    
                 <button className='functionBtn'>
                     <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
                 </button>
@@ -133,13 +163,19 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                     {isWriter ? (
                         <span onClick={handleDeleteComment}>삭제하기</span>
                     ) : (
-                        <span onClick={handleReportComment}>신고하기</span>
+                        <>
+                            {deliveryId ? (
+                                <><span onClick={handleInvitation}>배달팟 초대하기</span><hr/></>
+                            ) : null}
+                            <span onClick={handleReportComment}>신고하기</span>
+                        </>
+                        
                     )}
                   </div>  
                 )}
             </div>
-            <p id="comment-content">{content}</p>
-            <div id="comment-details">
+            <p className="comment-content">{content}</p>
+            <div className="comment-details">
                 {liked ?
                 <img src={like_blue_icon} onClick={handleLike}/>
                 :
@@ -150,7 +186,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                 <span className="reply" onClick={handleReply}>답글쓰기</span>
             </div>
             {childComments && childComments.length > 0 ?
-                <div id='childComments'>
+                <div className='childComments'>
                     {childComments.map((comment) => {
                         return (
                             <div className='child-comment'>
@@ -171,6 +207,8 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                                                 dateTime={comment.dateTime}
                                                 deleted={comment.deleted}
                                                 childComments={comment.childComments}
+                                                deliveryId={deliveryId}
+                                                deliveryWriterId={deliveryWriterId}
                                                 setReplyToCommentId={setReplyToCommentId}
                                                 fetchComments={fetchComments}
                                                 fetchPost={fetchPost}

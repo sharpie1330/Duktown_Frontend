@@ -122,15 +122,15 @@ function Community({topic}) {
                         />
                     ) : (
                         <GeneralPost
-                            category={post.category}
-                            commentCount={post.commentCount}
-                            content={post.content}
-                            datetime={post.datetime}
                             id={post.id}
-                            likeCount={post.likeCount}
-                            liked={post.liked}
-                            title={post.title}
                             userId={post.userId}
+                            category={post.category}
+                            title={post.title}
+                            content={post.content}
+                            liked={post.liked}
+                            likeCount={post.likeCount}
+                            commentCount={post.commentCount}
+                            datetime={post.datetime}
                         />
                     );
                     })}
