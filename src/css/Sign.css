@@ -125,6 +125,7 @@ Input {
     cursor: pointer;
     margin: 0 5px;
     padding: 2px;
+    text-align: center;
 }
 
 .term_line .round_checkbox::before {

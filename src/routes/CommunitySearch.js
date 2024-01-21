@@ -1,28 +1,58 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AccessTokenContext from '../AccessTokenContext';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import '../css/Community.css';
-import plus from '../assets/plus_icon.png';
-import {useNavigate} from 'react-router-dom';
+import arrow_left from '../assets/arrow_left.png';
+import search from "../assets/search.png";
 
-function Community({ topic, setActiveTopic}) {
+function CommunitySearch() {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get('category');
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
-
-    // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
+    const [currentRenderPage, setCurrentRenderPage] = useState('listView');
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
+    const [keywordList, setKeywordList] = useState(JSON.parse(localStorage.getItem('keywords')) || '[]');
     const [posts, setPosts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(topic); // 초기 카테고리 설정
-    const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
-
+    let items = [{id:1, title:'[기숙사] 12월 24일 방송 내용', date:'2023.12.24'}, {id:2, title:'[기숙사] 12월 13일 방송 내용', date: '2023.12.13'}]
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
+    const categoryName = {'daily': '일상', 'market': '장터', 'delivery': '배달'};
+    const placeholderText = `[${categoryName[category]}] 검색어를 입력해주세요`;
 
-    // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
-    const fetchPostsByCategory = async () => {
-        if(selectedCategory === 'delivery'){
-            fetch(serverUrl + '/delivery', {
+    const inputRef = useRef(null);
+    const handleKeyword = () => {
+        setSearchKeyword('');
+        setSearchResult([]);
+        inputRef.current.focus();
+    };
+
+    const handleSearch = (e) => {
+        console.log(searchKeyword);
+        if (e.key === 'Enter') {
+            const filtered = items.filter((item) => {
+                return item.title.toUpperCase().includes(searchKeyword.trim().toUpperCase());
+            });
+            setSearchResult(filtered);
+
+            const newKeyword = {
+                id: new Date(),
+                text: searchKeyword
+            }
+            setKeywordList([newKeyword, ...keywordList]);
+            fetchSearchResult();
+        }
+    }
+
+    const fetchSearchResult = () => {
+        if(category === 'delivery'){
+            fetch(serverUrl + `/delivery/search?keyword=${searchKeyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -38,7 +68,7 @@ function Community({ topic, setActiveTopic}) {
             .catch(error => console.error('Error:', error));
         }
         else {
-            fetch(apiUrl+`?category=${categoryNumber[selectedCategory]}&pageNo=${pageNumber}`, {
+            fetch(apiUrl+`/search?keyword=${searchKeyword}&category=${categoryNumber[category]}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -53,62 +83,25 @@ function Community({ topic, setActiveTopic}) {
             })
             .catch(error => console.error('Error:', error));
         }
-        
     };
-
-    // 선택된 카테고리 변경 시, 글들을 다시 불러옴
-    useEffect(() => {
-        // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
-        const previousPageInfo = JSON.parse(localStorage.getItem('previousPageInfo'));
-
-        // 이전 페이지의 정보가 있다면 해당 정보를 사용하여 렌더링
-        if (previousPageInfo) {
-            if (previousPageInfo.category) {
-                // 페이지가 Community인 경우의 처리 로직
-                setSelectedCategory(previousPageInfo.category);
-            }
-        }
-
-        const fetchData = async () => {
-            if (selectedCategory) {
-                setActiveTopic(selectedCategory);
-            fetchPostsByCategory();
-            }
-        };
-        fetchData();
-    }, [selectedCategory]);
-
-    // 카테고리를 선택할 때 호출되는 함수
-    const handleCategorySelect = (category) => {
-        setSelectedCategory(category);
-        navigate(`/community?category=${category}`);
-    };
-
+    
     return (
         <>
-            <div className='category'>
-                <button
-                    onClick={() => handleCategorySelect('delivery')}
-                    style={{ borderColor: selectedCategory === 'delivery' ? '#6A9CFD' : '#E6E6E6' }}>
-                        배달팟
-                </button>
-                <button
-                    onClick={() => handleCategorySelect('daily')}
-                    style={{ borderColor: selectedCategory === 'daily' ? '#6A9CFD' : '#E6E6E6' }}>
-                    일상
-                </button>
-                <button
-                    onClick={() => handleCategorySelect('market')}
-                    style={{ borderColor: selectedCategory === 'market' ? '#6A9CFD' : '#E6E6E6' }}>
-                    장터
-                </button>
+        <div className='announcement_searchBar_container'>
+            <img className='announcement_searchBar_icon' src={arrow_left} alt="뒤로 가기" onClick={() => window.history.back()}/>
+            <div>
+            <input type='text' className='announcement_searchBar_field' value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} onKeyDown={handleSearch} ref={inputRef}
+                placeholder={placeholderText}/>
+                <img className='announcement_search_icon' id={searchKeyword==='' ? 'notExist1' : 'exist1'} src={search} alt='검색' onClick={() => setCurrentRenderPage('search')}/>
+                    <button type='button' className='delete_btn' id={searchKeyword==='' ? 'notExist2' : 'exist2'} onClick={handleKeyword}>✕</button>
             </div>
-            <hr/>
-            {posts && posts.length > 0 ? (
+        </div>
+        <div className='content_container'>
+        {posts && posts.length > 0 ? (
                 <div className="post_list">
                     {posts.map((post) => {
                     // 카테고리에 따라 다른 컴포넌트 렌더링
-                    return selectedCategory === 'delivery' ? (
+                    return category === 'delivery' ? (
                         <DeliveryPost
                             userId={post.userId}
                             deliveryId={post.deliveryId}
@@ -137,14 +130,12 @@ function Community({ topic, setActiveTopic}) {
                     })}
                 </div>
                 ) : (
-                <div>게시글이 없습니다</div>
+                <div>검색어와 일치하는 내용의 게시글이 없습니다</div>
             )}
-            <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
-                    <img src={plus}/>
-                    글쓰기
-            </button>
-        </>
-    );
+        </div>
+        
+    </>
+      );
 }
 
-export default Community;
+export default CommunitySearch;

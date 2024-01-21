@@ -30,6 +30,7 @@ import DormGuide from "./routes/DormGuide";
 import MyPenalty from "./routes/MyPenalty";
 import Penalty from "./routes/Penalty";
 import ApplicationTerms from './routes/ApplicationTerms';
+import CommunitySearch from './routes/CommunitySearch';
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
             <Route path="/user/penalty" element={<MyPenalty />}/>
             <Route path="/penalty" element={<Penalty />}/>
             <Route path="/appTerms" element={<ApplicationTerms />}/>
+            <Route path="community/search" element={<CommunitySearch />}/>
           </Routes>
       </AccessTokenProvider>
   </Router>
