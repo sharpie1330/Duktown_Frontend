@@ -32,6 +32,7 @@ import Penalty from "./routes/Penalty";
 import ApplicationTerms from './routes/ApplicationTerms';
 import MyUnit from "./routes/MyUnit";
 import CleaningHistory from "./routes/CleaningHistory";
+import CommunitySearch from './routes/CommunitySearch';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
             <Route path="/user/penalty" element={<MyPenalty />}/>
             <Route path="/penalty" element={<Penalty />}/>
             <Route path="/appTerms" element={<ApplicationTerms />}/>
+            <Route path="community/search" element={<CommunitySearch />}/>
             <Route path="/user/unit" element={<MyUnit />}/>
             <Route path="/cleaning" element={<CleaningHistory />}/>
           </Routes>
