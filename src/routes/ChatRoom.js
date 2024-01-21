@@ -281,15 +281,15 @@ function ChatRoom() {
                                         !isOpenChatFunc ? setIsOpenChatFunc(true) : setIsOpenChatFunc(false);
                                         setOthersUserNum(item.userNumber);
                                         setChatIdx(`chat_${idx}`);}}>
-                                    {`익명${item.userNumber}`}
+                                    {item.userNumber === null ? `(알수없음)` : `익명${item.userNumber}`}
                                 </span>
                                 <div className='othersChat_horizontal_container'>
                                     <div className='othersChat_message'>{item.message}</div>
-                                    {
+                                    {/*
                                         isOpenChatFunc && othersUserNum === item.userNumber && `chat_${idx}` === chatIdx
                                             ? <FuncPannel userId={item.userId} userNumber={myUserNum} type='chat' chatRoomId={chatRoomId} pannelHandler={handleFuncPannel}/>
                                             : <></>
-                                    }
+                                    */}
                                 </div>
                             </div>
                         );

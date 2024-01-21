@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import arrow_left from "../assets/arrow_left.png";
 import arrow_right from "../assets/arrow_right.png";
 import edit_blue from "../assets/edit_blue.png";
-import TableView from "../components/TableView";
+import ListView from "../components/ListView";
 import '../css/RepairHistory.css';
 import AccessTokenContext from "../AccessTokenContext";
 
@@ -70,10 +70,10 @@ function RepairHistory() {
             </div>
             <div className='repairHistory_table_container'>
                 { items.length > 0
-                    ? <TableView tableFor='repairHistory' items = {items}/>
+                    ? <ListView tableFor='repairHistory' items = {items}/>
                     : <div className='item_none_notify'>수리 요청 내역이 없습니다.</div> }
             </div>
-            <div className='paging_container'> {/*TODO: 페이지 바뀔 때마다 데이터 불러오기*/}
+            <div className='paging_container'>
                 <ul className='pagination_modal'>
                     <li><Link to={`/repairs/historys?page=${currentPageSet === 1 ? 1 : 5*(currentPageSet-1)}`}><img className='previous' src={arrow_left} alt='이전 페이지' onClick={() => handlePreviousClick()}/></Link></li>
                     <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet-4}`} className={currentPage === 5*currentPageSet-4 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-4)}>{5*currentPageSet-4}</Link></li>

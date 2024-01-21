@@ -8,38 +8,13 @@ import edit from '../assets/edit_blue.png'
 import arrow_right from '../assets/arrow_right.png';
 import '../css/FindFillIn.css';
 import Modal from "react-modal";
+import {customModal} from "../customModalConfig";
 
 function FindFillIn() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [selectedDate, setSelectedDate] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const customModal = {
-        overlay: {
-            backgroundColor: " rgba(0, 0, 0, 0.4)",
-            width: "100%",
-            height: "100vh",
-            zIndex: "10",
-            position: "fixed",
-            top: "0",
-            left: "0",
-        },
-        content: {
-            width: "248px",
-            height: "152px",
-            zIndex: "150",
-            padding: "0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "white",
-            overflow: "auto",
-        }
-    }
 
     function sendData() {
 
@@ -71,7 +46,7 @@ function FindFillIn() {
         <>
             <div className='fillin_title_container'>
                 <div className='fillin_title_left_content'>
-                    <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{window.history.back();}}/>
+                    <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>navigate('/unit')}/>
                     대타 구하기
                 </div>
                 <Button
@@ -94,7 +69,7 @@ function FindFillIn() {
             </div>
             <form className="fillin_form">
                 <div className="request_to">
-                    받는 사람:
+                    <span>받는 사람:</span>
                     <select className="unit_member_select">
                         {data.map((item) => (
                             <option value={item.value}>{item.label}</option>
@@ -102,10 +77,10 @@ function FindFillIn() {
                     </select>
                 </div>
                 <div className="request_date_container">
-                    날짜: <b className="request_date">2023년 09월 18일</b> {/*이 날짜는 지정하는건지 뭔지 물어봐야 함*/}
+                    날짜: <div className="findfillin_request_date">2023년 09월 18일</div> {/*이 날짜는 지정하는건지 뭔지 물어봐야 함*/}
                 </div>
                 <div className="fillin_reason_container">
-                    사유:
+                    <span>사유:</span>
                     <input type='text' className='fillin_reason_field' value={inputReason} onChange={(e) => setReason(e.target.value)} ref={inputRef}/>
                     <button type='button' className='edit_btn' onClick={handleReason}>
                         <img className="edit_icon" alt="수정" src={edit}/>
