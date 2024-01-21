@@ -19,7 +19,7 @@ import Home from './Home';
 import NewHome from './NewHome';
 import Unit from './Unit';
 import Community from './Community';
-import ChatroomList from "./ChatroomList";
+import ChatRoomList from "./ChatRoomList";
 
 function MainTemplate(){
     const params = useParams();
@@ -90,7 +90,7 @@ function MainTemplate(){
                     <Unit />
                 </div>
                 <div className="page" style={{ display: params.page === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
-                    <ChatroomList />
+                    <ChatRoomList />
                 </div>
             </div>
             <div className='bottom_bar'>

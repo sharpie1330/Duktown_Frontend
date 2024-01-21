@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import '../css/TableView.css';
+import '../css/ListView.css';
 import likes from '../assets/like.png';
 import comment from '../assets/comment.png';
-function TableView({ items, tableFor, keyword, edit, handler }) {
+import {isThisMinute} from "date-fns";
+function ListView({ items, tableFor, keyword, edit, handler }) {
     const navigate = useNavigate();
     const [selectedItems, setSelectedItems] = useState([]);
 
@@ -216,6 +217,79 @@ function TableView({ items, tableFor, keyword, edit, handler }) {
             })
             table = myPostArr;
             break;
+        case 'myUnit':
+            const myUnitArr = items.map((item) => {
+                let rows = [];
+                rows.push(<div className='myUnit_roomNumber'>{item.roomNumber}호</div>);
+                const unitUsersInfo = item.unitUserInfos.map((info, innerIdx) => {
+                    const username = Object.keys(info)[0];
+                    const roleType = info[username];
+
+                    return (
+                        <div key={`userInfo_${innerIdx}`} className='myUnit_dormUserInfo'>
+                            {username}
+                            {roleType === 'UNIT_LEADER' && <div className='myUnit_leader'>유닛장</div>}
+                        </div>
+                    );
+                });
+                rows.push(unitUsersInfo);
+
+                return <div className="myUnit_room_container">{rows}</div>;
+            })
+            table = myUnitArr;
+            break;
+        case 'myPenalty':
+            const myPenaltyArr = items.map(item => {
+                const penaltyDate = new Date(item.date);
+                const day = ['일', '월', '화', '수', '목', '금', '토'];
+                const formatedDate = `${penaltyDate.getFullYear()}.${penaltyDate.getMonth()+1}.${penaltyDate.getDate()}. (${day[penaltyDate.getDay()]})`;
+                let rows = [];
+                rows.push(
+                    <div className='myPenalty_container'>
+                        <div className='myPenalty_horizontal_container'>
+                            <div className='myPenalty_date'>{formatedDate}</div>
+                            <div className='myPenalty_score'>
+                                {item.score<10 ? `0${item.score}` : item.score}
+                                <span className='myPenalty_score_text'>점</span>
+                            </div>
+                        </div>
+                        <div className='myPenalty_reason'>{item.reason}</div>
+                    </div>
+                );
+                return rows;
+            })
+            table = myPenaltyArr;
+            break;
+        case 'cleaning':
+            const cleaningArr = items.map(item => {
+                let rows = [];
+                rows.push(
+                    <div className='cleaning_container'>
+                        <div className='cleaning_date'>{item.cleaningDate}</div>
+                        <div className='cleaning_cleaned'>{item.cleaned ? '청소 완료' : '청소 미완료'}</div>
+                        <div className='cleaning_checked'>{item.checked ? '확인' : '미확인'}</div>
+                    </div>
+                );
+                return rows;
+            })
+            table = cleaningArr;
+            break;
+        case 'cleaningHistory':
+            const cleaningHistoryArr = items.map(item => {
+                let rows = [];
+                rows.push(
+                    <div className='cleaningHistory_content'>
+                        <div className='cleaningHistory_date'>{item.cleaningDate}</div>
+                        <div className='cleaningHistory_status'>
+                            <div className={item.cleaned ? 'cleaningHistory_cleaned_true' : 'cleaningHistory_cleaned_false'}>{item.cleaned ? '완료' : '미완료'}</div>
+                            <div className={item.checked ? 'cleaningHistory_checked_true' : 'cleaningHistory_checked_false'}>{item.checked ? '확인' : '미확인'}</div>
+                        </div>
+                    </div>
+                );
+                return rows;
+            })
+            table = cleaningHistoryArr;
+            break;
         default:
             table = [];
             break;
@@ -228,4 +302,4 @@ function TableView({ items, tableFor, keyword, edit, handler }) {
     );
 }
 
-export default TableView
+export default ListView

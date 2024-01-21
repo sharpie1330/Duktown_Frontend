@@ -3,6 +3,10 @@ body {
     font-family: Pretendard, serif;
 }
 
+.classRoom_list_body_container {
+    width: 87vw;
+}
+
 .chatRoom_title_container {
     display: flex;
     justify-content: space-between;

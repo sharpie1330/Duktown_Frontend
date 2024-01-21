@@ -1,9 +1,14 @@
 .unit_body_container {
-    width: 100%;
+    width: 87vw;
 }
 
-.unit_today_record_container, .unit_record_container {
-    width: 95%;
+.unit_today_record_container {
+    width: 100%;
+    margin: 0 0 35px 0;
+}
+
+.unit_record_container {
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -26,10 +31,6 @@
 
 .status {
     margin-left: 27px;
-}
-
-.unit_record_container {
-    margin-top: 20px;
 }
 
 .unit_record_title_container {
@@ -189,4 +190,18 @@
     margin-top: 26px;
     display: flex;
     justify-content: space-between;
+}
+
+.unit_done, .unit_confirm {
+    width: 49%;
+}
+
+.history_container {
+    display: grid;
+    place-items: center;
+    margin-top: 11px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+    padding: 18px 20px;
+    height: 110px;
 }

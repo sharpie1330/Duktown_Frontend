@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
 import AccessTokenContext from "../AccessTokenContext";
-import TableView from "../components/TableView";
+import ListView from "../components/ListView";
 import '../css/MyPostList.css';
 function MyPostList() {
     const navigate = useNavigate();
@@ -59,10 +59,10 @@ function MyPostList() {
     const visibleList = (item) => {
         if (item.length > 0){
             if (category === '2'){
-                return <TableView tableFor='myDeliveryPost' items={item}/>
+                return <ListView tableFor='myDeliveryPost' items={item}/>
             }
             else {
-                return <TableView tableFor='myPost' items={item}/>
+                return <ListView tableFor='myPost' items={item}/>
             }
         } else {
             <span className='myPost_none'>이 카테고리에 쓴 글이 없습니다</span>

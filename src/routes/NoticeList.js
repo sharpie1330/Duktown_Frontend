@@ -4,7 +4,7 @@ import { DateRange } from 'react-date-range';
 import AccessTokenContext from "../AccessTokenContext";
 import arrow_left from "../assets/arrow_left.png";
 import calendar from "../assets/calendar.png";
-import TableView from "../components/TableView";
+import ListView from "../components/ListView";
 import arrow_right from "../assets/arrow_right.png";
 import Modal from "react-modal";
 import search from '../assets/search.png';
@@ -133,7 +133,7 @@ function NoticeList() {
                             }</p>
                         </div>
                         <div className='noticeList_table_container'>
-                            <TableView
+                            <ListView
                                 tableFor='noticeList'
                                 items = {items}
                             />
@@ -163,7 +163,7 @@ function NoticeList() {
                             </div>
                         </div>
                         <div className='search_result_container'>
-                            <TableView
+                            <ListView
                                 tableFor='search'
                                 items={searchResult}
                                 keyword={searchKeyword}

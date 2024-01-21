@@ -11,7 +11,7 @@ import Modal from "react-modal";
 import {customModal, customModal3} from "../customModalConfig";
 import DaumPostCode from "react-daum-postcode";
 import AccessTokenContext from "../AccessTokenContext";
-import TableView from "../components/TableView";
+import ListView from "../components/ListView";
 
 function Stayout() {
     const navigate = useNavigate();
@@ -27,12 +27,15 @@ function Stayout() {
     const [zonecode, setZonecode] = useState("");
     const [inputReason, setReason] = useState('');
     const [rangeModalOpen, setRangeModalOpen] = useState(false);
+    const [recentAddr, setRecentAddr] = useState(false);
     //화면 전환
     const [currentPage, setCurrentPage] = useState('apply');
     //조회
     const [availablePeriod, setAvailablePeriod] = useState(null);
     const [stayoutArr, setStayoutArr] = useState([]);
     const { accessToken } = useContext(AccessTokenContext);
+
+    console.log(accessToken);
 
     //외박신청 규정 확인 여부
     const [showRule, setShowRule] = useState(true);
@@ -53,8 +56,11 @@ function Stayout() {
         })
         .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
         .then(data => {
+            console.log(data);
             setAvailablePeriod(data.availablePeriod);
-            setStayoutArr(data.content);
+            if (data.content !== undefined){
+                setStayoutArr(data.content);
+            }
         })
         .catch(error => console.error('Error:', error));
 
@@ -75,6 +81,13 @@ function Stayout() {
             hideRule();
         }
         sendData();
+
+        localStorage.setItem('recentAddr',
+            JSON.stringify({
+                "address": address,
+                "specAddress": specAddress,
+                "zonecode": zonecode
+            }))
         setModal2IsOpen(false);
     }
     const hideRule = () => {
@@ -121,17 +134,17 @@ function Stayout() {
         fetch(apiUrl, request)
             .then((response) => {
                 if (response.ok)
-                    return response; //TODO: response를 json 형식으로 주시는지 확인 필요
+                    return response;
                 else
+                    console.log(response);
                     throw new Error(response.errorMessage);
             })
             .then(() => {
-                window.location.reload();
+                navigate('/stayout');
                 setModalIsOpen(false);
                 alert("외박 신청이 전송되었습니다.");
             })
             .catch((error) => {
-                console.error(error.errorMessage);
                 setModalIsOpen(false);
                 alert(error.errorMessage);
             });
@@ -189,6 +202,18 @@ function Stayout() {
         postcodeTextColor: "#FF6D4D", //우편번호 글자색
         emphTextColor: "#6A9CFD" //강조 글자색 FF6D4D
     };
+
+    useEffect(() => {
+        const localData = JSON.parse(localStorage.getItem('recentAddr'));
+        if (recentAddr && localData) {
+            setAddress(localData.address);
+            setSpecAddress(localData.specAddress);
+            setZonecode(localData.zonecode);
+        } else if (recentAddr && !localData){
+            alert('최근 외박 신청지가 없습니다.');
+            setRecentAddr(false);
+        }
+    }, [recentAddr]);
 
     const renderPage = () => {
         switch (currentPage) {
@@ -268,8 +293,8 @@ function Stayout() {
                                     <div className='range_modal_container'>
                                         <span>7일 초과 외박 신청 시<br/>장기 외박 사유서를 제출해야 해요</span>
                                         <div className="range_modal_btn_container">
-                                            <Button styleClass="range_modal_btn_cancel" label="취소" onClick={()=>setModalIsOpen(false)} />
-                                            <Button styleClass="range_modal_btn_download" label="사유서 다운받기" /> {/*TODO: 다운로드 api 연결*/}
+                                            <Button styleClass="range_modal_btn_cancel" label="취소" onClick={()=>setRangeModalOpen(false)} />
+                                            <Button styleClass="range_modal_btn_download" label="사유서 다운받기" onClick={() => {window.open('https://www.duksung.ac.kr/cmmn/download.do?idx=129506', '_blank'); setRangeModalOpen(false);}}/>
                                         </div>
                                     </div>
                                 </Modal>
@@ -278,7 +303,7 @@ function Stayout() {
                                 <p>머무르는 곳의 주소</p>
                                 <div className="stayout_addr_vertical_container">
                                     <div className="recent_selection_container">
-                                        <input className='stayout_round_checkbox' type='checkbox'/>
+                                        <input className='stayout_round_checkbox' type='checkbox' checked={recentAddr} onChange={() =>  {recentAddr ? setRecentAddr(false) : setRecentAddr(true)}}/>
                                         <span className="user_recent_selection">최근 외박 신청지 입력하기</span>
                                     </div>
                                     <div className="stayout_addrNzipcode_container">
@@ -324,7 +349,7 @@ function Stayout() {
                                     </div>
                                 </div>
                                 <div className='stayout_history_list_container'>
-                                    <TableView
+                                    <ListView
                                         tableFor='stayout'
                                         items={stayoutArr}
                                     />
