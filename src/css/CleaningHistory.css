@@ -1,0 +1,21 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+body {
+    font-family: Pretendard, serif;
+}
+
+.cleaningHistory_title_container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    height: 24px;
+    padding: 12px 24px 12px 16px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
+}
+
+.cleaningHistory_title_icon {
+    margin-right: 8px;
+}
+
+.cleaningHistory_list_container {
+    padding: 24px;
+}

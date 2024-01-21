@@ -3,7 +3,7 @@ import arrow_left from '../assets/arrow_left.png';
 import arrow_right from '../assets/arrow_right.png';
 import '../css/Announcement.css';
 import {Link, useNavigate} from 'react-router-dom';
-import TableView from "../components/TableView";
+import ListView from "../components/ListView";
 import search from "../assets/search.png";
 
 function Announcement(){
@@ -83,7 +83,7 @@ function Announcement(){
                                     </select>
                                 </form>
                                 <div className='announcement_table_container'>
-                                    <TableView
+                                    <ListView
                                         tableFor='noticeList'
                                         items={items}
                                     />
@@ -115,7 +115,7 @@ function Announcement(){
                             </div>
                         </div>
                         <div className='search_result_container'>
-                            <TableView
+                            <ListView
                                 tableFor='search'
                                 items={searchResult}
                                 keyword={searchKeyword}

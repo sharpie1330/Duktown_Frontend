@@ -1,23 +1,56 @@
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Button from "../components/Button";
 import arrow_right from "../assets/arrow_right.png";
 import { useNavigate } from 'react-router-dom';
-import ListView from "../components/TableView";
+import ListView from "../components/ListView";
 import Modal from 'react-modal'
 import "../css/Unit.css";
+import AccessTokenContext from "../AccessTokenContext";
+import {customModal} from "../customModalConfig";
+
 function Unit() {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    function navFillIn() {
-        navigate("/findfillin"); {/*나중에 대타구하기로 연결*/}
-    }
+    const [cleaningId, setCleaningId] = useState(null);
+    const { accessToken } = useContext(AccessTokenContext);
+    const serverUrl = 'http://localhost:8080';
+
     function formatToday(date) {
         const weekday = ['일', '월', '화', '수', '목', '금', '토'];
         return date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate()+'. ('+weekday[date.getDay()]+')';
     }
 
     function sendData(){
-        {/*서버로 청소완료 전달*/}
+        const apiUrl = serverUrl + `/cleaning/${cleaningId}`;
+
+        const request = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                "cleaningId": cleaningId
+            }),
+        }
+
+        fetch(apiUrl, request)
+            .then((response) => {
+                console.log(response);
+                if (response.ok)
+                    return response;
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then(() => {
+                setModalIsOpen(false);
+                alert("청소완료 처리되었습니다.");
+            })
+            .catch((error) => {
+                console.error(error.errorMessage);
+                setModalIsOpen(false);
+                alert(error.errorMessage);
+            });
     }
 
     {/*이번 주 날짜 배열 구하기*/}
@@ -37,42 +70,41 @@ function Unit() {
 
     const format_today = formatToday(now);
 
-    const customModal = {
-        overlay: {
-            backgroundColor: " rgba(0, 0, 0, 0.4)",
-            width: "100%",
-            height: "100vh",
-            zIndex: "10",
-            position: "fixed",
-            top: "0",
-            left: "0",
-        },
-        content: {
-            width: "248px",
-            height: "152px",
-            zIndex: "150",
-            padding: "0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "white",
-            overflow: "auto",
-        }
-    }
     {/*예시*/}
     const done = false;
     const confirm = false;
     const dummyData = [
-        {date: 18, status: '미완료', confirm: '미확인'},
-        {date: 21, status: '미완료', confirm: '미확인'},
+        {cleaningDate: '2024-01-20', cleaned: false, checked: false},
+        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
     ]
+    useEffect(() => {
+        fetch(serverUrl+'/cleaning', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error.errorMessage);
+                alert(error.errorMessage);
+            });
+    }, []);
 
     let isExist = []
     week.map(([_, day]) => {
-        isExist.push(dummyData.some(data => data.date === parseInt(day)));
+        isExist.push(dummyData.some(data => (new Date(data.cleaningDate)).getDate() === parseInt(day)));
     })
 
     return (
@@ -123,7 +155,7 @@ function Unit() {
                 <div className="unit_today_record_container">
                     <div className="unit_date_container">
                         <p className="unit_today_date">{format_today}</p>
-                        <img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/> {/*나중에 ?로 연결*/}
+                        {/*<img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/>*/}
                     </div>
                     <div className="today_record_container">
                         <div className="user_info">101호 정현조</div>
@@ -159,11 +191,12 @@ function Unit() {
                 <div className="unit_record_container">
                     <div className="unit_record_title_container">
                         <div className="unit_record_title">청소 내역</div>
-                        <img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/> {/*나중에 청소내역으로 연결*/}
+                        <img className="move_icon" src={arrow_right} alt="청소내역으로 이동" onClick={()=>{navigate("/cleaning");}}/>
                     </div>
                     <div className='history_container'>
                         <ListView
-                            items = {[{ id:1, text: 'ex1'}, { id:2, text:'ex2'}]}
+                            tableFor='cleaning'
+                            items = {dummyData}
                         />
                     </div>
                 </div>
@@ -171,7 +204,7 @@ function Unit() {
                     <Button
                         styleClass="blue_circ_btn"
                         label="대타구하기"
-                        onClick={navFillIn}
+                        onClick={() => navigate("/findfillin")}
                     />
                 </div>
             </div>

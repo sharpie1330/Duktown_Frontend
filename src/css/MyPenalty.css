@@ -27,8 +27,21 @@ body {
 
 .myPenalty_body_container {
     padding: 24px 24px 0 24px;
-    font-size: 15px;
-    color: #8E8E8E;
+}
+
+.myPenalty_total_container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    font-size: 10px;
+    font-weight: 500;
+    color: #B3B3B3;
+    align-items: center;
+    margin: 0 0 25px 0;
+}
+
+.myPenalty_total_score {
+    color: #6A9CFD;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 0 4px;
 }

@@ -76,7 +76,6 @@ body {
     border-radius: 10px;
     background: #FFFFFF;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-    margin: 24px 24px 0 24px;
 }
 
 .myPage_profile_info {
@@ -114,18 +113,21 @@ body {
     font-weight: 500;
     color: black;
     margin: 3px 0 0 0;
+    line-height: normal;
 }
 
 .myPage_user_email {
     font-size: 10px;
     color: #616161;
     margin: 3px 0 0 0;
+    line-height: normal;
 }
 
 .myPage_user_dorm {
     font-size: 12px;
     color: #616161;
     margin: 3px 0 0 0;
+    line-height: normal;
 }
 
 .myPage_user_role {
@@ -164,4 +166,5 @@ body {
     display: flex;
     flex-direction: column;
     align-self: center;
+    padding: 24px 24px;
 }

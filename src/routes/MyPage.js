@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import arrow_left from '../assets/arrow_left.png';
 import unit_blue from '../assets/unit_blue.png';
 import edit_blue from '../assets/edit_blue.png';
-import comment from '../assets/comment.png';
+import comment_blue from '../assets/comment_blue.png';
 import logout from '../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import Modal from "react-modal";
@@ -10,17 +10,58 @@ import AccessTokenContext from '../AccessTokenContext';
 import {customModal} from '../customModalConfig';
 import Button from "../components/Button";
 import profile from "../assets/profile.png";
-import arrow_right_blue from "../assets/arrow_right_blue.png";
 import penalty from "../assets/penalty.png";
 import warning from "../assets/warning.png";
 import '../css/MyPage.css';
 
 function MyPage() {
     const navigate = useNavigate();
+    //유저
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [roleType, setRoleType] = useState('');
+    const [hallName,  setHallName] = useState('');
+    const [roomNumber, setRoomNumber] = useState(null);
+    const [unitUserType, setUnitUserType] = useState('');
+    const [buildingNumber, setBuildingNumber] = useState(1);
+    const hall = {'GAON1': '가온1관', 'GAON2': '가온2관', 'INTERNATIONAL':'국제기숙사'};
+    //모달
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modal2IsOpen, setModal2IsOpen] = useState(false);
     const { accessToken } = useContext(AccessTokenContext);
     const serverUrl = 'http://localhost:8080';
+
+    useEffect(() => {
+        const profileUrl = serverUrl + '/my';
+        fetch(profileUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error(response.errorMessage);
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                setUsername(data.name);
+                setEmail(data.email);
+                setRoleType(data.roleType);
+                setHallName(hall[`${data.hallName}`]);
+                setBuildingNumber(data.buildingNumber);
+                setRoomNumber(data.roomNumber);
+                setUnitUserType(data.unitUserType);
+            })
+            .catch((error) => {
+                console.log(error.errorMessage);
+                alert('페이지 로딩 중 오류가 발생했습니다.');
+            });
+    }, []);
 
     const logoutHandler = () => {
         setModalIsOpen(false);
@@ -42,7 +83,31 @@ function MyPage() {
             })
             .catch((error) => {
                 console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+                alert('로그아웃 과정에서 문제가 발생했습니다.');
+            });
+    }
+
+    const withdrawalHandler = () => {
+        setModal2IsOpen(false);
+        const apiUrl = serverUrl + '/auth/withdrawal';
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok){
+                    alert('즐겨주셔서 감사합니다. 더 발전해서 돌아오겠습니다!');
+                    return navigate('/');
+                } else {
+                    throw new Error(response.errorMessage);
+                }
+            })
+            .catch((error) => {
+                console.log(error.errorMessage);
+                alert('탈퇴 과정에서 문제가 발생했습니다.');
             });
     }
 
@@ -64,16 +129,22 @@ function MyPage() {
                                 <img className="myPage_profile_icon" src={profile} alt="프로필 사진"/>
                             </div>
                             <div className='myPage_profile_container'>
-                                <p className='myPage_user_name'>전윤하</p>
-                                <p className='myPage_user_email'>ariha1982@naver.com</p>
-                                <p className='myPage_user_dorm'>가온1관 A동 202호</p>
-                                <div className='myPage_user_role'>유닛장</div>
+                                <p className='myPage_user_name'>{username}</p>
+                                <p className='myPage_user_email'>{email}</p>
+                                <p className='myPage_user_dorm'>{`${hallName} A동 ${roomNumber}호`}</p>
+                                {unitUserType === 'UNIT_LEADER' ? <div className='myPage_user_role'>유닛장</div> : <></>}
                             </div>
                         </div>
                     </div>
-                    <div className='myPage_profile_status'>
-                        사생 인증이 완료되었습니다.
-                    </div>
+                    {
+                        roleType === 'DORM_STUDENT'
+                        ? <div className='myPage_profile_status'>
+                                사생 인증이 완료되었습니다.
+                            </div>
+                        : <div className='myPage_profile_status_require'>
+                                사생 인증을 해주세요.
+                            </div>
+                    }
                 </div>
                 <div className="myPage_list_container">
                     <ul className="myPage_list">
@@ -86,7 +157,7 @@ function MyPage() {
                             내가 쓴 글
                         </li>
                         <li className="myPage_list_element" onClick={() => navigate('/user/wrote/comments')}>
-                            <img className="myPage_icon" id='myComments' src={comment} alt="댓글 단 글"/>
+                            <img className="myPage_icon" id='myComments' src={comment_blue} alt="댓글 단 글"/>
                             댓글 단 글
                         </li>
                         <li className="myPage_list_element" onClick={() => navigate('/user/penalty')}>
@@ -125,7 +196,7 @@ function MyPage() {
                                 덕타운에서 탈퇴할까요?
                                 <div className="unit_modal_btn_container">
                                     <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModal2IsOpen(false)} />
-                                    <Button styleClass="modal_btn_yes" label="예" onClick={() => alert('아직 탈퇴 기능이 없어요.')}/>
+                                    <Button styleClass="modal_btn_yes" label="예" onClick={withdrawalHandler}/>
                                 </div>
                             </div>
                         </Modal>
