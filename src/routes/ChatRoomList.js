@@ -34,7 +34,7 @@ function ChatRoomList() {
             }
             else{
                 return response.json().then(errorResponse => {
-                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (errorResponse.errorMessage.includes('Token')) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
@@ -53,8 +53,16 @@ function ChatRoomList() {
     }, []);
 
     const handelEdit = () => {
-        setIsOpenFunc(false);
-        setIsEdit(true);
+        try {
+            setIsOpenFunc(false);
+            setIsEdit(true);
+        } catch (error) {
+            if (error.errorMessage.includes('Token')) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(error.errorMessage);
+            }
+        }
     }
 
     const handleChatOut = () => {
@@ -71,7 +79,7 @@ function ChatRoomList() {
 
                 if (!response.ok) {
                     return response.json().then(errorResponse => {
-                        if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        if (errorResponse.errorMessage.includes('Token')) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
                             throw new EvalError(errorResponse.errorMessage);
@@ -92,11 +100,11 @@ function ChatRoomList() {
     }
 
     useEffect(() => {
-        console.log(selectedItems);
+        console.log('selectedItems updated');
     }, [selectedItems])
 
     useEffect(() => {
-        console.log(chatRoomArr)
+        console.log('chatRoom List updated');
     }, [chatRoomArr])
 
     return (

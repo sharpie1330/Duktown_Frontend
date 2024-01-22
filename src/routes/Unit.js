@@ -11,6 +11,9 @@ import {customModal} from "../customModalConfig";
 function Unit() {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [schedule, setSchedule] = useState([]);
+    const [history, setHistory] = useState([]);
+    const [isCleaningDay, setIsCleaningDay] = useState(false);
     const [cleaningId, setCleaningId] = useState(null);
     const { accessToken } = useContext(AccessTokenContext);
     const serverUrl = 'http://localhost:8080';
@@ -63,9 +66,13 @@ function Unit() {
         day -= 1;
     }
     let week = []
+    let startAndEnd = [];
     for (let i = 0; i < 7; i++) {
         let newDate = new Date(today.valueOf() + 86400000 * (i - day));
         week.push([i, newDate.getDate()])
+        if (i === 0 || i === 6) {
+            startAndEnd.push(new Date(today.valueOf() + 86400000 * (i - day)));
+        }
     }
 
     const format_today = formatToday(now);
@@ -74,12 +81,49 @@ function Unit() {
     const done = false;
     const confirm = false;
     const dummyData = [
-        {cleaningDate: '2024-01-20', cleaned: false, checked: false},
-        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
-        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
-        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-25', cleaned: false, checked: false},
+        {cleaningDate: '2024-01-18', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-11', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-04', cleaned: true, checked: true},
     ]
     useEffect(() => {
+        const start = new Date(startAndEnd[0]);
+        const end = new Date(startAndEnd[1]);
+
+        let formatedStartDate = '';
+        if (start.getMonth()+1 < 10) {
+            formatedStartDate = `${start.getFullYear()}-0${start.getMonth()+1}-${start.getDate()}`;
+        } else {
+            formatedStartDate = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()}`;
+        }
+        let formatedEndDate = '';
+        if (start.getMonth()+1 < 10) {
+            formatedEndDate = `${end.getFullYear()}-0${end.getMonth()+1}-${end.getDate()}`;
+        } else {
+            formatedEndDate = `${end.getFullYear()}-${end.getMonth()+1}-${end.getDate()}`;
+        }
+        fetch(serverUrl+`/cleaning/schedule?startDate=${formatedStartDate}&endDate=${formatedEndDate}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then((data) => {
+                setSchedule(data.data);
+            })
+            .catch((error) => {
+                console.error(error.errorMessage);
+                console.log(error);
+                //alert(error.errorMessage);
+            });
+
         fetch(serverUrl+'/cleaning', {
             method: 'GET',
             headers: {
@@ -94,7 +138,7 @@ function Unit() {
                     throw new Error(response.errorMessage);
             })
             .then((data) => {
-                console.log(data);
+                setHistory(data.content);
             })
             .catch((error) => {
                 console.error(error.errorMessage);
@@ -104,8 +148,29 @@ function Unit() {
 
     let isExist = []
     week.map(([_, day]) => {
-        isExist.push(dummyData.some(data => (new Date(data.cleaningDate)).getDate() === parseInt(day)));
+        isExist.push(schedule.some(data => (new Date(data.cleaningDate)).getDate() === parseInt(day)));
     })
+
+    useEffect(() => {
+        if (schedule.length > 0 || schedule.some((day) => isToday(day.cleaningDate))) {
+            setIsCleaningDay(true);
+        } else {
+            setIsCleaningDay(false);
+        }
+    }, [schedule])
+
+    function isToday(date) {
+        const today = new Date();
+        let formatedDate = '';
+        if (today.getMonth() + 1 < 10) {
+            formatedDate = `${today.getFullYear()}-0${today.getMonth()+1}-${today.getDate()}`
+        } else {
+            formatedDate = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+        }
+        return (
+            date === formatedDate
+        );
+    }
 
     return (
         <>
@@ -161,30 +226,41 @@ function Unit() {
                         <div className="user_info">101호 정현조</div>
                         <div className="user_cleaning_time">23:30 ~ 24:00</div>
                         <div className="done_and_confirm">
-                            <div className="unit_done">
-                                { done
-                                    ? <Button styleClass="done_true" label="완료"/>
-                                    : <Button styleClass="done_false" label="완료하기" onClick={()=> setModalIsOpen(true)}/>
-                                }
-                                <Modal
-                                    isOpen={modalIsOpen}
-                                    onRequestClose={()=>setModalIsOpen(false)}
-                                    style={customModal}> {/*추후 api로 연결*/}
-                                    <div className="unit_modal_container">
-                                        청소를 완료하시겠습니까?
-                                        <div className="unit_modal_btn_container">
-                                            <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                            <Button styleClass="modal_btn_yes" label="예" onClick={() => sendData()} />
-                                        </div>
+                            {isCleaningDay
+                            ?
+                                <>
+                                    <div className="unit_done">
+                                        { done
+                                            ? <Button styleClass="done_true" label="완료"/>
+                                            : <Button styleClass="done_false" label="완료하기" onClick={()=> setModalIsOpen(true)}/>
+                                        }
+                                        <Modal
+                                            isOpen={modalIsOpen}
+                                            onRequestClose={()=>setModalIsOpen(false)}
+                                            style={customModal}>
+                                            <div className="unit_modal_container">
+                                                청소를 완료하시겠습니까?
+                                                <div className="unit_modal_btn_container">
+                                                    <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
+                                                    <Button styleClass="modal_btn_yes" label="예" onClick={() => sendData()} />
+                                                </div>
+                                            </div>
+                                        </Modal>
                                     </div>
-                                </Modal>
-                            </div>
-                            <div className="unit_confirm">
-                                { confirm
-                                    ? <Button styleClass="confirm_true" label="확인 완료"/>
-                                    : <Button styleClass="confirm_false" label="미확인"/>
-                                }
-                            </div>
+                                    <div className="unit_confirm">
+                                        { confirm
+                                            ? <Button styleClass="confirm_true" label="확인 완료"/>
+                                            : <Button styleClass="confirm_false" label="미확인"/>
+                                        }
+                                    </div>
+                                </>
+
+                            :
+                                <>
+                                    <div className='today_not_clean'>오늘은 청소당번이 아닙니다.</div>
+                                </>
+                            }
+
                         </div>
                     </div>
                 </div>

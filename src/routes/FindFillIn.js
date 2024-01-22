@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Calendar from "react-calendar";
 import { useNavigate } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
@@ -9,15 +9,25 @@ import arrow_right from '../assets/arrow_right.png';
 import '../css/FindFillIn.css';
 import Modal from "react-modal";
 import {customModal} from "../customModalConfig";
+import AccessTokenContext from "../AccessTokenContext";
 
 function FindFillIn() {
     const navigate = useNavigate();
-    const [data, setData] = useState([]);
     const [selectedDate, setSelectedDate] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [requestDate, setRequestDate] = useState('');
+    const [unit, setUnit] = useState([]);
+    const [memberId, setMemberId] = useState(null);
+    const [memberDate, setMemberDate] = useState([]);
+    const { accessToken } = useContext(AccessTokenContext);
+    const serverUrl = 'http://localhost:8080';
 
     function sendData() {
-
+        setSelectedDate([]);
+        setReason('');
+        setRequestDate('');
+        alert('대타 신청이 정상적으로 보내졌습니다.');
+        setModalIsOpen(false);
     }
 
     const [inputReason, setReason] = useState('');
@@ -42,6 +52,69 @@ function FindFillIn() {
         <img src={arrow_right} alt='next month' style={{width: '21px', height: '21px'}}/>
     );
 
+    useEffect(() => {
+        fetch(serverUrl+'/cleaning/unit', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error(response.errorMessage);
+            })
+            .then((data) => {
+                setUnit(data.unit);
+            })
+            .catch((error) => {
+                console.error(error.errorMessage);
+                alert(error.errorMessage);
+            });
+    }, []);
+
+    const handleSelectUser = (event) => {
+        const unitMemberId = event.target.value;
+        setMemberId(unitMemberId);
+    }
+
+    useEffect(() => {
+        if (memberId !== null) {
+            fetch(serverUrl+`/cleaning/${memberId}/schedule`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            })
+                .then((response) => {
+                    if (response.ok)
+                        return response.json();
+                    else
+                        throw new Error(response.errorMessage);
+                })
+                .then((data) => {
+                    console.log(data.date);
+                    setMemberDate(data.date);
+                })
+                .catch((error) => {
+                    console.error(error.errorMessage);
+                    console.log(error);
+                });
+        }
+    }, [memberId]);
+
+    const dateString = () => {
+        const dateStr = selectedDate.map((date) => `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`).join(', ');
+        return dateStr
+    }
+
+    useEffect(() => {
+        dateString();
+    }, [selectedDate]);
+
     return (
         <>
             <div className='fillin_title_container'>
@@ -62,7 +135,7 @@ function FindFillIn() {
                         대타 요청을 보낼까요?
                         <div className="unit_modal_btn_container">
                             <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                            <Button styleClass="modal_btn_yes" label="예" onClick={sendData()} />
+                            <Button styleClass="modal_btn_yes" label="예" onClick={sendData} />
                         </div>
                     </div>
                 </Modal>
@@ -70,14 +143,14 @@ function FindFillIn() {
             <form className="fillin_form">
                 <div className="request_to">
                     <span>받는 사람:</span>
-                    <select className="unit_member_select">
-                        {data.map((item) => (
-                            <option value={item.value}>{item.label}</option>
+                    <select className="unit_member_select" onChange={handleSelectUser}>
+                        {unit.map((item) => (
+                            <option value={item.userId}>{item.userName}</option>
                         ))}
                     </select>
                 </div>
                 <div className="request_date_container">
-                    날짜: <div className="findfillin_request_date">2023년 09월 18일</div> {/*이 날짜는 지정하는건지 뭔지 물어봐야 함*/}
+                    날짜: <input className="findfillin_request_date" type='date' value={requestDate} onChange={(e) => setRequestDate(e.target.value)}/>
                 </div>
                 <div className="fillin_reason_container">
                     <span>사유:</span>
@@ -88,6 +161,9 @@ function FindFillIn() {
                 </div>
                 <div className="change_date">
                     상대와 바꿀 수 있는 날짜 선택:
+                    <div className='selectedDate'>
+                        {dateString()}
+                    </div>
                 </div>
             </form>
             <div className="fillin_calendar">
@@ -103,6 +179,10 @@ function FindFillIn() {
                     tileClassName={({date, view}) => {
                         if (selectedDate.some((d) => d.getTime() === date.getTime())) {
                             return 'active';
+                        }
+
+                        if (memberDate.find((day) => day.cleaningDate === moment(date).format('YYYY-MM-DD'))){
+                            return 'highlight';
                         }
                         return '';
                     }}

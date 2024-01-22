@@ -10,6 +10,12 @@ function CleaningHistory() {
     const [cleaningHistroyArr, setCleaningHistroyArr] = useState([]);
     const { accessToken } = useContext(AccessTokenContext);
     const serverUrl = 'http://localhost:8080';
+    const dummyData = [
+        {cleaningDate: '2024-01-25', cleaned: false, checked: false},
+        {cleaningDate: '2024-01-18', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-11', cleaned: true, checked: true},
+        {cleaningDate: '2024-01-04', cleaned: true, checked: true},
+    ]
 
     useEffect(() => {
         const apiUrl = serverUrl + '/cleaning';
@@ -44,12 +50,7 @@ function CleaningHistory() {
             <div className='cleaningHistory_list_container'>
                 <ListView
                     tableFor='cleaningHistory'
-                    items={[
-                        {cleaningDate: '2024-01-20', cleaned: false, checked: false},
-                        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
-                        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
-                        {cleaningDate: '2024-01-21', cleaned: true, checked: true},
-                    ]}
+                    items={dummyData}
                 />
             </div>
         </>
