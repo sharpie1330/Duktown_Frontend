@@ -38,6 +38,7 @@ hr {
     font-size: 12px;
     font-weight: 400;
     margin-top: 0;
+    word-wrap: break-word;
 }
 
 .post-details {
