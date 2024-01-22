@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import AccessTokenContext from '../AccessTokenContext';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
@@ -20,11 +20,35 @@ function Community({ topic, setActiveTopic}) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        console.log("userEffect", scrollRef.current);
+        const setPostListHeight = () => {
+            const upperBarHeight = document.querySelector('.upper_bar').clientHeight;
+            const bottomBarHeight = document.querySelector('.bottom_bar').clientHeight;
+            const categoryHeight = document.querySelector('.category').clientHeight;
+            const postList =document.querySelector('.post-list');
+            const listHeight = window.innerHeight - upperBarHeight - bottomBarHeight - categoryHeight - 20;
+
+            postList.style.height = `${listHeight}px`;
+            
+        };
+
+        // 초기에 함수 호출하고, 크기 조절 이벤트를 처리하기 위해 리스너 추가
+        setPostListHeight();
+        window.addEventListener('resize', setPostListHeight);
+
+        return () => {
+            // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너를 제거
+            window.removeEventListener('resize', setPostListHeight);
+        };
+    }, []);
 
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
+        console.log("fetchPosts");
         if(selectedCategory === 'delivery'){
-            console.log(`/delivery?sortBy=${deliverySort}`);
             fetch(serverUrl + `/delivery?sortBy=${deliverySort}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,12 +83,14 @@ function Community({ topic, setActiveTopic}) {
         
     };
 
+    // 게시글 더 불러오기
     const fetchMorePosts = async () => {
         if (loading) return;
 
         setLoading(true);
+        console.log("loading");
 
-        // Fetch more posts based on the current page number or any other logic
+        // 로딩할 다음 페이지
         const newPageNumber = pageNumber + 1;
 
         try {
@@ -94,23 +120,16 @@ function Community({ topic, setActiveTopic}) {
 
     // Event listener for scroll
     const handleScroll = () => {
-        // Check if the user has scrolled to the bottom of the page
-        if (
-            window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
-        ) {
-            fetchMorePosts();
+        const scrollContainer = scrollRef.current;
+        if (scrollContainer) {
+            const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight;
+            if (isBottom) {
+                // 스크롤이 맨 아래에 도달했을 때 fetchMorePosts 호출
+                fetchMorePosts();
+            }
         }
+        
     };
-
-    // Attach scroll event listener when the component mounts
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [loading, pageNumber, posts, selectedCategory]);
 
     // 선택된 카테고리 변경 시, 글들을 다시 불러옴
     useEffect(() => {
@@ -137,6 +156,7 @@ function Community({ topic, setActiveTopic}) {
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
+        setPageNumber(1);
         navigate(`/community?category=${category}`);
     };
 
@@ -159,8 +179,11 @@ function Community({ topic, setActiveTopic}) {
                     장터
                 </button>
             </div>
+            <div className="post-list" ref={scrollRef} onScroll={handleScroll}>
+                
+            
             {posts && posts.length > 0 ? (
-                <div className="post-list">
+                <>
                     {selectedCategory === 'delivery' ? 
                         <select name="delivery_sort" id="delivery_sort" onChange={(e) => setDeliverySort(e.target.value)}>
                             <option name="delivery_sort" value='0'>최신순</option>
@@ -196,10 +219,11 @@ function Community({ topic, setActiveTopic}) {
                         />
                     );
                     })}
-                </div>
+                </>
                 ) : (
                 <div>게시글이 없습니다</div>
             )}
+            </div>
             <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
                     <img src={plus}/>
                     글쓰기

@@ -93,10 +93,6 @@ function MainTemplate(){
         }
     }, [searchParam]);
 
-    useEffect(() => {
-        console.log(activeTopic)
-    }, [activeTopic]);
-
     return (
         <>
             <div className='upper_bar'>
@@ -105,7 +101,7 @@ function MainTemplate(){
                 {/*<img src={notification} alt="Notification" className="upper_bar_icon"/>*/}
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
-            <div className='center_content_container' style={{overflowY:"scroll"}}>
+            <div className='center_content_container'>
                 <div className="page" style={{ display: params.page === 'community' ? 'block' : 'none' }}>
                     <Community topic={activeTopic} setActiveTopic={setActiveTopic}/>
                 </div>
