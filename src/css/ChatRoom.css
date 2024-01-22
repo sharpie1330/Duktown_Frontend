@@ -139,6 +139,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     margin: 0 0 4px 0;
+    cursor: pointer;
 }
 
 .othersChat_message {

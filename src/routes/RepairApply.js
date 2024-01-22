@@ -50,17 +50,25 @@ function RepairApply(){
                 console.log(response);
                 if (response.ok)
                     return response;
-                else
-                    throw new Error(response.errorMessage);
+                else {
+                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
+                }
             })
             .then(() => {
                 setModalIsOpen(false);
                 alert("수리요청이 전송되었습니다.");
             })
             .catch((error) => {
-                console.error(error.errorMessage);
+                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
                 setModalIsOpen(false);
-                alert(error.errorMessage);
             });
 
         setModalIsOpen(false);
@@ -110,10 +118,10 @@ function RepairApply(){
                             <input type='text' name="request_user" className='repair_input_text' onChange={(e) => setRoom(e.target.value)}/>
                         </div>
                     </div>
-                    <div className='repair_user_profile'>
+                    {/*<div className='repair_user_profile'>
                         <input className='round_checkbox' id="userProfile" type='checkbox'/>
                         <span className="user_profile">내 기숙사 정보 입력하기</span>
-                    </div>
+                    </div>*/}
                     <div className='repair_content_input'>
                         <textarea name="content" className='repair_content_textarea' placeholder='수리를 요청할 사항을 입력하세요.' onChange={(e) => setContent(e.target.value)}/>
                     </div>

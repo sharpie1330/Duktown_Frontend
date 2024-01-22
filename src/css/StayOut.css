@@ -302,7 +302,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     width: 96%;
     padding: 4px;
     border: none;
-    overflow: scroll;
+    overflow-y: scroll;
     resize: none;
 }
 
@@ -478,10 +478,10 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .stayout_history_list_container {
     width: 100%;
     height: 84%;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
-.stayout_history_list_container::-webkit-scrollbar{
+.stayout_history_list_container::-webkit-scrollbar, .stayout_reason_field::-webkit-scrollbar{
     display: none;
 }
 

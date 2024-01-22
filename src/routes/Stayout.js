@@ -35,7 +35,31 @@ function Stayout() {
     const [stayoutArr, setStayoutArr] = useState([]);
     const { accessToken } = useContext(AccessTokenContext);
 
-    console.log(accessToken);
+    const initStayout = async (url, atk) => {
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${atk}`,
+                },
+                method: 'GET',
+            });
+
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(errorResponse => {
+                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
+                });
+            }
+        } catch (err) {
+            console.log('getChatRoomList error: ' + err);
+        }
+    }
 
     //외박신청 규정 확인 여부
     const [showRule, setShowRule] = useState(true);
@@ -47,14 +71,8 @@ function Stayout() {
         }
 
         const apiUrl = serverUrl + '/sleepoverApply/student?pageNo=1';
-        fetch(apiUrl, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            },
-            method: 'GET',
-        })
-        .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
+          // JSON을 파싱하기 위해 response.json()을 사용
+        initStayout(apiUrl, accessToken)
         .then(data => {
             console.log(data);
             setAvailablePeriod(data.availablePeriod);
@@ -107,7 +125,7 @@ function Stayout() {
 
     //데이터 전송
     const serverUrl = 'http://localhost:8080'
-    function sendData() {
+    async function sendData() {
         const apiUrl = serverUrl + '/sleepoverApply';
 
         const requestData = {
@@ -131,23 +149,39 @@ function Stayout() {
             body: JSON.stringify(requestData),
         }
 
-        fetch(apiUrl, request)
-            .then((response) => {
-                if (response.ok)
-                    return response;
-                else
-                    console.log(response);
-                    throw new Error(response.errorMessage);
-            })
-            .then(() => {
-                navigate('/stayout');
+        try {
+            const response = await fetch(apiUrl, request);
+
+            if (response.ok) {
                 setModalIsOpen(false);
+                setRange(0);
+                setRangeEnd('');
+                setRangeStart('');
+                setAddress('');
+                setSpecAddress('');
+                setZonecode('');
+                setReason('');
                 alert("외박 신청이 전송되었습니다.");
-            })
-            .catch((error) => {
-                setModalIsOpen(false);
-                alert(error.errorMessage);
-            });
+
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                const data = await initStayout(apiUrl, accessToken);
+                console.log(data);
+                setAvailablePeriod(data.availablePeriod);
+                if (data.content !== undefined) {
+                    setStayoutArr(data.content);
+                }
+            } else {
+                const errorResponse = await response.json();
+                if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    return new EvalError(errorResponse.errorMessage);
+                }
+            }
+        } catch (error) {
+            setModalIsOpen(false);
+            alert(error.errorMessage);
+        }
     }
     const handleDateChange = date => {
         const setStartDate = moment(date[0]).format('YYYY.MM.DD');

@@ -10,7 +10,7 @@ hr {
 
 .functionBtn {
     margin-left: auto;
-    padding-right: 0px 0px 0px 5px;
+    padding: 0 0 0 5px;
 }
 
 .delivery-blue-text {
@@ -88,4 +88,8 @@ hr {
     font-size: 12px;
     color: #8E8E8E;
     font-weight: 700;
+}
+
+.comment_btn {
+    width: 12px;
 }

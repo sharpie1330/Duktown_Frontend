@@ -230,7 +230,7 @@ function PostView() {
                     :
                     <img src={like_icon} onClick={handleLike}/>}
                     <span className="post-likes">{post.likeCount}</span>
-                    <img src={comment_blue_icon}/><span className="post-comments">{post.commentCount}</span>
+                    <img src={comment_blue_icon} className='comment_btn'/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>
