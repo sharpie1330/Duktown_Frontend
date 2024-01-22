@@ -44,7 +44,11 @@ function MyPage() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    throw new Error(response.errorMessage);
+                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
                 }
             })
             .then((data) => {
@@ -58,8 +62,11 @@ function MyPage() {
                 setUnitUserType(data.unitUserType);
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
             });
     }, []);
 
@@ -78,12 +85,19 @@ function MyPage() {
                     alert('정상적으로 로그아웃 되었습니다.');
                     return navigate('/');
                 } else {
-                    throw new Error(response.errorMessage);
+                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
                 }
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('로그아웃 과정에서 문제가 발생했습니다.');
+                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
             });
     }
 
@@ -102,12 +116,19 @@ function MyPage() {
                     alert('즐겨주셔서 감사합니다. 더 발전해서 돌아오겠습니다!');
                     return navigate('/');
                 } else {
-                    throw new Error(response.errorMessage);
+                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
                 }
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('탈퇴 과정에서 문제가 발생했습니다.');
+                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
             });
     }
 

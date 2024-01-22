@@ -45,7 +45,11 @@ function RepairHistory() {
                 if (response.ok){
                     return response.json();
                 } else {
-                    throw new Error(response.errorMessage);
+                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
                 }
             })
             .then((data) => {

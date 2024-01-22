@@ -34,7 +34,11 @@ function ChatRoomList() {
             }
             else{
                 return response.json().then(errorResponse => {
-                    throw new EvalError(errorResponse.errorMessage);
+                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
                 });
             }
         } catch (err) {
@@ -67,14 +71,24 @@ function ChatRoomList() {
 
                 if (!response.ok) {
                     return response.json().then(errorResponse => {
-                        throw new EvalError(errorResponse.errorMessage);
+                        if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorResponse.errorMessage);
+                        }
                     });
                 }
             } catch (err) {
                 console.log('getChatRoomList error: ' + err);
             }
         })
+
         alert('선택한 채팅방에서 나갔습니다.');
+
+        setIsEdit(false);
+        getChatRoomList(apiUrl, accessToken).then(data => {
+            setChatRoomArr(data.chatRooms);
+        });
     }
 
     useEffect(() => {

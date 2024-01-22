@@ -70,10 +70,10 @@ function MainTemplate(){
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
                 {params.page === 'community' ? <img src={search} alt='search' className='upper_bar_icon'/> : null }
-                <img src={notification} alt="Notification" className="upper_bar_icon"/>
+                {/*<img src={notification} alt="Notification" className="upper_bar_icon"/>*/}
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
-            <div className='center_content_container' style={{overflow:"scroll"}}>
+            <div className='center_content_container' style={{overflowY:"scroll"}}>
                 <div className="page" style={{ display: params.page === 'community' ? 'block' : 'none' }}>
                     <Community topic={activeTopic}/>
                 </div>
@@ -83,7 +83,7 @@ function MainTemplate(){
                 <div className="page" style={{ display: params.page === 'unit' ? 'block' : 'none' }}>
                     <Unit />
                 </div>
-                <div className="page" style={{ display: params.page === 'chat' ? 'block' : 'none', overflow:"scroll" }}>
+                <div className="page" style={{ display: params.page === 'chat' ? 'block' : 'none', overflowY:"scroll" }}>
                     <ChatRoomList />
                 </div>
             </div>
