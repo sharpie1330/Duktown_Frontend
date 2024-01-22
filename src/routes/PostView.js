@@ -68,6 +68,7 @@ function PostView() {
 
     // 댓글 목록 가져오기
     const fetchComments = async () => {
+        console.log(serverUrl + "/comments" + `?postId=${id}`);
         try {
             const response = await fetch(serverUrl + "/comments" + `?postId=${id}`, {
                 headers: {
@@ -185,6 +186,21 @@ function PostView() {
     const handleReportPost = () => {
 
     }
+
+    // 댓글 삭제 또는 신고 버튼 외의 부분 클릭 시 버튼 없애기
+    const handleDocumentClick = (event) => {
+        if (functionButtonRef.current && !functionButtonRef.current.contains(event.target)) {
+            setShowFunctionButton(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleDocumentClick);
+
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    }, []);
     
     // 첫 렌더링 시 글과 댓글 내용 가져오기
     useEffect(() => {
@@ -209,15 +225,18 @@ function PostView() {
                         <tr id='userName'>익명</tr>
                         <tr id='post-time'>{post.datetime}</tr>    
                     </table>
-                    <button className='functionBtn' type='submit' form='post-form'>
-                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
-                    </button>
+                    {post.isWriter ? (
+                        <button className='functionBtn' type='submit' form='post-form'>
+                            <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
+                        </button>
+                    ) : null}
                     {showFunctionButton && (
                         <div className='small-modal'>
                             {post.isWriter ? (
                                 <span onClick={handleDeletePost}>삭제하기</span>
                             ) : (
-                                <span onClick={handleReportPost}>신고하기</span>
+                                null
+                                // <span onClick={handleReportPost}>신고하기</span>
                             )}
                         </div>  
                     )}

@@ -28,11 +28,37 @@ function MainTemplate(){
     const [searchParam, setSearchParam] = useSearchParams();
     const [activeTopic, setActiveTopic] = useState('daily');
 
-    const communityRef = React.createRef();
-
     const handleSearch = () => {
         navigate(`/community/search?category=${activeTopic}`);
     };
+
+    useEffect(() => {
+        const updatePagePosition = () => {
+            const upperBarHeight = document.querySelector('.upper_bar').clientHeight;
+            const bottomBarHeight = document.querySelector('.bottom_bar').clientHeight;
+            const centerContentContainer = document.querySelector('.center_content_container');
+
+            // 동적으로 페이지의 위치와 높이 설정
+            const pageElement = document.querySelector('.page');
+
+            // 페이지 높이 설정
+            const pageHeight = window.innerHeight - upperBarHeight - bottomBarHeight;
+            pageElement.style.height = `${upperBarHeight}px`;
+
+            // center_content_container의 최소 높이 설정
+            
+            centerContentContainer.style.minHeight = `${pageHeight - bottomBarHeight}px`;
+        };
+
+        // 초기에 함수 호출하고, 창 크기 조절 이벤트를 처리하기 위해 리스너 추가
+        updatePagePosition();
+        window.addEventListener('resize', updatePagePosition);
+
+        return () => {
+            // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너를 제거
+            window.removeEventListener('resize', updatePagePosition);
+        };
+    }, []);
 
     useEffect(() => {
 

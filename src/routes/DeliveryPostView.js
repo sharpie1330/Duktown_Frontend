@@ -168,7 +168,7 @@ function DeliveryPostView() {
                                     deleted={comment.deleted}
                                     childComments={comment.childComments}
                                     deliveryId={post.isWriter ? deliveryId : null}
-                                    deliveryWriterId={post.isWriter ? post.userId : null}
+                                    isDeliveryWriter={post.isWriter ? true : false}
                                     setReplyToCommentId={setReplyToCommentId}
                                     fetchComments={fetchComments}
                                     fetchPost={fetchPost}

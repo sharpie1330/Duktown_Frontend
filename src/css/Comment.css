@@ -38,6 +38,10 @@
     font-size: 10px;
 }
 
+.comment-details img {
+    width: 16px;
+}
+
 .reply-form {
     width: 100%;
 }

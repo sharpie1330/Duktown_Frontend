@@ -14,6 +14,8 @@ function Community({ topic, setActiveTopic}) {
     const [posts, setPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(topic); // 초기 카테고리 설정
     const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
+    const [loading, setLoading] = useState(false);
+    const [deliverySort, setDeliverySort] = useState(0);
 
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
@@ -22,7 +24,8 @@ function Community({ topic, setActiveTopic}) {
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
         if(selectedCategory === 'delivery'){
-            fetch(serverUrl + '/delivery', {
+            console.log(`/delivery?sortBy=${deliverySort}`);
+            fetch(serverUrl + `/delivery?sortBy=${deliverySort}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -56,6 +59,59 @@ function Community({ topic, setActiveTopic}) {
         
     };
 
+    const fetchMorePosts = async () => {
+        if (loading) return;
+
+        setLoading(true);
+
+        // Fetch more posts based on the current page number or any other logic
+        const newPageNumber = pageNumber + 1;
+
+        try {
+            const response = await fetch(apiUrl + `?category=${categoryNumber[selectedCategory]}&pageNo=${newPageNumber}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                method: 'GET',
+            });
+
+            const data = await response.json();
+
+            // Append the new posts to the existing ones
+            setPosts([...posts, ...data.content]);
+
+            // Update the page number
+            setPageNumber(newPageNumber);
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Event listener for scroll
+    const handleScroll = () => {
+        // Check if the user has scrolled to the bottom of the page
+        if (
+            window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
+        ) {
+            fetchMorePosts();
+        }
+    };
+
+    // Attach scroll event listener when the component mounts
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [loading, pageNumber, posts, selectedCategory]);
+
     // 선택된 카테고리 변경 시, 글들을 다시 불러옴
     useEffect(() => {
         // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
@@ -76,7 +132,7 @@ function Community({ topic, setActiveTopic}) {
             }
         };
         fetchData();
-    }, [selectedCategory]);
+    }, [selectedCategory, deliverySort]);
 
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
@@ -103,9 +159,14 @@ function Community({ topic, setActiveTopic}) {
                     장터
                 </button>
             </div>
-            <hr/>
             {posts && posts.length > 0 ? (
-                <div className="post_list">
+                <div className="post-list">
+                    {selectedCategory === 'delivery' ? 
+                        <select name="delivery_sort" id="delivery_sort" onChange={(e) => setDeliverySort(e.target.value)}>
+                            <option name="delivery_sort" value='0'>최신순</option>
+                            <option name="delivery_sort" value='1'>주문시간 순</option>
+                        </select>
+                    : null}
                     {posts.map((post) => {
                     // 카테고리에 따라 다른 컴포넌트 렌더링
                     return selectedCategory === 'delivery' ? (

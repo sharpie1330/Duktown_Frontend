@@ -9,7 +9,7 @@ import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 import AccessTokenContext from '../AccessTokenContext';
 
-function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, deliveryWriterId, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
+function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const { accessToken } = useContext(AccessTokenContext);
@@ -18,7 +18,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
     const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부
 
     const functionButtonRef = useRef(null);
-
+    console.log(commentId, "userId", userId, "isDeliveryWriter", isDeliveryWriter);
     // 답글쓰기
     const handleReply = () => {
         setSendChildComment(!sendChildComment);
@@ -154,23 +154,21 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                     {userTitle}
                 </span>
 
-                <span className='comment-time'>{dateTime}</span>    
-                <button className='functionBtn'>
-                    <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
-                </button>
+                <span className='comment-time'>{dateTime}</span>
+                {isWriter || isDeliveryWriter && userTitle !== "(알수없음)"? (
+                    <button className='functionBtn'>
+                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
+                    </button>
+                ): null}
                 {showFunctionButton && (
                   <div className='small-modal'>
                     {isWriter ? (
                         <span onClick={handleDeleteComment}>삭제하기</span>
-                    ) : (
-                        <>
-                            {deliveryId ? (
-                                <><span onClick={handleInvitation}>배달팟 초대하기</span><hr/></>
-                            ) : null}
-                            <span onClick={handleReportComment}>신고하기</span>
-                        </>
-                        
-                    )}
+                    ) : null }
+                    {isDeliveryWriter ? (
+                        <span onClick={handleInvitation}>배달팟 초대하기</span>
+                    ) : null}
+                    {/* <span onClick={handleReportComment}>신고하기</span> */}
                   </div>  
                 )}
             </div>
@@ -208,7 +206,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                                                 deleted={comment.deleted}
                                                 childComments={comment.childComments}
                                                 deliveryId={deliveryId}
-                                                deliveryWriterId={deliveryWriterId}
+                                                isDeliveryWriter={isDeliveryWriter}
                                                 setReplyToCommentId={setReplyToCommentId}
                                                 fetchComments={fetchComments}
                                                 fetchPost={fetchPost}

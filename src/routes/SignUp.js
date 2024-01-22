@@ -207,7 +207,8 @@ function SignUp() {
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
                 setAccessToken(accessToken);
-                setCurrentPage('authentication');
+                navigate('/home');
+                // setCurrentPage('authentication');
             })
             .catch((error) => {
                 console.error('회원가입 실패', error);

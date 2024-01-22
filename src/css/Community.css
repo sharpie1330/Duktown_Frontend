@@ -8,6 +8,8 @@ hr {
     display: flex;
     justify-content: center;
     align-content: space-between;
+    position: fixed;
+    background: white;
 }
 
 .category button {
@@ -21,6 +23,10 @@ hr {
     min-width: 100px;
     margin: 0 7px;
 
+}
+
+.post-list {
+    padding-top: 50px;
 }
 
 .post-title {
@@ -106,4 +112,15 @@ hr {
     width: 22px;
     height: 22px;
     margin-right: 5px;
+}
+
+#delivery_sort {
+    height: 30px;
+    margin-top: 5px;
+    padding: 7px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
+    text-align: center;
+    background: rgba(217, 217, 217, 0.00);
 }
