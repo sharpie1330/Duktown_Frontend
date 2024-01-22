@@ -28,6 +28,12 @@ function MainTemplate(){
     const [searchParam, setSearchParam] = useSearchParams();
     const [activeTopic, setActiveTopic] = useState('daily');
 
+    const communityRef = React.createRef();
+
+    const handleSearch = () => {
+        navigate(`/community/search?category=${activeTopic}`);
+    };
+
     useEffect(() => {
 
         // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
@@ -61,21 +67,21 @@ function MainTemplate(){
         }
     }, [searchParam]);
 
-    // useEffect(() => {
-    //     console.log(activeTopic)
-    // }, [activeTopic]);
+    useEffect(() => {
+        console.log(activeTopic)
+    }, [activeTopic]);
 
     return (
         <>
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
-                {params.page === 'community' ? <img src={search} alt='search' className='upper_bar_icon'/> : null }
+                {params.page === 'community' ? <img src={search} alt='search' className='upper_bar_icon' onClick={handleSearch}/> : null }
                 {/*<img src={notification} alt="Notification" className="upper_bar_icon"/>*/}
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => {navigate('/myPage')}}/>
             </div>
             <div className='center_content_container' style={{overflowY:"scroll"}}>
                 <div className="page" style={{ display: params.page === 'community' ? 'block' : 'none' }}>
-                    <Community topic={activeTopic}/>
+                    <Community topic={activeTopic} setActiveTopic={setActiveTopic}/>
                 </div>
                 <div className="page" style={{ display: activePage === 'home' ? 'block' : 'none' }}>
                     <NewHome />
