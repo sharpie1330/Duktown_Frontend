@@ -28,6 +28,9 @@ function ChatRoom() {
     const [orderTime, setOrderTime] = useState(''); //주문 예정 시간
     const [accountNumber, setAccountNumber] = useState(''); //계좌 번호
     //채팅
+    //const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+    const [chatPage, setChatPage] = useState(0);
+    const [hasLeftMessage, setHasLeftMessage] = useState(true);
     const [chatList, setChatList] = useState([]); //localStorage에 저장된 채팅 내역
     const [chat, setChat] = useState(''); //현재 입력 중인 채팅
     const [isReadOnly, setIsReadOnly] = useState(false); //입력창 활성화 여부
@@ -57,7 +60,11 @@ function ChatRoom() {
             } else {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
-                    throw new EvalError(errorResponse.errorMessage);
+                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
                 });
             }
         } catch (error) {
@@ -65,8 +72,14 @@ function ChatRoom() {
         }
     }
 
-    const apiUrl2 = serverUrl + `/chats/${chatRoomId}`;
-    const getPrevChatList = async (atk) => {
+    const getPrevChatList = async (atk, page, size) => {
+        let apiUrl2 = '';
+        if (!size) {
+            apiUrl2 = serverUrl + `/chats/${chatRoomId}?page=${page}`;
+        } else {
+            apiUrl2 = serverUrl + `/chats/${chatRoomId}?page=${page}&size=${size}`;
+        }
+
         try {
             const response = await fetch(apiUrl2, {
                 method: 'GET',
@@ -81,7 +94,11 @@ function ChatRoom() {
             } else {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
-                    throw new EvalError(errorResponse.errorMessage);
+                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
                 });
             }
         } catch (error) {
@@ -114,9 +131,9 @@ function ChatRoom() {
     }
     //2. 새로 온 채팅 처리
     const lastChatChecker = (chatList) => {
-        const lastChat = chatList[chatList.length - 1];
+        /*const lastChat = chatList[chatList.length - 1];
         if (lastChat.chatType === 'WRITER_EXIT') {
-            isReadOnly(true);
+            setIsReadOnly(true);
             return true;
 
         } else if (lastChat.chatType === 'FORCE_OUT') {
@@ -127,13 +144,12 @@ function ChatRoom() {
                 return true;
             }
             return false;
-        }
+        }*/
         return false;
     }
 
     //3. 채팅 보내기
     const sendChat = () => {
-        console.log(`here is ${chatRoomId}`);
         if (chat === '')
             return;
         clientRef.current.publish({
@@ -151,7 +167,6 @@ function ChatRoom() {
     useEffect(() => {
         scrollHandler();
         if (chatList.length > 0 && clientRef.current.connected) {
-            console.log(chatList);
             const isValid = lastChatChecker(chatList);
             if (isValid) {
                 clientRef.current.unsubscribe(); //구독 해제
@@ -232,7 +247,6 @@ function ChatRoom() {
                         </div>
                     );
                 case 'WRITER_EXIT':
-                    setIsReadOnly(true);
                     return (
                         <div className='infoMsg_container' key={idx}>
                             {item.message}
@@ -258,11 +272,11 @@ function ChatRoom() {
                                 </span>
                                 <div className='othersChat_horizontal_container'>
                                     <div className='othersChat_message'>{item.message}</div>
-                                    {
+                                    {/*{
                                         isOpenChatFunc && othersUserNum === item.userNumber && `chat_${idx}` === chatIdx
                                             ? <FuncPannel userId={item.userId} userNumber={myUserNum} type='chat' chatRoomId={chatRoomId} pannelHandler={handleFuncPannel}/>
                                             : <></>
-                                    }
+                                    }*/}
                                 </div>
                             </div>
                         );
@@ -285,11 +299,11 @@ function ChatRoom() {
                                 </span>
                                 <div className='othersChat_horizontal_container'>
                                     <div className='othersChat_message'>{item.message}</div>
-                                    {/*
+                                    {
                                         isOpenChatFunc && othersUserNum === item.userNumber && `chat_${idx}` === chatIdx
                                             ? <FuncPannel userId={item.userId} userNumber={myUserNum} type='chat' chatRoomId={chatRoomId} pannelHandler={handleFuncPannel}/>
                                             : <></>
-                                    */}
+                                    }
                                 </div>
                             </div>
                         );
@@ -302,9 +316,16 @@ function ChatRoom() {
     useEffect(() => {
         //이전 채팅 내역 가져오기
         let chatArr = [];
-        getPrevChatList(accessToken).then(data => {
+        const isValid = getPrevChatList(accessToken, 0, 20).then(data => {
             chatArr = data.messages.reverse();
-            setChatList(chatArr);
+            setChatList(prevChatList => [...chatArr]);
+        }).then( _ => {
+            setChatPage(chatPage => chatPage + 1);
+            let isValidInner = false;
+            if (chatArr.length > 0) {
+                isValidInner = lastChatChecker(chatArr);
+                return isValidInner;
+            }
         });
 
         //채팅방 정보 가져오기
@@ -320,17 +341,15 @@ function ChatRoom() {
             setMyUserNum(data.getRequestUserNumber);
         });
 
-        let isValid = false;
-        if (chatArr.length > 0) {
-            isValid = lastChatChecker(chatArr);
-            console.log(isValid);
-        }
+
+
         if (deliveryDeleted === true) { //배달팟이 삭제됐거나 글쓴이가 나갔을때
             setIsReadOnly(true);
         } else { //배달팟이 삭제되지 않았을 때
             if (!isValid) {
                 connect();
             } else {
+                connect();
                 setIsReadOnly(true);
             }
         }
@@ -340,6 +359,38 @@ function ChatRoom() {
             console.log('화면 나감');
         }
     }, []);
+
+    const handleScroll = () => {
+        if (scrollRef.current.scrollTop === 0 && hasLeftMessage) {
+            loadMoreMessage();
+        }
+    };
+
+    const loadMoreMessage = async () => {
+        try {
+            //setIsLoadingMessages(true);
+            console.log(chatPage);
+            const prevMessages = await getPrevChatList(accessToken, chatPage)
+                .then(data => {
+                    setChatPage(chatPage => chatPage + 1);
+                    return data.messages;
+                });
+
+
+            if (prevMessages.length === 0) {
+                setHasLeftMessage(false); // 더 이상 이전 메시지가 없을 경우 플래그를 false로 설정
+            } else {
+                // 이전 메시지가 있는 경우 기존 메시지 배열 앞에 추가
+                const reverseArr = prevMessages.reverse();
+                const uniqueNewMessages = reverseArr.filter(newMessage => !chatList.some(existingMessage => existingMessage.chatId === newMessage.chatId));
+                setChatList(prevChatList => [...uniqueNewMessages, ...prevChatList]);
+                console.log(reverseArr);
+            }
+            //etIsLoadingMessages(false);
+        } catch (error) {
+            console.error("Error loading more messages:", error);
+        }
+    }
 
     return (
         <>
@@ -359,7 +410,7 @@ function ChatRoom() {
                 <div className='chatRoom_accountInfo'>{accountNumber}</div>
             </div>
             <div className='chat_container'>
-                <div className='chat_scroll_container' ref={scrollRef}>
+                <div className='chat_scroll_container' ref={scrollRef} onScroll={handleScroll}>
                     <div className='chatRoom_chatList_container'>{msgBoxHandler()}</div>
                 </div>
                 <div className='chatRoom_bottom_container'>

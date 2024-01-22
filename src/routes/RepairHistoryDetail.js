@@ -27,8 +27,13 @@ function RepairHistoryDetail() {
             .then((request) => {
                 if (request.ok)
                     return request.json();
-                else
-                    throw new Error(request.errorMessage);
+                else {
+                    if (request.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(request.errorMessage);
+                    }
+                }
             })
             .then((data) => {
                 let hallName = '';
@@ -46,8 +51,11 @@ function RepairHistoryDetail() {
                 setSolved(data.solved);
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지를 로드하던 중 문제가 발생했습니다.');
+                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
             })
     }, [accessToken, params.id]);
 

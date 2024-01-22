@@ -20,7 +20,7 @@ body {
 }
 
 .chatRoom_list_container{
-    overflow: auto;
+    overflow-y: auto;
     max-height: 100%;
 }
 

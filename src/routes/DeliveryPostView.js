@@ -4,7 +4,7 @@ import AccessTokenContext from '../AccessTokenContext';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import '../css/PostView.css';
-import comment_icon from '../assets/comment.png';
+import comment_icon from '../assets/comment_blue.png';
 import profile_image from '../assets/profile_image.png';
 import post_button from '../assets/post_button.png';
 import Comment from '../components/Comment';
