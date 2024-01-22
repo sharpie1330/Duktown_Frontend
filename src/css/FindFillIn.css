@@ -103,6 +103,12 @@ body {
     padding: 11px;
 }
 
+.highlight abbr {
+    border: 1px solid #B3B3B3;
+    padding: 11px;
+    border-radius: 4px;
+}
+
 abbr[title="토요일"], abbr[title="일요일"] {
     text-decoration: none;
     font-size: 13px;
@@ -184,7 +190,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .unit_member_select {
     margin-top: 5px;
     margin-left: 11px;
-    padding: 8px;
+    padding: 7px;
     border-radius: 5px;
     border: 1px solid #E6E6E6;
     background: rgba(217, 217, 217, 0.00);
@@ -207,12 +213,17 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     font-size: 12px;
     color: rgba(0, 0, 0, 0.6);
     margin: 15px 0 0 0;
+    align-items: center;
 }
 
 .findfillin_request_date {
     margin: 0 0 0 12px;
     font-weight: 500;
-    color: #000000
+    color: #000000;
+    width: 100px;
+    font-size: 12px;
+    font-family: Pretendard, serif;
+    border: none;
 }
 
 .fillin_reason_container {
@@ -239,7 +250,15 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .change_date {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.6);
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    margin: 15px 0 30px 0;
+}
+
+.selectedDate {
+    margin: 0 0 0 12px;
+    font-weight: 500;
+    color: black;
 }
 
 .fillin_form {

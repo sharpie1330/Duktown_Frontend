@@ -195,6 +195,7 @@ function Stayout() {
         const excludeDays = [5, 6, 0]; //금토일
         const current = new Date(startDate);
         const end = new Date(endDate);
+        end.setDate(end.getDate() -1);
         const result = [];
 
         while (current <= end) {
