@@ -1,14 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import repair from '../assets/repair.png';
 import register from '../assets/register.png';
 import sleepover from '../assets/sleepover.png';
 import announcement from '../assets/announcement.png';
-import { useNavigate } from 'react-router-dom';
 import arrow_right from '../assets/arrow_right.png';
 import '../css/Home.css';
 
 function Home(){
+    
     const navigate = useNavigate();
+
     return (
         <>
             <div className='announcement_container'>

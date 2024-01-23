@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useContext, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import AccessTokenContext from '../AccessTokenContext';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
-import '../css/PostView.css';
 import like_icon from '../assets/like.png';
 import like_blue_icon from '../assets/like_blue.png';
 import comment_icon from '../assets/comment.png';
@@ -11,6 +9,7 @@ import comment_blue_icon from '../assets/comment_blue.png';
 import profile_image from '../assets/profile_image.png';
 import post_button from '../assets/post_button.png';
 import Comment from '../components/Comment';
+import '../css/PostView.css';
 
 function PostView() {
     const location = useLocation();
@@ -30,8 +29,7 @@ function PostView() {
         isWriter: null,
     });
 
-    const { accessToken } = useContext(AccessTokenContext);
-
+    const accessToken  = localStorage.getItem('accessToken');
     const serverUrl = "http://localhost:8080";
     const [replyToCommentId, setReplyToCommentId] = useState(null);
     const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부

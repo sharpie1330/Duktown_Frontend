@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import like_icon from '../assets/like.png';
 import like_blue_icon from '../assets/like_blue.png';
 import comment_icon from '../assets/comment.png';
@@ -7,18 +7,16 @@ import function_button from '../assets/function_button.png';
 import profile_image from '../assets/profile_image.png';
 import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
-import AccessTokenContext from '../AccessTokenContext';
 
 function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const [sendChildComment, setSendChildComment] = useState(true); // 대댓글 여부
     const [replyIcon, setReplyIcon] = useState(comment_icon); // 답글쓰기 아이콘 색상 설정
     const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부
-
     const functionButtonRef = useRef(null);
-    console.log(commentId, "userId", userId, "isDeliveryWriter", isDeliveryWriter);
+    
     // 답글쓰기
     const handleReply = () => {
         setSendChildComment(!sendChildComment);
@@ -97,7 +95,6 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
 
     // 배달팟 초대
     const handleInvitation = async () => {
-        console.log(typeof(userId));
         try {
             const response = await fetch(serverUrl + '/chatRoom/invite', {
                 method: 'POST',

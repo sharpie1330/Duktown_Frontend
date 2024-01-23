@@ -1,15 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Upperbar from '../components/UpperBar';
+import BottomBar from '../components/BottomBar';
 import announcement from '../assets/announcement_icon.png';
 import meal from '../assets/meal_icon.png';
 import sleepover from '../assets/sleepover_blue.png';
 import repair from '../assets/repair_blue.png';
 import notification from '../assets/notification_blue.png';
 import circle from '../assets/circle_gray.png';
-import { useNavigate } from 'react-router-dom';
 import '../css/Home.css';
 import '../css/NewHome.css';
-import Upperbar from '../components/UpperBar';
-import BottomBar from '../components/BottomBar';
 
 function NewHome(){
     const navigate = useNavigate();

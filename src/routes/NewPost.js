@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import '../css/NewPost.css';
-import AccessTokenContext from '../AccessTokenContext';
 
 function NewPost(){
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const location = useLocation();
     const selectedCategory = new URLSearchParams(location.search).get('selectedCategory');
     const categoryName = {'daily': '일상', 'market': '장터', 'delivery': '배달팟'};

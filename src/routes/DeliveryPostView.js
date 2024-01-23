@@ -1,13 +1,12 @@
-import React, { useEffect, useContext, useState } from 'react';
-import {useParams} from 'react-router-dom';
-import AccessTokenContext from '../AccessTokenContext';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
-import '../css/PostView.css';
 import comment_icon from '../assets/comment_blue.png';
 import profile_image from '../assets/profile_image.png';
 import post_button from '../assets/post_button.png';
 import Comment from '../components/Comment';
+import '../css/PostView.css';
 
 function DeliveryPostView() {
     const location = useParams();
@@ -23,7 +22,7 @@ function DeliveryPostView() {
         isWriter: true
     });
 
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
 
     const serverUrl = "http://localhost:8080";
     const [replyToCommentId, setReplyToCommentId] = useState(null);

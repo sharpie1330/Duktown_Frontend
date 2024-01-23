@@ -1,10 +1,11 @@
 import React from 'react';
-import logo from '../assets/duktown_logo.png';
-import '../css/LoggedOut.css';
-import Button from '../components/Button.js';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/duktown_logo.png';
+import Button from '../components/Button.js';
+import '../css/LoggedOut.css';
 
 function LoggedOut(){
+
     const navigate = useNavigate();
 
     return (

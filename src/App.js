@@ -12,7 +12,6 @@ import Announcement from "./routes/Announcement";
 import RepairApply from "./routes/RepairApply";
 import Stayout from "./routes/Stayout";
 import FindFillIn from "./routes/FindFillIn";
-import MainTemplate from './routes/MainTemplate';
 import SignUp from './routes/SignUp';
 import Terms from './routes/Terms';
 import MyPage from "./routes/MyPage";
@@ -21,7 +20,6 @@ import RepairHistory from "./routes/RepairHistory";
 import RepairHistoryDetail from "./routes/RepairHistoryDetail";
 import NoticeList from "./routes/NoticeList";
 import NoticeListDetail from "./routes/NoticeListDetail";
-import { AccessTokenProvider } from './AccessTokenContext';
 import PostView from './routes/PostView';
 import DeliveryPostView from './routes/DeliveryPostView';
 import ChatRoom from "./routes/ChatRoom";
@@ -37,49 +35,44 @@ import NewHome from './routes/NewHome';
 import Community from './routes/Community';
 import ChatRoomList from './routes/ChatRoomList';
 import Unit from './routes/Unit';
-import { CategoryProvider } from './CategoryContext';
 
 function App() {
   return (
     <Router>
-      <AccessTokenProvider>
-        <CategoryProvider>
-          <Routes>
-            <Route path="/" element={<LoggedOut />}/>
-            <Route path='/signup' element={<SignUp />}/>
-            <Route path='/terms' element={<Terms />}/>
-            <Route path="/signin" element={<SignIn />}/>
-            <Route path="/findid" element={<FindId />}/>
-            <Route path="/findpassword" element={<FindPassword />}/>
-            <Route path="/home" element={<NewHome />}/>
-            <Route path="/community" element={<Community />}/>
-            <Route path="/chat" element={<ChatRoomList />}/>
-            <Route path="/unit" element={<Unit />}/>
-            <Route path="/announcement/historys" element={<Announcement />}/>
-            <Route path="/repairs/apply" element={<RepairApply />}/>
-            <Route path="/stayout" element={<Stayout />}/>
-            <Route path="/findFillIn" element={<FindFillIn />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/newpost" element={<NewPost />} />
-            <Route path="/repairs/historys" element={<RepairHistory />}/>
-            <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
-            <Route path="/notice/list" element={<NoticeList />}/>
-            <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
-            <Route path="/post/:postId" element={<PostView />}/>
-            <Route path="/delivery/:deliveryId" element={<DeliveryPostView />}/>
-            <Route path="/chatRoom/:chatRoomId" element={<ChatRoom />}/>
-            <Route path="/user/wrote/:type" element={<MyPostList />}/>
-            <Route path="/dormGuide" element={<DormGuide />}/>
-            <Route path="/user/penalty" element={<MyPenalty />}/>
-            <Route path="/penalty" element={<Penalty />}/>
-            <Route path="/appTerms" element={<ApplicationTerms />}/>
-            <Route path="community/search" element={<CommunitySearch />}/>
-            <Route path="/user/unit" element={<MyUnit />}/>
-            <Route path="/cleaning" element={<CleaningHistory />}/>
-          </Routes>
-        </CategoryProvider>
-      </AccessTokenProvider>
-  </Router>
+      <Routes>
+        <Route path="/" element={<LoggedOut />}/>
+        <Route path='/signup' element={<SignUp />}/>
+        <Route path='/terms' element={<Terms />}/>
+        <Route path="/signin" element={<SignIn />}/>
+        <Route path="/findid" element={<FindId />}/>
+        <Route path="/findpassword" element={<FindPassword />}/>
+        <Route path="/home" element={<NewHome />}/>
+        <Route path="/community" element={<Community />}/>
+        <Route path="/chat" element={<ChatRoomList />}/>
+        <Route path="/unit" element={<Unit />}/>
+        <Route path="/announcement/historys" element={<Announcement />}/>
+        <Route path="/repairs/apply" element={<RepairApply />}/>
+        <Route path="/stayout" element={<Stayout />}/>
+        <Route path="/findFillIn" element={<FindFillIn />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/newpost" element={<NewPost />} />
+        <Route path="/repairs/historys" element={<RepairHistory />}/>
+        <Route path="/repairs/historys/detail/:id" element={<RepairHistoryDetail />}/>
+        <Route path="/notice/list" element={<NoticeList />}/>
+        <Route path="/notice/list/detail/:id" element={<NoticeListDetail />}/>
+        <Route path="/post/:postId" element={<PostView />}/>
+        <Route path="/delivery/:deliveryId" element={<DeliveryPostView />}/>
+        <Route path="/chatRoom/:chatRoomId" element={<ChatRoom />}/>
+        <Route path="/user/wrote/:type" element={<MyPostList />}/>
+        <Route path="/dormGuide" element={<DormGuide />}/>
+        <Route path="/user/penalty" element={<MyPenalty />}/>
+        <Route path="/penalty" element={<Penalty />}/>
+        <Route path="/appTerms" element={<ApplicationTerms />}/>
+        <Route path="community/search" element={<CommunitySearch />}/>
+        <Route path="/user/unit" element={<MyUnit />}/>
+        <Route path="/cleaning" element={<CleaningHistory />}/>
+      </Routes>
+    </Router>
   );
 }
 

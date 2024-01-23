@@ -1,11 +1,10 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import AccessTokenContext from '../AccessTokenContext';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
-import '../css/Community.css';
 import arrow_left from '../assets/arrow_left.png';
 import search from "../assets/search.png";
+import '../css/Community.css';
 
 function CommunitySearch() {
 
@@ -13,13 +12,12 @@ function CommunitySearch() {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get('category');
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const [currentRenderPage, setCurrentRenderPage] = useState('listView');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [keywordList, setKeywordList] = useState(JSON.parse(localStorage.getItem('keywords')) || '[]');
     const [posts, setPosts] = useState([]);
-    let items = [{id:1, title:'[기숙사] 12월 24일 방송 내용', date:'2023.12.24'}, {id:2, title:'[기숙사] 12월 13일 방송 내용', date: '2023.12.13'}]
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
@@ -27,6 +25,7 @@ function CommunitySearch() {
     const placeholderText = `[${categoryName[category]}] 검색어를 입력해주세요`;
 
     const inputRef = useRef(null);
+
     const handleKeyword = () => {
         setSearchKeyword('');
         setSearchResult([]);
@@ -34,13 +33,7 @@ function CommunitySearch() {
     };
 
     const handleSearch = (e) => {
-        console.log(searchKeyword);
         if (e.key === 'Enter') {
-            const filtered = items.filter((item) => {
-                return item.title.toUpperCase().includes(searchKeyword.trim().toUpperCase());
-            });
-            setSearchResult(filtered);
-
             const newKeyword = {
                 id: new Date(),
                 text: searchKeyword
@@ -133,9 +126,8 @@ function CommunitySearch() {
                 <div>검색어와 일치하는 내용의 게시글이 없습니다</div>
             )}
         </div>
-        
     </>
-      );
+    );
 }
 
 export default CommunitySearch;
