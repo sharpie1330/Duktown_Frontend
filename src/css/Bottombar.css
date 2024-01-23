@@ -1,5 +1,6 @@
-.bottom_bar {
+.bottom_bar ul {
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     position: fixed;
     bottom: 0;
@@ -10,6 +11,10 @@
     box-shadow: 0px 0px 6px 0px rgba(183, 159, 159, 0.12);
 }
 
-.bottom_bar_icon {
+.bottom_bar img {
     height: 36px;
+}
+
+.bottom_bar li {
+    list-style: none;
 }
