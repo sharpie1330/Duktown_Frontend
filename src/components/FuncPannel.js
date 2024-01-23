@@ -1,24 +1,32 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import '../css/FuncPannel.css';
-import AccessTokenContext from "../AccessTokenContext";
 import {useNavigate} from "react-router-dom";
 import {useSpring, animated} from "react-spring";
 import Button from "./Button";
+import {customModal} from "../customModalConfig";
+import Modal from "react-modal";
 
 function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountChange, pannelHandler}) {
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const [isVisible, setIsVisible] = useState(false);
     const [bank,  setBank] = useState('');
     const [account, setAccount] = useState('');
     const [isComposing, setIsComposing] = useState(false);
     const accountInputRef = useRef();
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const serverUrl = 'http://localhost:8080';
+
+    useEffect( () => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+    }, []);
 
     const AnimatedDiv = animated.div;
     const props = useSpring({
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(74vh)' : 'translateY(100vh)',
+        transform: isVisible ? 'translateY(92vh)' : 'translateY(100vh)',
         width: '94vw',
         position: 'absolute',
         background: '#FFFFFF',
@@ -159,6 +167,32 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                 } catch (err) {
                     alert(err);
                 }
+                return;
+            case 'navigate_post':
+                try {
+                    const response = await fetch(serverUrl + '/delivery' + `/${deliveryId}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Access-Control-Allow-Origin': 'http://localhost:3000',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                        method: 'GET',
+                    });
+
+                    let data = {};
+                    if (response.ok) {
+                        return navigate(`/delivery/${deliveryId}`);
+                    } else {
+                        data = await response.json();
+                        if (data.code !== undefined && data.code === 40001) {
+                            setModalIsOpen(true);
+                        }
+                    }
+                } catch (error) {
+                    console.log(error.errorCode)
+                }
+                return;
         }
     }
 
@@ -212,14 +246,26 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                         <div className='funcPannel_order_fin' onClick={() => handleFunc('order_fin')}>
                             주문 완료
                         </div>
+                        <div className='funcPannel_go_out' onClick={() => {handleFunc('go_out'); window.history.back();}}>
+                            채팅방 나가기
+                        </div>
                     </div>
                 );
             } else {
                 return (
                     <div className='funcPannel_container1'>
-                        <div className='funcPannel_delivery_post' onClick={() => navigate(`/delivery/${deliveryId}`)}>
+                        <div className='funcPannel_delivery_post' onClick={() => handleFunc('navigate_post')}>
                             게시글 보기
                         </div>
+                        <Modal
+                            isOpen={modalIsOpen}
+                            onRequestClose={()=>setModalIsOpen(false)}
+                            style={customModal}>
+                            <div className="func_modal_container">
+                                삭제된 게시글입니다.
+                                <Button styleClass="modal_btn_yes" label="확인" onClick={() => {setModalIsOpen(false); pannelHandler('chatRoomFunc');}} />
+                            </div>
+                        </Modal>
                         <div className='funcPannel_go_out' onClick={() => {handleFunc('go_out'); window.history.back();}}>
                             채팅방 나가기
                         </div>

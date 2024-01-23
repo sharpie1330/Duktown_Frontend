@@ -20,6 +20,13 @@ body {
     max-height: 100%;
 }
 
+.chatRoom_list_container span{
+    width: 100%;
+    color: #B3B3B3;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
 .chatRoom_list_container::-webkit-scrollbar{
     display: none;
 }

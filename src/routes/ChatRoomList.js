@@ -1,20 +1,21 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import function_button from '../assets/function_button.png';
 import ListView from "../components/ListView";
 import '../css/ChatRoomList.css';
-import AccessTokenContext from "../AccessTokenContext";
 import arrow_left from "../assets/arrow_left.png"
 import Button from "../components/Button";
 import Upperbar from "../components/UpperBar";
 import BottomBar from "../components/BottomBar";
+import {useNavigate} from "react-router-dom";
 function ChatRoomList() {
+    const navigate = useNavigate();
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/chatRoom";
-    const { accessToken } = useContext(AccessTokenContext);
     const [chatRoomArr, setChatRoomArr] = useState([]);
     const [isOpenFunc, setIsOpenFunc] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
+    const accessToken = localStorage.getItem('accessToken');
 
     const handleSelectedItemsChange = (newSelectedItems) => {
         setSelectedItems(newSelectedItems);
@@ -36,21 +37,30 @@ function ChatRoomList() {
             }
             else{
                 return response.json().then(errorResponse => {
-                    if (errorResponse.errorMessage.includes('Token')) {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
                 });
             }
-        } catch (err) {
-            console.log('getChatRoomList error: ' + err);
+        } catch (errorResponse) {
+            if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(errorResponse.errorMessage);
+            }
         }
     }
-    useEffect(() => {
-        getChatRoomList(apiUrl, accessToken).then(data => {
-            setChatRoomArr(data.chatRooms);
-        });
+    useEffect( () => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        } else {
+            console.log(accessToken);
+            getChatRoomList(apiUrl, accessToken).then(data => {
+                setChatRoomArr(data.chatRooms);
+            });
+        }
 
     }, []);
 
@@ -58,11 +68,11 @@ function ChatRoomList() {
         try {
             setIsOpenFunc(false);
             setIsEdit(true);
-        } catch (error) {
-            if (error.errorMessage.includes('Token')) {
+        } catch (errorResponse) {
+            if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                 window.open('http://localhost:3000/signin', '_self');
             } else {
-                throw new EvalError(error.errorMessage);
+                throw new EvalError(errorResponse.errorMessage);
             }
         }
     }
@@ -81,15 +91,19 @@ function ChatRoomList() {
 
                 if (!response.ok) {
                     return response.json().then(errorResponse => {
-                        if (errorResponse.errorMessage.includes('Token')) {
+                        if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
                             throw new EvalError(errorResponse.errorMessage);
                         }
                     });
                 }
-            } catch (err) {
-                console.log('getChatRoomList error: ' + err);
+            } catch (errorResponse) {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             }
         })
 
@@ -106,8 +120,20 @@ function ChatRoomList() {
     }, [selectedItems])
 
     useEffect(() => {
-        console.log('chatRoom List updated');
+        setView();
     }, [chatRoomArr])
+
+    const setView = () => {
+        if (chatRoomArr.length > 0) {
+            if (isEdit) {
+                return <Button styleClass='blue_rec_btn' label='나가기' onClick={handleChatOut}/>
+            } else {
+                return <img className='chatRoom_list_title_icon' src={function_button} alt='더보기' onClick={() => {!isOpenFunc ? setIsOpenFunc(true) : setIsOpenFunc(false)}}/>
+            }
+        } else {
+            return <></>
+        }
+    }
 
     return (
         <>
@@ -117,7 +143,7 @@ function ChatRoomList() {
                     <div className='chatRoom_list_title_container'>
                         {isEdit ? <img className='chatRoom_list_edit_icon' src={arrow_left} alt='편집 취소' onClick={() => setIsEdit(false)}/> : <></> }
                         <span>배달팟 채팅방</span>
-                        {isEdit ? <Button styleClass='blue_rec_btn' label='나가기' onClick={handleChatOut}/> : <img className='chatRoom_list_title_icon' src={function_button} alt='더보기' onClick={() => {!isOpenFunc ? setIsOpenFunc(true) : setIsOpenFunc(false)}}/>}
+                        {setView()}
                         {isOpenFunc
                             ? <div className='funcPannel_container'>
                                 <div className='funcPannel_edit' onClick={handelEdit}>
@@ -127,12 +153,16 @@ function ChatRoomList() {
                             : <></>}
                     </div>
                     <div className='chatRoom_list_container'>
-                        <ListView
-                            tableFor='chatRoom'
-                            items={chatRoomArr}
-                            edit={isEdit}
-                            handler={handleSelectedItemsChange}
-                        />
+                        {
+                            chatRoomArr.length > 0
+                                ? <ListView
+                                    tableFor='chatRoom'
+                                    items={chatRoomArr}
+                                    edit={isEdit}
+                                    handler={handleSelectedItemsChange}
+                                />
+                                : <span>아직 참여한 배달팟이 없습니다</span>
+                        }
                     </div>
                 </div>
             </div>

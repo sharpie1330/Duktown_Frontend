@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import arrow_left from '../assets/arrow_left.png';
 import unit_blue from '../assets/unit_blue.png';
 import edit_blue from '../assets/edit_blue.png';
@@ -6,7 +6,6 @@ import comment_blue from '../assets/comment_blue.png';
 import logout from '../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import Modal from "react-modal";
-import AccessTokenContext from '../AccessTokenContext';
 import {customModal} from '../customModalConfig';
 import Button from "../components/Button";
 import profile from "../assets/profile.png";
@@ -28,10 +27,14 @@ function MyPage() {
     //모달
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modal2IsOpen, setModal2IsOpen] = useState(false);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
-    useEffect(() => {
+    useEffect( () => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         const profileUrl = serverUrl + '/my';
         fetch(profileUrl, {
             method: 'GET',
@@ -44,10 +47,14 @@ function MyPage() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
-                        throw new EvalError(response.errorMessage);
+                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(response.errorMessage);
+                        }
                     }
                 }
             })
@@ -61,11 +68,11 @@ function MyPage() {
                 setRoomNumber(data.roomNumber);
                 setUnitUserType(data.unitUserType);
             })
-            .catch((error) => {
-                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    throw new EvalError(error.errorMessage);
+                    throw new EvalError(errorResponse.errorMessage);
                 }
             });
     }, []);
@@ -85,18 +92,18 @@ function MyPage() {
                     alert('정상적으로 로그아웃 되었습니다.');
                     return navigate('/');
                 } else {
-                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(response.errorMessage);
                     }
                 }
             })
-            .catch((error) => {
-                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    throw new EvalError(error.errorMessage);
+                    throw new EvalError(errorResponse.errorMessage);
                 }
             });
     }
@@ -116,18 +123,18 @@ function MyPage() {
                     alert('즐겨주셔서 감사합니다. 더 발전해서 돌아오겠습니다!');
                     return navigate('/');
                 } else {
-                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(response.errorMessage);
                     }
                 }
             })
-            .catch((error) => {
-                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    throw new EvalError(error.errorMessage);
+                    throw new EvalError(errorResponse.errorMessage);
                 }
             });
     }

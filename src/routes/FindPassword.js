@@ -26,10 +26,10 @@ function FindPassword(){
                         <span id="inputCheckBtn" onClick={sendCode}>계정 확인</span>
                     </div>
                 </div>
-                <button type="submit" className='bottomBtn'>
-                    이메일로 임시 비밀번호 보내기
-                </button>
             </form>
+            <button type="submit" className='bottomBtn'>
+                이메일로 임시 비밀번호 보내기
+            </button>
         </>
     )
 }

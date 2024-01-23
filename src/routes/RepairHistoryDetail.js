@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
 import '../css/RepairHistoryDetail.css';
-import AccessTokenContext from "../AccessTokenContext";
 function RepairHistoryDetail() {
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const params = useParams();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -13,8 +12,11 @@ function RepairHistoryDetail() {
     const [solved, setSolved] = useState(false);
 
     useEffect(() => {
-        const apiUrl = `http://localhost:8080/repairApply/${params.id}`;
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
 
+        const apiUrl = `http://localhost:8080/repairApply/${params.id}`;
         const request = {
             method: 'GET',
             headers: {
@@ -24,14 +26,14 @@ function RepairHistoryDetail() {
         }
 
         fetch(apiUrl, request)
-            .then((request) => {
-                if (request.ok)
-                    return request.json();
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
                 else {
-                    if (request.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
-                        throw new EvalError(request.errorMessage);
+                        throw new EvalError(response.errorMessage);
                     }
                 }
             })
@@ -50,11 +52,11 @@ function RepairHistoryDetail() {
                 setChecked(data.checked);
                 setSolved(data.solved);
             })
-            .catch((error) => {
-                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    throw new EvalError(error.errorMessage);
+                    throw new EvalError(errorResponse.errorMessage);
                 }
             })
     }, [accessToken, params.id]);

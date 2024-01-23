@@ -1,26 +1,30 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import arrow_left from '../assets/arrow_left.png';
 import arrow_right from '../assets/arrow_right.png';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import '../css/RepairApply.css';
 import Modal from "react-modal";
-import AccessTokenContext from '../AccessTokenContext';
 import {customModal} from "../customModalConfig";
 
 function RepairApply(){
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const [hallName, setHallName] = useState("1");
     const [room, setRoom] = useState("");
     const [content, setContent] = useState("");
-    const [history, setHistory] = useState(null);
+
+    useEffect( () => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+    }, []);
 
     const serverUrl = "http://localhost:8080";
     const submitHandler = async () => {
         const apiUrl = serverUrl + "/repairApply";
-        let roomNumber = '';
+        let roomNumber;
 
         if (!room.includes('호')){
             roomNumber = `${room}호`;
@@ -51,7 +55,7 @@ function RepairApply(){
                 if (response.ok)
                     return response;
                 else {
-                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(response.errorMessage);
@@ -62,11 +66,11 @@ function RepairApply(){
                 setModalIsOpen(false);
                 alert("수리요청이 전송되었습니다.");
             })
-            .catch((error) => {
-                if (error.errorMessage === '유효하지 않은 JWT Token입니다.') {
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    throw new EvalError(error.errorMessage);
+                    throw new EvalError(errorResponse.errorMessage);
                 }
                 setModalIsOpen(false);
             });

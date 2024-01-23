@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/duktown_logo.png';
 import mypage from '../assets/mypage.png';
 import search from '../assets/search.png';
+import '../css/Upperbar.css'
 
 const Upperbar = ({ searchAvailable }) => {
     const navigate = useNavigate();

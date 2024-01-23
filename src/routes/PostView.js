@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import {useLocation, useParams} from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import like_icon from '../assets/like.png';
@@ -13,7 +13,8 @@ import '../css/PostView.css';
 
 function PostView() {
     const location = useLocation();
-    const id = location.state.id; // URL의 state 속성을 가져옴
+    const param = useParams();
+    const id = param.postId;
     const category_name = {0: '일상', 1: '장터'}
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState({
@@ -210,30 +211,41 @@ function PostView() {
         fetchData();
     }, [id, accessToken]);
 
+    const shareHandler = async () => {
+        await navigator.clipboard.writeText(`http://localhost:3000${location.pathname}`)
+            .then(_ => {alert("클립보드에 링크가 복사되었습니다")})
+            .catch(error => console.log(error));
+    }
+
     return (
         <>
             <div className='title_container'>
-                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}}></img>
+                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로가기'></img>
                 {category_name[post.category]}
             </div>
             <div className='content_container'>
                 <div id='upperInfo'>
-                    <img id='profileImage' src={profile_image} />
+                    <img id='profileImage' src={profile_image} alt='프로필'/>
                     <table id='nameAndTime'>
-                        <tr id='userName'>익명</tr>
-                        <tr id='post-time'>{post.datetime}</tr>    
+                        <tbody>
+                            <tr id='userName'>{'익명'}</tr>
+                            <tr id='post-time'>{post.datetime}</tr>
+                        </tbody>
                     </table>
                     {post.isWriter ? (
                         <button className='functionBtn' type='submit' form='post-form'>
-                            <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
+                            <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef} alt='더보기'/>
                         </button>
                     ) : null}
                     {showFunctionButton && (
-                        <div className='small-modal'>
+                        <div className='post-small-modal'>
                             {post.isWriter ? (
-                                <span onClick={handleDeletePost}>삭제하기</span>
+                                <>
+                                    <div id='post_share_btn' onClick={shareHandler}>공유하기</div>
+                                    <div onClick={handleDeletePost}>삭제하기</div>
+                                </>
                             ) : (
-                                null
+                                <div onClick={shareHandler}>공유하기</div>
                                 // <span onClick={handleReportPost}>신고하기</span>
                             )}
                         </div>  
@@ -243,11 +255,11 @@ function PostView() {
                 <p className="post-content">{post.content}</p>
                 <div className="post-details">
                     {post.liked ?
-                    <img src={like_blue_icon} onClick={handleLike}/>
+                    <img src={like_blue_icon} onClick={handleLike} alt='좋아요'/>
                     :
-                    <img src={like_icon} onClick={handleLike}/>}
+                    <img src={like_icon} onClick={handleLike} alt='좋아요'/>}
                     <span className="post-likes">{post.likeCount}</span>
-                    <img src={comment_blue_icon} className='comment_btn'/><span className="post-comments">{post.commentCount}</span>
+                    <img src={comment_blue_icon} className='comment_btn' alt='댓글'/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>
@@ -286,7 +298,7 @@ function PostView() {
                     <form id='commentForm' onSubmit={postComment}>
                         <input id='comment-input' placeholder='댓글을 입력하세요'></input>
                         <button id='postBtn' type='submit'>
-                            <img src={post_button}/>
+                            <img src={post_button} alt='전송'/>
                         </button>
                     </form>
                 </div>

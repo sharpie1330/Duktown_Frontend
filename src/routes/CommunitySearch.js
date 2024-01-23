@@ -123,7 +123,7 @@ function CommunitySearch() {
                     })}
                 </div>
                 ) : (
-                <div>검색어와 일치하는 내용의 게시글이 없습니다</div>
+                <div style={{width: "100%", color: "#B3B3B3", textAlign: "center"}}>검색어와 일치하는 내용의 게시글이 없습니다</div>
             )}
         </div>
     </>
