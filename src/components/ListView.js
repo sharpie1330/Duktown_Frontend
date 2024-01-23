@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import '../css/ListView.css';
-import likes from '../assets/like.png';
-import comment from '../assets/comment.png';
-import {isThisMinute} from "date-fns";
+import likes from '../assets/like_blue.png';
+import comment from '../assets/comment_blue.png';
 function ListView({ items, tableFor, keyword, edit, handler }) {
     const navigate = useNavigate();
     const [selectedItems, setSelectedItems] = useState([]);
@@ -29,7 +28,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
         }
     }, [selectedItems, handler]);
 
-    let table = [];
+    let table;
     switch (tableFor) {
         case 'repair':
             const repairTableArr = items.map(item => {
@@ -71,11 +70,19 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
             break;
         case 'repairHistory':
             const repairHistoryTableArr = items.map(item => {
+                const content = item.content;
+                let visContent;
+                if (content.length >= 18){
+                    const subContent = content.substr(0, 18);
+                    visContent = subContent + '...';
+                } else {
+                    visContent = content;
+                }
                 let rows = [];
                 rows.push(
                     <div className='content'>
                         <div className='tableRow'>
-                            <div className='contentCol'><Link to={`/repairs/historys/detail/${item.id}`}>{item.content}</Link></div>
+                            <div className='contentCol'><Link to={`/repairs/historys/detail/${item.id}`}>{visContent}</Link></div>
                             <div className='confirmCol'><div className={item.checked ? 'confirm' : 'unconfirmed'}>{item.checked ? '확인' : '미확인'}</div></div>
                             <div className='statusCol'><div className={item.solved ? 'solve' : 'unresolved'}>{item.solved ? '해결' : '미해결'}</div></div>
                         </div>
@@ -133,7 +140,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
             const chatRoomTableArr = items.map(item => {
                 const today = new Date();
                 const recentMsgDate = new Date(item.recentChatCreatedAt);
-                let recentDate = ``;
+                let recentDate;
                 if (today.getFullYear()===recentMsgDate.getFullYear()
                     && today.getMonth()===recentMsgDate.getMonth()
                     && today.getDate()===recentMsgDate.getDate()) {
@@ -164,7 +171,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
         case 'myDeliveryPost':
             const myDeliveryPostArr = items.map(item => {
                 const content = item.content;
-                let visContent = '';
+                let visContent;
                 if (content.length >= 75){
                     const subContent = content.substr(0, 75);
                     visContent = subContent + '...';
@@ -191,7 +198,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
         case 'myPost':
             const myPostArr = items.map(item => {
                 const content = item.content;
-                let visContent = '';
+                let visContent;
                 if (content.length >= 75){
                     const subContent = content.substr(0, 75);
                     visContent = subContent + '...';
@@ -201,7 +208,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
 
                 let rows = [];
                 rows.push(
-                    <Link className='myPost_container' to={`/delivery/${item.deliveryId}`}>
+                    <Link className='myPost_container' to={`/post/${item.id}`} state={{ id: item.id }}>
                         <div className='title'>{item.title}</div>
                         <div className='content'>{visContent}</div>
                         <div className='myPost_horizontal_container'>

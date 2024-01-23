@@ -329,7 +329,6 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     display: flex;
     flex-direction: column;
     align-self: center;
-    border-top: 1px solid #D9D9D9;
 }
 
 .stayout_title_container {
@@ -563,4 +562,8 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     margin-top: 26px;
     display: flex;
     justify-content: space-between;
+}
+
+hr {
+    width: 95% !important;
 }

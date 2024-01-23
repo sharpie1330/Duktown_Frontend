@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import arrow_left from "../assets/arrow_left.png";
 import arrow_right from "../assets/arrow_right.png";
 import edit_blue from "../assets/edit_blue.png";
 import ListView from "../components/ListView";
 import '../css/RepairHistory.css';
-import AccessTokenContext from "../AccessTokenContext";
 
 function RepairHistory() {
     const navigate = useNavigate();
@@ -13,7 +12,7 @@ function RepairHistory() {
     const [currentPageSet, setCurrentPageSet] = useState(1);
     const [items, setItems] = useState([]);
     const [limitPageSet, setLimitPageSet] = useState(null);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const handlePreviousClick = () => {
         if (currentPageSet > 1) {
             setCurrentPageSet(currentPageSet - 1);
@@ -31,8 +30,11 @@ function RepairHistory() {
     };
 
     useEffect(() => {
-        const apiUrl = `http://localhost:8080/repairApply?pageNo=${currentPage}`;
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
 
+        const apiUrl = `http://localhost:8080/repairApply?pageNo=${currentPage}`;
         const request = {
             method: 'GET',
             headers: {
@@ -45,7 +47,7 @@ function RepairHistory() {
                 if (response.ok){
                     return response.json();
                 } else {
-                    if (response.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(response.errorMessage);
@@ -55,11 +57,14 @@ function RepairHistory() {
             .then((data) => {
                 console.log(data);
                 setLimitPageSet(data.totalPage);
-                setItems(data.content);
+                setItems(data.content.reverse());
             })
-            .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
     }, [currentPage]);
 

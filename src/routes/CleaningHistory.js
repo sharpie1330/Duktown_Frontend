@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import arrow_left from "../assets/arrow_left.png";
 import {useNavigate} from "react-router-dom";
 import '../css/CleaningHistory.css';
 import ListView from "../components/ListView";
-import AccessTokenContext from "../AccessTokenContext";
 
 function CleaningHistory() {
     const navigate = useNavigate();
     const [cleaningHistroyArr, setCleaningHistroyArr] = useState([]);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
     const dummyData = [
         {cleaningDate: '2024-01-25', cleaned: false, checked: false},
@@ -18,6 +17,10 @@ function CleaningHistory() {
     ]
 
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         const apiUrl = serverUrl + '/cleaning';
         fetch(apiUrl, {
             method: 'GET',
@@ -29,7 +32,11 @@ function CleaningHistory() {
             if (response.ok) {
                 return response.json()
             } else {
-                throw new Error(response.errorMessage);
+                if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(response.errorMessage);
+                }
             }
         })
             .then((data) => {
@@ -37,10 +44,15 @@ function CleaningHistory() {
                 setCleaningHistroyArr(data.content)
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+                console.log(error);
+                if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(error.errorMessage);
+                }
             });
     }, []);
+
     return (
         <>
             <div className='cleaningHistory_title_container'>

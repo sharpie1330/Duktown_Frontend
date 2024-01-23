@@ -1,8 +1,7 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
 import function_button from "../assets/function_button.png";
-import AccessTokenContext from "../AccessTokenContext";
 import '../css/ChatRoom.css';
 import FuncPannel from "../components/FuncPannel";
 import {Client} from "@stomp/stompjs";
@@ -14,7 +13,6 @@ function ChatRoom() {
     const navigate = useNavigate();
     const params = useParams();
     const chatRoomId = params.chatRoomId;
-    const { accessToken } = useContext(AccessTokenContext);
     const serverUrl = 'http://localhost:8080';
     const clientRef = useRef(null); //Stomp 연결
     const [isOpenChatRoomFunc, setIsOpenChatRoomFunc] = useState(false); //더보기 창
@@ -42,6 +40,8 @@ function ChatRoom() {
     const [myUserNum, setMyUserNum] = useState(1000); //나의 userNum
     const [othersUserNum, setOthersUserNum] = useState(null); //이름을 누른 사용자의 userNum
     const [chatIdx, setChatIdx] = useState(''); //이름을 누른 채팅의 idx
+    const accessToken = localStorage.getItem('accessToken');
+
 
     //채팅방 정보 가져오기
     const apiUrl1 = serverUrl + `/chatRoom/${chatRoomId}`
@@ -60,7 +60,7 @@ function ChatRoom() {
             } else {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
-                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
@@ -68,12 +68,16 @@ function ChatRoom() {
                 });
             }
         } catch (error) {
-            alert(error);
+            if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(error.errorMessage);
+            }
         }
     }
 
     const getPrevChatList = async (atk, page, size) => {
-        let apiUrl2 = '';
+        let apiUrl2;
         if (!size) {
             apiUrl2 = serverUrl + `/chats/${chatRoomId}?page=${page}`;
         } else {
@@ -94,7 +98,7 @@ function ChatRoom() {
             } else {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
-                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
@@ -102,7 +106,11 @@ function ChatRoom() {
                 });
             }
         } catch (error) {
-            alert(error);
+            if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(error.errorMessage);
+            }
         }
     }
 
@@ -131,7 +139,7 @@ function ChatRoom() {
     }
     //2. 새로 온 채팅 처리
     const lastChatChecker = (chatList) => {
-        /*const lastChat = chatList[chatList.length - 1];
+        const lastChat = chatList[chatList.length - 1];
         if (lastChat.chatType === 'WRITER_EXIT') {
             setIsReadOnly(true);
             return true;
@@ -144,7 +152,7 @@ function ChatRoom() {
                 return true;
             }
             return false;
-        }*/
+        }
         return false;
     }
 
@@ -174,6 +182,14 @@ function ChatRoom() {
             }
         }
     }, [chatList]);
+
+    useEffect(() => {
+        scrollHandler();
+        if (isReadOnly && clientRef.current.connected) {
+            clientRef.current.unsubscribe(); //구독 해제
+            clientRef.current.deactivate(); //웹소켓 연결 해제
+        }
+    }, [isReadOnly]);
 
     const onChatChange = (e) => {
         setChat(e.target.value);
@@ -223,6 +239,12 @@ function ChatRoom() {
                         </div>
                     );
                 case 'EXIT':
+                    return (
+                        <div className='infoMsg_container' key={idx}>
+                            {item.message}
+                        </div>
+                    );
+                case 'RECRUITMENT_FINISH':
                     return (
                         <div className='infoMsg_container' key={idx}>
                             {item.message}
@@ -313,7 +335,11 @@ function ChatRoom() {
     }
 
     //페이지  첫 렌더링 시
-    useEffect(() => {
+    useEffect( () => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         //이전 채팅 내역 가져오기
         let chatArr = [];
         const isValid = getPrevChatList(accessToken, 0, 20).then(data => {
@@ -324,8 +350,8 @@ function ChatRoom() {
             let isValidInner = false;
             if (chatArr.length > 0) {
                 isValidInner = lastChatChecker(chatArr);
-                return isValidInner;
             }
+            return isValidInner;
         });
 
         //채팅방 정보 가져오기
@@ -346,12 +372,14 @@ function ChatRoom() {
         if (deliveryDeleted === true) { //배달팟이 삭제됐거나 글쓴이가 나갔을때
             setIsReadOnly(true);
         } else { //배달팟이 삭제되지 않았을 때
-            if (!isValid) {
-                connect();
-            } else {
-                connect();
-                setIsReadOnly(true);
-            }
+            isValid.then(result => {
+                if (!result) {
+                    connect();
+                } else {
+                    connect();
+                    setIsReadOnly(true);
+                }
+            });
         }
         scrollHandler();
 
@@ -368,7 +396,6 @@ function ChatRoom() {
 
     const loadMoreMessage = async () => {
         try {
-            //setIsLoadingMessages(true);
             console.log(chatPage);
             const prevMessages = await getPrevChatList(accessToken, chatPage)
                 .then(data => {
@@ -386,12 +413,18 @@ function ChatRoom() {
                 setChatList(prevChatList => [...uniqueNewMessages, ...prevChatList]);
                 console.log(reverseArr);
             }
-            //etIsLoadingMessages(false);
         } catch (error) {
             console.error("Error loading more messages:", error);
         }
     }
 
+    const placeholder = () => {
+        if (isReadOnly) {
+            return '더 이상 채팅을 보낼 수 없습니다.';
+        } else {
+            return '메세지를 입력하세요.'
+        }
+    }
     return (
         <>
             <div className='chat_title_container'>
@@ -415,7 +448,7 @@ function ChatRoom() {
                 </div>
                 <div className='chatRoom_bottom_container'>
                     <div className='chatRoom_input_container'>
-                        <textarea className='chatRoom_input_area' placeholder='메세지를 입력하세요.' ref={inputRef} value={chat} onChange={onChatChange} readOnly={isReadOnly}
+                        <textarea className='chatRoom_input_area' placeholder={placeholder()} ref={inputRef} value={chat} onChange={onChatChange} readOnly={isReadOnly}
                                   onCompositionStart={()=>setIsComposing(true)} onCompositionEnd={()=>setIsComposing(false)} onKeyDown={keyDownHandler}/>
                     </div>
                     <div className='chatRoom_sendBtn_container'>

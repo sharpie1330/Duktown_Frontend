@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
 import DeliveryPost from '../components/DeliveryPost';
@@ -7,8 +7,10 @@ import GeneralPost from '../components/GeneralPost';
 import plus from '../assets/plus_icon.png';
 import '../css/Community.css';
 
-function Community({ category }) {
+function Community() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const category = new URLSearchParams(location.search).get('category');
     const accessToken = localStorage.getItem('accessToken');
     const recentCategory = localStorage.getItem('recentCategory');
 
@@ -116,7 +118,7 @@ function Community({ category }) {
 
     const handleScroll = () => {
         const scrollContainer = scrollRef.current;
-        if (scrollContainer) {
+        if (scrollContainer && selectedCategory !== 'delivery') {
             const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight;
             // 추가: 로딩 중이 아니고, 스크롤이 맨 아래에 도달했을 때만 fetchMorePosts 호출
             if (isBottom && !loading) {
@@ -135,7 +137,7 @@ function Community({ category }) {
 
     useEffect(() => {
         fetchPostsByCategory();
-    }, [selectedCategory])
+    }, [selectedCategory, deliverySort])
 
     return (
         <>
@@ -200,11 +202,11 @@ function Community({ category }) {
                         })}
                     </>
                     ) : (
-                    <div>게시글이 없습니다</div>
+                    <div className='post_not_exist'>게시글이 없습니다</div>
                 )}
                 </div>
                 <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
-                        <img src={plus}/>
+                        <img src={plus} alt='글쓰기버튼'/>
                         글쓰기
                 </button>
             </div>

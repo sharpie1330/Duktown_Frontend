@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Calendar from "react-calendar";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import Button from '../components/Button';
 import moment from "moment";
@@ -9,7 +9,6 @@ import arrow_right from '../assets/arrow_right.png';
 import '../css/FindFillIn.css';
 import Modal from "react-modal";
 import {customModal} from "../customModalConfig";
-import AccessTokenContext from "../AccessTokenContext";
 
 function FindFillIn() {
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ function FindFillIn() {
     const [unit, setUnit] = useState([]);
     const [memberId, setMemberId] = useState(null);
     const [memberDate, setMemberDate] = useState([]);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
     function sendData() {
@@ -53,6 +52,10 @@ function FindFillIn() {
     );
 
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         fetch(serverUrl+'/cleaning/unit', {
             method: 'GET',
             headers: {
@@ -63,15 +66,23 @@ function FindFillIn() {
             .then((response) => {
                 if (response.ok)
                     return response.json();
-                else
-                    throw new Error(response.errorMessage);
+                else {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
+                }
             })
             .then((data) => {
                 setUnit(data.unit);
             })
-            .catch((error) => {
-                console.error(error.errorMessage);
-                alert(error.errorMessage);
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
     }, []);
 
@@ -81,6 +92,10 @@ function FindFillIn() {
     }
 
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         if (memberId !== null) {
             fetch(serverUrl+`/cleaning/${memberId}/schedule`, {
                 method: 'GET',
@@ -92,23 +107,30 @@ function FindFillIn() {
                 .then((response) => {
                     if (response.ok)
                         return response.json();
-                    else
-                        throw new Error(response.errorMessage);
+                    else {
+                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(response.errorMessage);
+                        }
+                    }
                 })
                 .then((data) => {
                     console.log(data.date);
                     setMemberDate(data.date);
                 })
-                .catch((error) => {
-                    console.error(error.errorMessage);
-                    console.log(error);
+                .catch((errorResponse) => {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
                 });
         }
     }, [memberId]);
 
     const dateString = () => {
-        const dateStr = selectedDate.map((date) => `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`).join(', ');
-        return dateStr
+        return selectedDate.map((date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`).join(', ')
     }
 
     useEffect(() => {

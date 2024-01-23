@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
-import AccessTokenContext from "../AccessTokenContext";
 import ListView from "../components/ListView";
 import '../css/MyPostList.css';
 function MyPostList() {
@@ -9,10 +8,14 @@ function MyPostList() {
     const params = useParams();
     const [category, setCategory] = useState('2');
     const [item, setItem] = useState([]);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         let apiUrl = '';
         if (params.type === 'posts') {
             if (category === '2') {
@@ -65,7 +68,7 @@ function MyPostList() {
                 return <ListView tableFor='myPost' items={item}/>
             }
         } else {
-            <span className='myPost_none'>이 카테고리에 쓴 글이 없습니다</span>
+            return  <span className='myPost_none'>이 카테고리에 쓴 글이 없습니다</span>
         }
     }
 

@@ -1,227 +1,241 @@
 import React, {useState} from "react";
 import arrow_left from "../assets/arrow_left.png";
 import '../css/Penalty.css';
-import {useNavigate} from "react-router-dom";
 
 function Penalty(){
-    const navigate = useNavigate();
     const [tab, setTab] = useState(1);
     const renderTable = () => {
         switch (tab) {
             case 1:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>사용 제한 전기제품 사용 사실을 알고도 신고하지 않았을 경우</td>
-                            <td>유니트(UNIT)원 전체에 부과</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>조장이 청소검사표를 작성/부착하지 않은 경우</td>
-                            <td>조장에게 부과</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>냉장고 청소(월 1회)를 하지 않은 경우</td>
-                            <td>유니트(UNIT)원 전체에 부과</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>기숙사 공동물품(다리미, 빨래건조대 등)을 개인적으로 가져가 사용한 경우</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>대여물 반납일로부터 7일(휴일 제외) 이상 연체한 경우, 카트 이용 후 미반납하는 경우도 해당</td>
-                            <td>연체날짜 연장 시 벌점 누계됨</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>소방법을 위반한 경우(복도에 물건 비치, 방화문 열린 상태 고정 등)</td>
-                            <td>유니트(UNIT)원 전체에 부과 가능</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>방 열쇠(카드키)를 분실한 경우(재발급비 1만원 배상)</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>기한 내 학생카드 입력을 하지 않은 경우</td>
-                            <td>연체날짜 연장 시 벌점 누계됨</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>행정에 필요한 서류(퇴사원서, 자가체온측정표 등)를 기한 내 미제출</td>
-                            <td>연체날짜 연장 시 벌점 누계됨</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>OT, 화재대피훈련, 호실 점검에 지각한 경우</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>유니트 조장(가온1관,국제기숙사 해당)이 매주 월요일에 사무실에서 쓰레기봉투를 수령하지 않은 경우</td>
-                            <td>조장에게 부과</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>스페어키(가온Ⅰ관) 30분 / 마스터키(가온Ⅱ관, 국제기숙사) 10분 초과하여 반납할 경우</td>
-                            <td/>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>사용 제한 전기제품 사용 사실을 알고도 신고하지 않았을 경우</td>
+                                <td>유니트(UNIT)원 전체에 부과</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>조장이 청소검사표를 작성/부착하지 않은 경우</td>
+                                <td>조장에게 부과</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>냉장고 청소(월 1회)를 하지 않은 경우</td>
+                                <td>유니트(UNIT)원 전체에 부과</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>기숙사 공동물품(다리미, 빨래건조대 등)을 개인적으로 가져가 사용한 경우</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>대여물 반납일로부터 7일(휴일 제외) 이상 연체한 경우, 카트 이용 후 미반납하는 경우도 해당</td>
+                                <td>연체날짜 연장 시 벌점 누계됨</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>소방법을 위반한 경우(복도에 물건 비치, 방화문 열린 상태 고정 등)</td>
+                                <td>유니트(UNIT)원 전체에 부과 가능</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>방 열쇠(카드키)를 분실한 경우(재발급비 1만원 배상)</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>기한 내 학생카드 입력을 하지 않은 경우</td>
+                                <td>연체날짜 연장 시 벌점 누계됨</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>행정에 필요한 서류(퇴사원서, 자가체온측정표 등)를 기한 내 미제출</td>
+                                <td>연체날짜 연장 시 벌점 누계됨</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>OT, 화재대피훈련, 호실 점검에 지각한 경우</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>유니트 조장(가온1관,국제기숙사 해당)이 매주 월요일에 사무실에서 쓰레기봉투를 수령하지 않은 경우</td>
+                                <td>조장에게 부과</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>스페어키(가온Ⅰ관) 30분 / 마스터키(가온Ⅱ관, 국제기숙사) 10분 초과하여 반납할 경우</td>
+                                <td/>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 2:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>외부인 출입시간을 지키지 않은 경우</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>정규 입퇴사 시 정해진 시간 내에 입사를 하지 않은 경우</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>OT에 불참한 경우</td>
-                            <td>수업 등으로 인한 불참 제외(확인서 제출)</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>스페어키(가온Ⅰ관) / 마스터키(가온Ⅱ관, 국제기숙사)를 월 5회 이상 대여</td>
-                            <td/>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>외부인 출입시간을 지키지 않은 경우</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>정규 입퇴사 시 정해진 시간 내에 입사를 하지 않은 경우</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>OT에 불참한 경우</td>
+                                <td>수업 등으로 인한 불참 제외(확인서 제출)</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>스페어키(가온Ⅰ관) / 마스터키(가온Ⅱ관, 국제기숙사)를 월 5회 이상 대여</td>
+                                <td/>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 3:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>호실 점검에 불참할 경우</td>
-                            <td>오리엔테이션 등 행사 시</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>청소당번이 청소를 하지 않은 경우</td>
-                            <td>조장에게 부과</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>청소벌점을 교환한 경우</td>
-                            <td>벌점을 교환한 양측에 모두 부과</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>외박신청을 하지 않고 귀사하지 않은 경우(무단외박)</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>외박신청 여부와 상관없이 새벽 1시~새벽 5시 사이에 출입한 경우</td>
-                            <td>연체날짜 연장 시 벌점 누계됨</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>안전/건강/공동생활 관련 지시 및 권고사항에 대한 미이행</td>
-                            <td>유니트(UNIT)원 전체에 부과 가능</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>기숙사 물품을 기숙사가 아닌 곳에 반출할 경우</td>
-                            <td>랜선 포함</td>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>호실 점검에 불참할 경우</td>
+                                <td>오리엔테이션 등 행사 시</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>청소당번이 청소를 하지 않은 경우</td>
+                                <td>조장에게 부과</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>청소벌점을 교환한 경우</td>
+                                <td>벌점을 교환한 양측에 모두 부과</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>외박신청을 하지 않고 귀사하지 않은 경우(무단외박)</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>외박신청 여부와 상관없이 새벽 1시~새벽 5시 사이에 출입한 경우</td>
+                                <td>연체날짜 연장 시 벌점 누계됨</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>안전/건강/공동생활 관련 지시 및 권고사항에 대한 미이행</td>
+                                <td>유니트(UNIT)원 전체에 부과 가능</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>기숙사 물품을 기숙사가 아닌 곳에 반출할 경우</td>
+                                <td>랜선 포함</td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 4:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>화재대피훈련에 불참할 경우</td>
-                            <td></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>화재대피훈련에 불참할 경우</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 8:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>사용 제한 전기제품 사용 사실을 알고도 신고하지 않았을 경우</td>
-                            <td></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>사용 제한 전기제품 사용 사실을 알고도 신고하지 않았을 경우</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 10:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>남자 외부인을 정해진 기간 외에 무단으로 출입시키는 경우</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>기숙사 내에서 음주(주류 반입 포함)</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>흡연구역이 아닌 곳에서 흡연을 하는 경우</td>
-                            <td>건물 옥상 역시 금연 구역</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>음주 후 귀사하여 난동을 부리는 등 타 사생에게 피해를 끼치는 경우</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>화장실 변기 및 세면대에 음식물 및 각종 이물질 버린 경우</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>수도를 틀고 외출하는 등 수해를 일으키는 경우</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>임의로 자리를 변경하는 경우</td>
-                            <td>2인실에 해당</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>기숙사 및 직원에 대한 폭언 및 비방/인격 모독을 한 경우</td>
-                            <td></td>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>남자 외부인을 정해진 기간 외에 무단으로 출입시키는 경우</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>기숙사 내에서 음주(주류 반입 포함)</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>흡연구역이 아닌 곳에서 흡연을 하는 경우</td>
+                                <td>건물 옥상 역시 금연 구역</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>음주 후 귀사하여 난동을 부리는 등 타 사생에게 피해를 끼치는 경우</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>화장실 변기 및 세면대에 음식물 및 각종 이물질 버린 경우</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>수도를 틀고 외출하는 등 수해를 일으키는 경우</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>임의로 자리를 변경하는 경우</td>
+                                <td>2인실에 해당</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>기숙사 및 직원에 대한 폭언 및 비방/인격 모독을 한 경우</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 16:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>공동생활과 면학 분위기를 해치는 행위</td>
-                            <td>도박, 폭음, 집단소란 행위 등</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>임의로 방(호실)을 바꾸는 행위</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>사내 동물사육 행위</td>
-                            <td></td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>기타 사칙 고의 위반 행위</td>
-                            <td/>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>외박일수를 모두 합한 날짜가 16일을 초과할 경우</td>
-                            <td>한 학기 기준(방학도 동일)</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>다른 학생의 신상을 대용하여 입사한 경우</td>
-                            <td>양측 모두 다음 학기 입사 불가</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>사용제한 전기제품(전기장판, 전기방석, 전기난로, 에어프라이어, 라면포트 등의 전열기구 및 냉장고)을 소지한 경우</td>
-                            <td>가온Ⅰ관은 냉장고(50ℓ이하)사용가능</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>다리미, 쿡탑, 전자레인지 등을 켜놓은 채 자리를 비워 위험이 초래된 경우(ex.화재경보기 작동)</td>
-                            <td></td>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>공동생활과 면학 분위기를 해치는 행위</td>
+                                <td>도박, 폭음, 집단소란 행위 등</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>임의로 방(호실)을 바꾸는 행위</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>사내 동물사육 행위</td>
+                                <td></td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>기타 사칙 고의 위반 행위</td>
+                                <td/>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>외박일수를 모두 합한 날짜가 16일을 초과할 경우</td>
+                                <td>한 학기 기준(방학도 동일)</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>다른 학생의 신상을 대용하여 입사한 경우</td>
+                                <td>양측 모두 다음 학기 입사 불가</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>사용제한 전기제품(전기장판, 전기방석, 전기난로, 에어프라이어, 라면포트 등의 전열기구 및 냉장고)을 소지한 경우</td>
+                                <td>가온Ⅰ관은 냉장고(50ℓ이하)사용가능</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>다리미, 쿡탑, 전자레인지 등을 켜놓은 채 자리를 비워 위험이 초래된 경우(ex.화재경보기 작동)</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
             case 25:
                 return (
                     <table className='penalty_tab_content_table'>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>무단 퇴사한 경우</td>
-                            <td>즉시퇴사/향후입사불가</td>
-                        </tr>
-                        <tr className='penalty_tab_content_table_tr'>
-                            <td className='penalty_tab_content_table_col1'>외부인 숙박 시도 및 외부인을 숨기는 경우</td>
-                            <td>즉시퇴사/향후입사불가</td>
-                        </tr>
-                        <tr>
-                            <td className='penalty_tab_content_table_col1'>도난 행위</td>
-                            <td> 즉시퇴사/향후입사불가/방을 임의대로 불시 점검 할 수 있음(부재 시에도 유효함)</td>
-                        </tr>
+                        <tbody>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>무단 퇴사한 경우</td>
+                                <td>즉시퇴사/향후입사불가</td>
+                            </tr>
+                            <tr className='penalty_tab_content_table_tr'>
+                                <td className='penalty_tab_content_table_col1'>외부인 숙박 시도 및 외부인을 숨기는 경우</td>
+                                <td>즉시퇴사/향후입사불가</td>
+                            </tr>
+                            <tr>
+                                <td className='penalty_tab_content_table_col1'>도난 행위</td>
+                                <td> 즉시퇴사/향후입사불가/방을 임의대로 불시 점검 할 수 있음(부재 시에도 유효함)</td>
+                            </tr>
+                        </tbody>
                     </table>
                 );
         }

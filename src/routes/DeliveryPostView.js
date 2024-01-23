@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {useLocation, useParams} from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import comment_icon from '../assets/comment_blue.png';
@@ -9,8 +9,9 @@ import Comment from '../components/Comment';
 import '../css/PostView.css';
 
 function DeliveryPostView() {
-    const location = useParams();
-    const deliveryId = Number(location.deliveryId); // URL의 parameter를 가져옴("/:deliveryId" 부분)
+    const location = useLocation();
+    const param = useParams();
+    const deliveryId = Number(param.deliveryId); // URL의 parameter를 가져옴("/:deliveryId" 부분)
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState({
         userId: '',
@@ -26,6 +27,8 @@ function DeliveryPostView() {
 
     const serverUrl = "http://localhost:8080";
     const [replyToCommentId, setReplyToCommentId] = useState(null);
+    const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부
+    const functionButtonRef = useRef(null);
 
     const fetchPost = async () => {
         fetch(serverUrl + '/delivery' + `/${deliveryId}`, {
@@ -111,43 +114,105 @@ function DeliveryPostView() {
     };
     
     useEffect(() => {
+        document.addEventListener('click', handleDocumentClick);
         fetchPost();
         fetchComments();
+
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
     }, []);
+
+    const shareHandler = async () => {
+        await navigator.clipboard.writeText(`http://localhost:3000${location.pathname}`)
+            .then(_ => {alert("클립보드에 링크가 복사되었습니다")})
+            .catch(error => console.log(error));
+    }
+
+    const handleDocumentClick = (event) => {
+        if (functionButtonRef.current && !functionButtonRef.current.contains(event.target)) {
+            setShowFunctionButton(false);
+        }
+    };
+
+    const handleFunctionButtonClick = () => {
+        setShowFunctionButton(!showFunctionButton);
+    };
+
+    const handleDeleteDelivery = async () => {
+        try {
+            const response = await fetch(serverUrl + `/delivery/${deliveryId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.ok) {
+                window.history.back();
+            }
+            else {
+                return response.json().then(errorResponse => {
+                    throw new EvalError(errorResponse.errorMessage);
+                });
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
 
     return (
         <>
             <div className='title_container'>
-                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}}></img>
+                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로 가기'></img>
                 배달팟
             </div>
             <div className='content_container'>
                 <div id='upperInfo'>
-                    <img id='profileImage' src={profile_image} />
+                    <img id='profileImage' src={profile_image} alt='프로필'/>
                     <table id='nameAndTime'>
-                        <tr id='userName'>익명</tr>
-                        <tr id='post-time'>{post.datetime}</tr>    
+                        <tbody>
+                            <tr id='userName'>익명</tr>
+                            <tr id='post-time'>{post.datetime}</tr>
+                        </tbody>
                     </table>
                     <button className='functionBtn' type='submit' form='post-form'>
-                        <img src={function_button}/>
+                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef} alt='더보기'/>
                     </button>
+                    {showFunctionButton && (
+                        <div className='post-small-modal'>
+                            {post.isWriter ? (
+                                <>
+                                    <div id='post_share_btn' onClick={shareHandler}>공유하기</div>
+                                    <div onClick={handleDeleteDelivery}>삭제하기</div>
+                                </>
+                            ) : (
+                                <div onClick={shareHandler}>공유하기</div>
+                                // <span onClick={handleReportPost}>신고하기</span>
+                            )}
+                        </div>
+                    )}
                 </div>
                 
                 <p className="post-title">{post.title}</p>
                 <table className='recruitment-info'>
-                    <tr>
-                        <td><span className='delivery-gray-text'>최대 모집 인원</span></td>
-                        <td><span className='delivery-blue-text'>{post.maxPeople}명</span></td>
-                    </tr>
-                    <tr>
-                        <td><span className='delivery-gray-text'>주문 예정 시각</span></td>
-                        <td><span className='delivery-blue-text'>{post.orderTime}</span></td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td><span className='delivery-gray-text'>최대 모집 인원</span></td>
+                            <td><span className='delivery-blue-text'>{post.maxPeople}명</span></td>
+                        </tr>
+                        <tr>
+                            <td><span className='delivery-gray-text'>주문 예정 시각</span></td>
+                            <td><span className='delivery-blue-text'>{post.orderTime}</span></td>
+                        </tr>
+                    </tbody>
                 </table>
                 <p id="postview-content">{post.content}</p>
                 <div className="post-details">
                     <span className="post-recruitment">{post.peopleCount}/{post.maxPeople}</span>
-                    <img src={comment_icon} style={{width: '15px'}}/><span className="post-comments">{post.commentCount}</span>
+                    <img src={comment_icon} style={{width: '15px'}} alt='댓글'/><span className="post-comments">{post.commentCount}</span>
                 </div>
                 <hr/>
                 <div className='comments'>
@@ -185,7 +250,7 @@ function DeliveryPostView() {
                     <form id='commentForm' onSubmit={postComment}>
                         <input id='comment-input' placeholder='댓글을 입력하세요'></input>
                         <button id='postBtn' type='submit'>
-                            <img src={post_button}/>
+                            <img src={post_button} alt='전송'/>
                         </button>
                     </form>
                 </div>

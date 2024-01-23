@@ -219,6 +219,10 @@ function SignUp() {
             case 'terms':
                 return (
                     <>
+                        <div className="title_container">
+                            <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                            약관 동의
+                        </div>
                         <div className="signup_content">
                             <div className='term_title'>
                                 <p className='blue_title'>반가워요!</p> 
@@ -235,13 +239,13 @@ function SignUp() {
                                     <span className='term_small'>덕타운 이용약관 동의 </span>
                                     <span className='blue_text'>필수</span>
                                     <input className='round_checkbox' id="applicationTermsCheckbox" type='checkbox'></input>
-                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(1)}}/>
+                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(1)}} alt='약관으로 이동'/>
                                 </div>
                                 <div className='term_line'>
                                     <span className='term_small'>개인정보 수집제공 동의 </span>
                                     <span className='blue_text'>필수</span>
                                     <input className='round_checkbox' id="personalInfoCheckbox" type='checkbox'></input>
-                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(2)}}/>
+                                    <img src={arrow_right_gray} onClick={() => {navigateToTerms(2)}} alt='약관으로 이동'/>
                                 </div>
                             </form>
                             {/* 회원가입 하기 버튼을 누르면 setCurrentPage('email')를 호출하여 페이지를 변경 */}
@@ -252,34 +256,38 @@ function SignUp() {
             case 'email':
                 return (
                     <>
-                    <div className="signup_content">
-                        <p className='blue_title'>덕우만 입주할 수 있어요!</p>
-                        <p className='gray_title'>덕성 이메일 인증이 필요해요.</p>
-                        <br/><br/>
-                        <form className="signup_form" id="signupForm" onSubmit={emailCheck}>
-                            <p>덕성 이메일</p>
-                            <input className="sign_input" type="email" name="email" placeholder='duktown@duksung.ac.kr'/>
-                            {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
-                            {!emailChecked ? 
-                                <button type="submit" className='emailAuthBtn'>이메일로 인증 보내기</button> 
+                        <div className="title_container">
+                            <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                            이메일 인증하기
+                        </div>
+                        <div className="signup_content">
+                            <p className='blue_title'>덕우만 입주할 수 있어요!</p>
+                            <p className='gray_title'>덕성 이메일 인증이 필요해요.</p>
+                            <br/><br/>
+                            <form className="signup_form" id="signupForm" onSubmit={emailCheck}>
+                                <p>덕성 이메일</p>
+                                <input className="sign_input" type="email" name="email" placeholder='duktown@duksung.ac.kr'/>
+                                {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
+                                {!emailChecked ?
+                                    <button type="submit" className='emailAuthBtn'>이메일로 인증 보내기</button>
+                                    :
+                                    <></>
+                                }
+                            </form>
+                            {!emailChecked ?
+                                null
                                 :
-                                <></>
+                                <>
+                                    <form id="codeForm" onSubmit={codeCheck}>
+                                        <input type="text" name="cert_code" placeholder='이메일로 발송된 인증번호를 입력하세요'></input>
+                                    </form>
+                                    <div className='cert_error'>
+                                        <span>인증번호가 안 왔어요! &nbsp;</span>
+                                        <button type="submit" id="blue_link" form='signupForm'>인증번호 다시 보내기</button>
+                                    </div>
+                                </>
                             }
-                        </form>
-                        {!emailChecked ? 
-                            null
-                            :
-                            <>
-                                <form id="codeForm" onSubmit={codeCheck}>
-                                    <input type="text" name="cert_code" placeholder='이메일로 발송된 인증번호를 입력하세요'></input>
-                                </form>
-                                <div className='cert_error'>
-                                    <span>인증번호가 안 왔어요! &nbsp;</span>
-                                    <button type="submit" id="blue_link" form='signupForm'>인증번호 다시 보내기</button>
-                                </div>
-                            </>
-                        }
-                    </div>
+                        </div>
                     {!emailChecked ?
                         <></>
                         :

@@ -8,11 +8,16 @@
     width: 100%;
     padding: 8px;
     background: #FFF;
-    box-shadow: 0px 0px 6px 0px rgba(183, 159, 159, 0.12);
+    box-shadow: 0 0 6px 0 rgba(183, 159, 159, 0.12);
+    margin: 0;
 }
 
-.bottom_bar img {
-    height: 36px;
+.bottom_bar_icon {
+    height: 32px;
+}
+
+.community_icon {
+    height: 34px;
 }
 
 .bottom_bar li {

@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from "../components/Button";
 import arrow_right from "../assets/arrow_right.png";
 import { useNavigate } from 'react-router-dom';
 import ListView from "../components/ListView";
 import Modal from 'react-modal'
 import "../css/Unit.css";
-import AccessTokenContext from "../AccessTokenContext";
 import {customModal} from "../customModalConfig";
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
@@ -17,7 +16,7 @@ function Unit() {
     const [history, setHistory] = useState([]);
     const [isCleaningDay, setIsCleaningDay] = useState(false);
     const [cleaningId, setCleaningId] = useState(null);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
     function formatToday(date) {
@@ -44,17 +43,26 @@ function Unit() {
                 console.log(response);
                 if (response.ok)
                     return response;
-                else
-                    throw new Error(response.errorMessage);
+                else {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
+                }
             })
             .then(() => {
                 setModalIsOpen(false);
                 alert("청소완료 처리되었습니다.");
             })
-            .catch((error) => {
-                console.error(error.errorMessage);
+            .catch((errorResponse) => {
+                console.error(errorResponse);
                 setModalIsOpen(false);
-                alert(error.errorMessage);
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
     }
 
@@ -89,16 +97,20 @@ function Unit() {
         {cleaningDate: '2024-01-04', cleaned: true, checked: true},
     ]
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         const start = new Date(startAndEnd[0]);
         const end = new Date(startAndEnd[1]);
 
-        let formatedStartDate = '';
+        let formatedStartDate;
         if (start.getMonth()+1 < 10) {
             formatedStartDate = `${start.getFullYear()}-0${start.getMonth()+1}-${start.getDate()}`;
         } else {
             formatedStartDate = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()}`;
         }
-        let formatedEndDate = '';
+        let formatedEndDate;
         if (start.getMonth()+1 < 10) {
             formatedEndDate = `${end.getFullYear()}-0${end.getMonth()+1}-${end.getDate()}`;
         } else {
@@ -114,16 +126,23 @@ function Unit() {
             .then((response) => {
                 if (response.ok)
                     return response.json();
-                else
-                    throw new Error(response.errorMessage);
+                else {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        new EvalError(response.errorMessage);
+                    }
+                }
             })
             .then((data) => {
                 setSchedule(data.data);
             })
-            .catch((error) => {
-                console.error(error.errorMessage);
-                console.log(error);
-                //alert(error.errorMessage);
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
 
         fetch(serverUrl+'/cleaning', {
@@ -136,15 +155,24 @@ function Unit() {
             .then((response) => {
                 if (response.ok)
                     return response.json();
-                else
-                    throw new Error(response.errorMessage);
+                else {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        new EvalError(response.errorMessage);
+                    }
+                }
             })
             .then((data) => {
                 setHistory(data.content);
             })
-            .catch((error) => {
-                console.error(error.errorMessage);
-                alert(error.errorMessage);
+            .catch((errorResponse) => {
+                console.log(errorResponse);
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
     }, []);
 
@@ -163,7 +191,7 @@ function Unit() {
 
     function isToday(date) {
         const today = new Date();
-        let formatedDate = '';
+        let formatedDate;
         if (today.getMonth() + 1 < 10) {
             formatedDate = `${today.getFullYear()}-0${today.getMonth()+1}-${today.getDate()}`
         } else {

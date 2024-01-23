@@ -143,10 +143,14 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
         setReplyIcon(comment_icon);
     }, [postComment]);
 
+    const commentFuncFilter = () => {
+
+    }
+
     return (
         <>
             <div id='upperInfo'>
-                <img className='comment-profileImage' src={profile_image} />
+                <img className='comment-profileImage' src={profile_image} alt='프로필'/>
                 <span className={userTitle === "글쓴이" ? 'comment-user comment-user-blue': 'comment-user'}>
                     {userTitle}
                 </span>
@@ -154,7 +158,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                 <span className='comment-time'>{dateTime}</span>
                 {isWriter || isDeliveryWriter && userTitle !== "(알수없음)"? (
                     <button className='functionBtn'>
-                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef}/>
+                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef} alt='더보기'/>
                     </button>
                 ): null}
                 {showFunctionButton && (
@@ -162,7 +166,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                     {isWriter ? (
                         <span onClick={handleDeleteComment}>삭제하기</span>
                     ) : null }
-                    {isDeliveryWriter ? (
+                    {isDeliveryWriter && !isWriter ? (
                         <span onClick={handleInvitation}>배달팟 초대하기</span>
                     ) : null}
                     {/* <span onClick={handleReportComment}>신고하기</span> */}
@@ -172,12 +176,12 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
             <p className="comment-content">{content}</p>
             <div className="comment-details">
                 {liked ?
-                <img src={like_blue_icon} onClick={handleLike}/>
+                <img src={like_blue_icon} onClick={handleLike} alt='좋아요_활성'/>
                 :
-                <img src={like_icon} onClick={handleLike}/>
+                <img src={like_icon} onClick={handleLike} alt='좋아요_비활성'/>
                 }
                 <span className="post-likes">좋아요 {likeCount}</span>
-                <img src={replyIcon}/>
+                <img src={replyIcon} alt='답글'/>
                 <span className="reply" onClick={handleReply}>답글쓰기</span>
             </div>
             {childComments && childComments.length > 0 ?
@@ -186,31 +190,33 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                         return (
                             <div className='child-comment'>
                                 <table className='reply-form'>
-                                    <tr>
-                                        <td>
-                                            <img src={reply_icon} style={{width: "15px"}}/>
-                                        </td>
-                                        <td>
-                                            <Comment
-                                                commentId={comment.commentId}
-                                                userId={comment.userId}
-                                                userTitle={comment.userTitle}
-                                                content={comment.content}
-                                                liked={comment.liked}
-                                                likeCount={comment.likeCount}
-                                                isWriter={comment.isWriter}
-                                                dateTime={comment.dateTime}
-                                                deleted={comment.deleted}
-                                                childComments={comment.childComments}
-                                                deliveryId={deliveryId}
-                                                isDeliveryWriter={isDeliveryWriter}
-                                                setReplyToCommentId={setReplyToCommentId}
-                                                fetchComments={fetchComments}
-                                                fetchPost={fetchPost}
-                                                postComment={postComment}
-                                            />
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src={reply_icon} style={{width: "15px"}} alt='답글'/>
+                                            </td>
+                                            <td>
+                                                <Comment
+                                                    commentId={comment.commentId}
+                                                    userId={comment.userId}
+                                                    userTitle={comment.userTitle}
+                                                    content={comment.content}
+                                                    liked={comment.liked}
+                                                    likeCount={comment.likeCount}
+                                                    isWriter={comment.isWriter}
+                                                    dateTime={comment.dateTime}
+                                                    deleted={comment.deleted}
+                                                    childComments={comment.childComments}
+                                                    deliveryId={deliveryId}
+                                                    isDeliveryWriter={isDeliveryWriter}
+                                                    setReplyToCommentId={setReplyToCommentId}
+                                                    fetchComments={fetchComments}
+                                                    fetchPost={fetchPost}
+                                                    postComment={postComment}
+                                                />
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         );

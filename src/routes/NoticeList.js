@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { DateRange } from 'react-date-range';
-import AccessTokenContext from "../AccessTokenContext";
 import arrow_left from "../assets/arrow_left.png";
 import calendar from "../assets/calendar.png";
 import ListView from "../components/ListView";
@@ -31,7 +30,7 @@ function NoticeList() {
         },
     ]);
     const [limitPageSet, setLimitPageSet] = useState(5); {/*임시*/}
-    const { accessToken } = useContext(AccessTokenContext);
+    //const { accessToken } = useContext(AccessTokenContext);
     let items = [{id:1, date: '2023.12.18', title: '둘째줄로 잘 넘어가는지 테스트 지금 옆자리에 귀여운 강아지들이 앉았음'}, {id:2, date: '2023.12.09', title: '2번공지'}, {id:3, date: '2023.12.09', title: '테스트'}]; {/*목록 배열*/}
     const handlePreviousClick = () => {
         if (currentPageSet > 1) {
@@ -82,7 +81,7 @@ function NoticeList() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
+                //'Authorization': `Bearer ${accessToken}`,
             },
             body: JSON.stringify(requestData),
         }

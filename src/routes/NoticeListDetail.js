@@ -1,12 +1,11 @@
-import React, {useContext} from "react";
+import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import AccessTokenContext from "../AccessTokenContext";
 import arrow_left from "../assets/arrow_left.png";
 import '../css/NoticeListDetail.css';
 
 function NoticeListDetail() {
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
+    //const { accessToken } = useContext(AccessTokenContext);
     let { id } = useParams();
     {/*임시데이터*/}
     let title = '2023학년도 겨울방학 기숙사생 모집';

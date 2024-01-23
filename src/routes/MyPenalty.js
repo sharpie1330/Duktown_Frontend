@@ -1,17 +1,21 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import arrow_left from "../assets/arrow_left.png";
 import information_icon from "../assets/information.png";
 import '../css/MyPenalty.css';
 import {useNavigate} from "react-router-dom";
-import AccessTokenContext from "../AccessTokenContext";
 import ListView from "../components/ListView";
 function MyPenalty() {
     const navigate = useNavigate();
     const [point, setPoint] = useState(null);
     const [pointHistory, setPointHistory] = useState([]);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
+
     useEffect(() => {
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         const apiUrl = serverUrl + '/my/penaltyPoints';
         fetch(apiUrl, {
             method: 'GET',
@@ -24,7 +28,11 @@ function MyPenalty() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    throw new Error(response.errorMessage);
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(response.errorMessage);
+                    }
                 }
             })
             .then((data) => {
@@ -36,9 +44,12 @@ function MyPenalty() {
                 }
                 setPointHistory(data.penaltyPointsList);
             })
-            .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
             });
     }, []);
 

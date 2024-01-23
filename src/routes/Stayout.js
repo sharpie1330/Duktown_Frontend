@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from "react-calendar";
 import Draggable from "react-draggable";
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,6 @@ import arrow_right from '../assets/arrow_right.png';
 import Modal from "react-modal";
 import {customModal, customModal3} from "../customModalConfig";
 import DaumPostCode from "react-daum-postcode";
-import AccessTokenContext from "../AccessTokenContext";
 import ListView from "../components/ListView";
 
 function Stayout() {
@@ -33,7 +32,7 @@ function Stayout() {
     //조회
     const [availablePeriod, setAvailablePeriod] = useState(null);
     const [stayoutArr, setStayoutArr] = useState([]);
-    const { accessToken } = useContext(AccessTokenContext);
+    const accessToken = localStorage.getItem('accessToken');
 
     const initStayout = async (url, atk) => {
         try {
@@ -49,22 +48,29 @@ function Stayout() {
                 return response.json();
             } else {
                 return response.json().then(errorResponse => {
-                    if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
                         window.open('http://localhost:3000/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
                 });
             }
-        } catch (err) {
-            console.log('getChatRoomList error: ' + err);
+        } catch (errorResponse) {
+            if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(errorResponse.errorMessage);
+            }
         }
     }
 
     //외박신청 규정 확인 여부
     const [showRule, setShowRule] = useState(true);
     useEffect(() => {
-        localStorage.setItem('hideRule', 'false');
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
         const isRuleHidden = localStorage.getItem('hideRule');
         if (isRuleHidden === 'true') {
             setShowRule(false);
@@ -74,7 +80,6 @@ function Stayout() {
           // JSON을 파싱하기 위해 response.json()을 사용
         initStayout(apiUrl, accessToken)
         .then(data => {
-            console.log(data);
             setAvailablePeriod(data.availablePeriod);
             if (data.content !== undefined){
                 setStayoutArr(data.content);
@@ -85,8 +90,19 @@ function Stayout() {
     }, []);
 
     useEffect(() => {
-        console.log(stayoutArr);
-        console.log(availablePeriod);
+        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+            navigate('/signin');
+        }
+
+        const apiUrl = serverUrl + '/sleepoverApply/student?pageNo=1';
+        initStayout(apiUrl, accessToken)
+            .then(data => {
+                setAvailablePeriod(data.availablePeriod);
+                if (data.content !== undefined){
+                    setStayoutArr(data.content);
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }, [availablePeriod, stayoutArr]);
 
     // 다시 보지 않기 선택
@@ -163,24 +179,29 @@ function Stayout() {
                 setReason('');
                 alert("외박 신청이 전송되었습니다.");
 
-                await new Promise(resolve => setTimeout(resolve, 5000));
-                const data = await initStayout(apiUrl, accessToken);
-                console.log(data);
-                setAvailablePeriod(data.availablePeriod);
-                if (data.content !== undefined) {
-                    setStayoutArr(data.content);
-                }
+                initStayout(apiUrl, accessToken)
+                    .then(data => {
+                        setAvailablePeriod(data.availablePeriod);
+                        if (data.content !== undefined){
+                            setStayoutArr(data.content);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+
             } else {
-                const errorResponse = await response.json();
-                if (errorResponse.errorMessage === '유효하지 않은 JWT Token입니다.') {
+                if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
                     window.open('http://localhost:3000/signin', '_self');
                 } else {
-                    return new EvalError(errorResponse.errorMessage);
+                    new EvalError(response.errorMessage);
                 }
             }
-        } catch (error) {
+        } catch (errorResponse) {
             setModalIsOpen(false);
-            alert(error.errorMessage);
+            if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                window.open('http://localhost:3000/signin', '_self');
+            } else {
+                throw new EvalError(errorResponse.errorMessage);
+            }
         }
     }
     const handleDateChange = date => {
@@ -313,6 +334,7 @@ function Stayout() {
                                 prevLabel={null}
                             />
                         </div>
+                        <hr/>
                         <form className="stayout_form">
                             <div className="range_container">
                                 외박 시작 날짜
