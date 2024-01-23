@@ -33,19 +33,28 @@ import ApplicationTerms from './routes/ApplicationTerms';
 import MyUnit from "./routes/MyUnit";
 import CleaningHistory from "./routes/CleaningHistory";
 import CommunitySearch from './routes/CommunitySearch';
+import NewHome from './routes/NewHome';
+import Community from './routes/Community';
+import ChatRoomList from './routes/ChatRoomList';
+import Unit from './routes/Unit';
+import { CategoryProvider } from './CategoryContext';
 
 function App() {
   return (
     <Router>
       <AccessTokenProvider>
-        <Routes>
+        <CategoryProvider>
+          <Routes>
             <Route path="/" element={<LoggedOut />}/>
             <Route path='/signup' element={<SignUp />}/>
             <Route path='/terms' element={<Terms />}/>
             <Route path="/signin" element={<SignIn />}/>
             <Route path="/findid" element={<FindId />}/>
             <Route path="/findpassword" element={<FindPassword />}/>
-            <Route path="/:page" element={<MainTemplate />}/>
+            <Route path="/home" element={<NewHome />}/>
+            <Route path="/community" element={<Community />}/>
+            <Route path="/chat" element={<ChatRoomList />}/>
+            <Route path="/unit" element={<Unit />}/>
             <Route path="/announcement/historys" element={<Announcement />}/>
             <Route path="/repairs/apply" element={<RepairApply />}/>
             <Route path="/stayout" element={<Stayout />}/>
@@ -68,6 +77,7 @@ function App() {
             <Route path="/user/unit" element={<MyUnit />}/>
             <Route path="/cleaning" element={<CleaningHistory />}/>
           </Routes>
+        </CategoryProvider>
       </AccessTokenProvider>
   </Router>
   );

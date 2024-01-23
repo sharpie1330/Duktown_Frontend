@@ -7,6 +7,8 @@ import Modal from 'react-modal'
 import "../css/Unit.css";
 import AccessTokenContext from "../AccessTokenContext";
 import {customModal} from "../customModalConfig";
+import Upperbar from '../components/UpperBar';
+import BottomBar from '../components/BottomBar';
 
 function Unit() {
     const navigate = useNavigate();
@@ -174,116 +176,120 @@ function Unit() {
 
     return (
         <>
-            <div className="unit_body_container">
-                <div className="weekly_schedule">
-                    <p className="year_and_month">{now.getFullYear() + '년 ' + (now.getMonth()+1) + '월'}</p>
-                    <div className="unit_weekly_calendar">
-                        <div className="unit_weekly_calendar__weekdays">
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="월요일" title="월요일">월</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="화요일" title="화요일">화</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="수요일" title="수요일">수</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="목요일" title="목요일">목</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="금요일" title="금요일">금</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="토요일" title="토요일">토</abbr>
-                            </div>
-                            <div className="unit_weekly_calendar__weekdays__weekday">
-                                <abbr className="unit_abbr" aria-label="일요일" title="일요일">일</abbr>
-                            </div>
-                        </div>
-                        <div className="unit_weekly_calendar__weekdays__exist">
-                            {isExist.map((exist) => (
-                                <div className={`unit_weekly_calendar__weekdays__weekday__exist ${ exist ? 'exist' : 'gone'}`}>
-                                    <span className="circle" />
+            <Upperbar searchAvailable={false}/>
+            <div className='center_content_container'>
+                <div className="unit_body_container">
+                    <div className="weekly_schedule">
+                        <p className="year_and_month">{now.getFullYear() + '년 ' + (now.getMonth()+1) + '월'}</p>
+                        <div className="unit_weekly_calendar">
+                            <div className="unit_weekly_calendar__weekdays">
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="월요일" title="월요일">월</abbr>
                                 </div>
-                            ))}
-                        </div>
-                        <div className="unit_weekly_calendar__weekdays__num">
-                            {week.map(([index, day]) => (
-                                <div className={`unit_weekly_calendar__weekdays__weekday__num ${day === now.getDate() ? 'today' : '' }`}>
-                                    <abbr aria-label={`날짜${index+1}`} title={`날짜${index+1}`}>{day}</abbr>
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="화요일" title="화요일">화</abbr>
                                 </div>
-                            ))}
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="수요일" title="수요일">수</abbr>
+                                </div>
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="목요일" title="목요일">목</abbr>
+                                </div>
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="금요일" title="금요일">금</abbr>
+                                </div>
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="토요일" title="토요일">토</abbr>
+                                </div>
+                                <div className="unit_weekly_calendar__weekdays__weekday">
+                                    <abbr className="unit_abbr" aria-label="일요일" title="일요일">일</abbr>
+                                </div>
+                            </div>
+                            <div className="unit_weekly_calendar__weekdays__exist">
+                                {isExist.map((exist) => (
+                                    <div className={`unit_weekly_calendar__weekdays__weekday__exist ${ exist ? 'exist' : 'gone'}`}>
+                                        <span className="circle" />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="unit_weekly_calendar__weekdays__num">
+                                {week.map(([index, day]) => (
+                                    <div className={`unit_weekly_calendar__weekdays__weekday__num ${day === now.getDate() ? 'today' : '' }`}>
+                                        <abbr aria-label={`날짜${index+1}`} title={`날짜${index+1}`}>{day}</abbr>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="unit_today_record_container">
-                    <div className="unit_date_container">
-                        <p className="unit_today_date">{format_today}</p>
-                        {/*<img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/>*/}
-                    </div>
-                    <div className="today_record_container">
-                        <div className="user_info">101호 정현조</div>
-                        <div className="user_cleaning_time">23:30 ~ 24:00</div>
-                        <div className="done_and_confirm">
-                            {isCleaningDay
-                            ?
-                                <>
-                                    <div className="unit_done">
-                                        { done
-                                            ? <Button styleClass="done_true" label="완료"/>
-                                            : <Button styleClass="done_false" label="완료하기" onClick={()=> setModalIsOpen(true)}/>
-                                        }
-                                        <Modal
-                                            isOpen={modalIsOpen}
-                                            onRequestClose={()=>setModalIsOpen(false)}
-                                            style={customModal}>
-                                            <div className="unit_modal_container">
-                                                청소를 완료하시겠습니까?
-                                                <div className="unit_modal_btn_container">
-                                                    <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                                    <Button styleClass="modal_btn_yes" label="예" onClick={() => sendData()} />
+                    <div className="unit_today_record_container">
+                        <div className="unit_date_container">
+                            <p className="unit_today_date">{format_today}</p>
+                            {/*<img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/>*/}
+                        </div>
+                        <div className="today_record_container">
+                            <div className="user_info">101호 정현조</div>
+                            <div className="user_cleaning_time">23:30 ~ 24:00</div>
+                            <div className="done_and_confirm">
+                                {isCleaningDay
+                                ?
+                                    <>
+                                        <div className="unit_done">
+                                            { done
+                                                ? <Button styleClass="done_true" label="완료"/>
+                                                : <Button styleClass="done_false" label="완료하기" onClick={()=> setModalIsOpen(true)}/>
+                                            }
+                                            <Modal
+                                                isOpen={modalIsOpen}
+                                                onRequestClose={()=>setModalIsOpen(false)}
+                                                style={customModal}>
+                                                <div className="unit_modal_container">
+                                                    청소를 완료하시겠습니까?
+                                                    <div className="unit_modal_btn_container">
+                                                        <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
+                                                        <Button styleClass="modal_btn_yes" label="예" onClick={() => sendData()} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Modal>
-                                    </div>
-                                    <div className="unit_confirm">
-                                        { confirm
-                                            ? <Button styleClass="confirm_true" label="확인 완료"/>
-                                            : <Button styleClass="confirm_false" label="미확인"/>
-                                        }
-                                    </div>
-                                </>
+                                            </Modal>
+                                        </div>
+                                        <div className="unit_confirm">
+                                            { confirm
+                                                ? <Button styleClass="confirm_true" label="확인 완료"/>
+                                                : <Button styleClass="confirm_false" label="미확인"/>
+                                            }
+                                        </div>
+                                    </>
 
-                            :
-                                <>
-                                    <div className='today_not_clean'>오늘은 청소당번이 아닙니다.</div>
-                                </>
-                            }
+                                :
+                                    <>
+                                        <div className='today_not_clean'>오늘은 청소당번이 아닙니다.</div>
+                                    </>
+                                }
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="unit_record_container">
-                    <div className="unit_record_title_container">
-                        <div className="unit_record_title">청소 내역</div>
-                        <img className="move_icon" src={arrow_right} alt="청소내역으로 이동" onClick={()=>{navigate("/cleaning");}}/>
+                    <div className="unit_record_container">
+                        <div className="unit_record_title_container">
+                            <div className="unit_record_title">청소 내역</div>
+                            <img className="move_icon" src={arrow_right} alt="청소내역으로 이동" onClick={()=>{navigate("/cleaning");}}/>
+                        </div>
+                        <div className='history_container'>
+                            <ListView
+                                tableFor='cleaning'
+                                items = {dummyData}
+                            />
+                        </div>
                     </div>
-                    <div className='history_container'>
-                        <ListView
-                            tableFor='cleaning'
-                            items = {dummyData}
+                    <div className="btn_container">
+                        <Button
+                            styleClass="blue_circ_btn"
+                            label="대타구하기"
+                            onClick={() => navigate("/findfillin")}
                         />
                     </div>
                 </div>
-                <div className="btn_container">
-                    <Button
-                        styleClass="blue_circ_btn"
-                        label="대타구하기"
-                        onClick={() => navigate("/findfillin")}
-                    />
-                </div>
             </div>
+            <BottomBar/>
         </>
     );
 }

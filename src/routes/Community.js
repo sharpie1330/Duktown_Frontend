@@ -5,14 +5,18 @@ import GeneralPost from '../components/GeneralPost';
 import '../css/Community.css';
 import plus from '../assets/plus_icon.png';
 import {useNavigate} from 'react-router-dom';
+import Upperbar from '../components/UpperBar';
+import BottomBar from '../components/BottomBar';
+import CategoryContext from '../CategoryContext';
 
-function Community({ topic, setActiveTopic}) {
+function Community({ category }) {
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
+    const { setStoredCategory } = useContext(CategoryContext);
 
     // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
     const [posts, setPosts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(topic); // 초기 카테고리 설정
+    const [selectedCategory, setSelectedCategory] = useState(category ? category : 'daily'); // 초기 카테고리 설정
     const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
     const [loading, setLoading] = useState(false);
     const [deliverySort, setDeliverySort] = useState(0);
@@ -23,16 +27,10 @@ function Community({ topic, setActiveTopic}) {
     const scrollRef = useRef(null);
 
     useEffect(() => {
-        console.log("userEffect", scrollRef.current);
         const setPostListHeight = () => {
-            const upperBarHeight = document.querySelector('.upper_bar').clientHeight;
-            const bottomBarHeight = document.querySelector('.bottom_bar').clientHeight;
-            const categoryHeight = document.querySelector('.category').clientHeight;
             const postList =document.querySelector('.post-list');
-            const listHeight = window.innerHeight - upperBarHeight - bottomBarHeight - categoryHeight - 20;
-
+            const listHeight = window.innerHeight - 200;
             postList.style.height = `${listHeight}px`;
-            
         };
 
         // 초기에 함수 호출하고, 크기 조절 이벤트를 처리하기 위해 리스너 추가
@@ -47,7 +45,7 @@ function Community({ topic, setActiveTopic}) {
 
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
-        console.log("fetchPosts");
+
         if(selectedCategory === 'delivery'){
             fetch(serverUrl + `/delivery?sortBy=${deliverySort}`, {
                 headers: {
@@ -118,116 +116,103 @@ function Community({ topic, setActiveTopic}) {
         }
     };
 
-    // Event listener for scroll
     const handleScroll = () => {
         const scrollContainer = scrollRef.current;
         if (scrollContainer) {
             const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight;
-            if (isBottom) {
-                // 스크롤이 맨 아래에 도달했을 때 fetchMorePosts 호출
+            // 추가: 로딩 중이 아니고, 스크롤이 맨 아래에 도달했을 때만 fetchMorePosts 호출
+            if (isBottom && !loading) {
                 fetchMorePosts();
             }
         }
-        
     };
-
-    // 선택된 카테고리 변경 시, 글들을 다시 불러옴
-    useEffect(() => {
-        // 이전 페이지의 상태를 로컬 스토리지에서 불러오기
-        const previousPageInfo = JSON.parse(localStorage.getItem('previousPageInfo'));
-
-        // 이전 페이지의 정보가 있다면 해당 정보를 사용하여 렌더링
-        if (previousPageInfo) {
-            if (previousPageInfo.category) {
-                // 페이지가 Community인 경우의 처리 로직
-                setSelectedCategory(previousPageInfo.category);
-            }
-        }
-
-        const fetchData = async () => {
-            if (selectedCategory) {
-                setActiveTopic(selectedCategory);
-            fetchPostsByCategory();
-            }
-        };
-        fetchData();
-    }, [selectedCategory, deliverySort]);
+    
 
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
+        setStoredCategory(category);
         setPageNumber(1);
         navigate(`/community?category=${category}`);
     };
 
+    useEffect(() => {
+        fetchPostsByCategory();
+    }, [selectedCategory])
+
     return (
         <>
-            <div className='category'>
-                <button
-                    onClick={() => handleCategorySelect('delivery')}
-                    style={{ borderColor: selectedCategory === 'delivery' ? '#6A9CFD' : '#E6E6E6' }}>
-                        배달팟
-                </button>
-                <button
-                    onClick={() => handleCategorySelect('daily')}
-                    style={{ borderColor: selectedCategory === 'daily' ? '#6A9CFD' : '#E6E6E6' }}>
-                    일상
-                </button>
-                <button
-                    onClick={() => handleCategorySelect('market')}
-                    style={{ borderColor: selectedCategory === 'market' ? '#6A9CFD' : '#E6E6E6' }}>
-                    장터
-                </button>
-            </div>
-            <div className="post-list" ref={scrollRef} onScroll={handleScroll}>
+            <Upperbar searchAvailable={true}/>
+            <div className='center_content_container'>
+                <div className='category'>
+                    <button
+                        onClick={() => handleCategorySelect('delivery')}
+                        style={{ borderColor: selectedCategory === 'delivery' ? '#6A9CFD' : '#E6E6E6' }}>
+                            배달팟
+                    </button>
+                    <button
+                        onClick={() => handleCategorySelect('daily')}
+                        style={{ borderColor: selectedCategory === 'daily' ? '#6A9CFD' : '#E6E6E6' }}>
+                        일상
+                    </button>
+                    <button
+                        onClick={() => handleCategorySelect('market')}
+                        style={{ borderColor: selectedCategory === 'market' ? '#6A9CFD' : '#E6E6E6' }}>
+                        장터
+                    </button>
+                </div>
+                <div className="post-list" ref={scrollRef} onScroll={handleScroll}>
+                    
                 
-            
-            {posts && posts.length > 0 ? (
-                <>
-                    {selectedCategory === 'delivery' ? 
-                        <select name="delivery_sort" id="delivery_sort" onChange={(e) => setDeliverySort(e.target.value)}>
-                            <option name="delivery_sort" value='0'>최신순</option>
-                            <option name="delivery_sort" value='1'>주문시간 순</option>
-                        </select>
-                    : null}
-                    {posts.map((post) => {
-                    // 카테고리에 따라 다른 컴포넌트 렌더링
-                    return selectedCategory === 'delivery' ? (
-                        <DeliveryPost
-                            userId={post.userId}
-                            deliveryId={post.deliveryId}
-                            title={post.title}
-                            createdAt={post.createdAt}
-                            maxPeople={post.maxPeople}
-                            orderTime={post.orderTime}
-                            content={post.content}
-                            peopleCount={post.peopleCount}
-                            commentCount={post.commentCount}
-                            active={post.active}
-                        />
+                {posts && posts.length > 0 ? (
+                    <>
+                        {selectedCategory === 'delivery' ? 
+                            <select name="delivery_sort" id="delivery_sort" onChange={(e) => setDeliverySort(e.target.value)}>
+                                <option name="delivery_sort" value='0'>최신순</option>
+                                <option name="delivery_sort" value='1'>주문시간 순</option>
+                            </select>
+                        : null}
+                        {posts.map((post) => {
+                        // 카테고리에 따라 다른 컴포넌트 렌더링
+                        return selectedCategory === 'delivery' ? (
+                            <DeliveryPost
+                                userId={post.userId}
+                                deliveryId={post.deliveryId}
+                                title={post.title}
+                                createdAt={post.createdAt}
+                                maxPeople={post.maxPeople}
+                                orderTime={post.orderTime}
+                                content={post.content}
+                                peopleCount={post.peopleCount}
+                                commentCount={post.commentCount}
+                                active={post.active}
+                            />
+                        ) : (
+                            <GeneralPost
+                                id={post.id}
+                                userId={post.userId}
+                                category={post.category}
+                                title={post.title}
+                                content={post.content}
+                                liked={post.liked}
+                                likeCount={post.likeCount}
+                                commentCount={post.commentCount}
+                                datetime={post.datetime}
+                            />
+                        );
+                        })}
+                    </>
                     ) : (
-                        <GeneralPost
-                            id={post.id}
-                            userId={post.userId}
-                            category={post.category}
-                            title={post.title}
-                            content={post.content}
-                            liked={post.liked}
-                            likeCount={post.likeCount}
-                            commentCount={post.commentCount}
-                            datetime={post.datetime}
-                        />
-                    );
-                    })}
-                </>
-                ) : (
-                <div>게시글이 없습니다</div>
-            )}
+                    <div>게시글이 없습니다</div>
+                )}
+                </div>
+                <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
+                        <img src={plus}/>
+                        글쓰기
+                </button>
             </div>
-            <button className='newPostBtn' onClick={()=>{navigate(`/newpost?selectedCategory=${selectedCategory}`)}}>
-                    <img src={plus}/>
-                    글쓰기
-            </button>
+            
+            <BottomBar/>
         </>
     );
 }

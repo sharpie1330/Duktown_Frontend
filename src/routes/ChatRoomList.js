@@ -5,6 +5,8 @@ import '../css/ChatRoomList.css';
 import AccessTokenContext from "../AccessTokenContext";
 import arrow_left from "../assets/arrow_left.png"
 import Button from "../components/Button";
+import Upperbar from "../components/UpperBar";
+import BottomBar from "../components/BottomBar";
 function ChatRoomList() {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/chatRoom";
@@ -109,28 +111,32 @@ function ChatRoomList() {
 
     return (
         <>
-            <div className='classRoom_list_body_container'>
-                <div className='chatRoom_list_title_container'>
-                    {isEdit ? <img className='chatRoom_list_edit_icon' src={arrow_left} alt='편집 취소' onClick={() => setIsEdit(false)}/> : <></> }
-                    <span>배달팟 채팅방</span>
-                    {isEdit ? <Button styleClass='blue_rec_btn' label='나가기' onClick={handleChatOut}/> : <img className='chatRoom_list_title_icon' src={function_button} alt='더보기' onClick={() => {!isOpenFunc ? setIsOpenFunc(true) : setIsOpenFunc(false)}}/>}
-                    {isOpenFunc
-                        ? <div className='funcPannel_container'>
-                            <div className='funcPannel_edit' onClick={handelEdit}>
-                                편집
+            <Upperbar searchAvailable={false}/>
+            <div className="center_content_container">
+                <div className='classRoom_list_body_container'>
+                    <div className='chatRoom_list_title_container'>
+                        {isEdit ? <img className='chatRoom_list_edit_icon' src={arrow_left} alt='편집 취소' onClick={() => setIsEdit(false)}/> : <></> }
+                        <span>배달팟 채팅방</span>
+                        {isEdit ? <Button styleClass='blue_rec_btn' label='나가기' onClick={handleChatOut}/> : <img className='chatRoom_list_title_icon' src={function_button} alt='더보기' onClick={() => {!isOpenFunc ? setIsOpenFunc(true) : setIsOpenFunc(false)}}/>}
+                        {isOpenFunc
+                            ? <div className='funcPannel_container'>
+                                <div className='funcPannel_edit' onClick={handelEdit}>
+                                    편집
+                                </div>
                             </div>
-                        </div>
-                        : <></>}
-                </div>
-                <div className='chatRoom_list_container'>
-                    <ListView
-                        tableFor='chatRoom'
-                        items={chatRoomArr}
-                        edit={isEdit}
-                        handler={handleSelectedItemsChange}
-                    />
+                            : <></>}
+                    </div>
+                    <div className='chatRoom_list_container'>
+                        <ListView
+                            tableFor='chatRoom'
+                            items={chatRoomArr}
+                            edit={isEdit}
+                            handler={handleSelectedItemsChange}
+                        />
+                    </div>
                 </div>
             </div>
+            <BottomBar/>
         </>
     )
 }
