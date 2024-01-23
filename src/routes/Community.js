@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import AccessTokenContext from '../AccessTokenContext';
-import DeliveryPost from '../components/DeliveryPost';
-import GeneralPost from '../components/GeneralPost';
-import '../css/Community.css';
-import plus from '../assets/plus_icon.png';
+import React, { useState, useEffect, useRef } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
-import CategoryContext from '../CategoryContext';
+import DeliveryPost from '../components/DeliveryPost';
+import GeneralPost from '../components/GeneralPost';
+import plus from '../assets/plus_icon.png';
+import '../css/Community.css';
 
 function Community({ category }) {
     const navigate = useNavigate();
-    const { accessToken } = useContext(AccessTokenContext);
-    const { setStoredCategory } = useContext(CategoryContext);
+    const accessToken = localStorage.getItem('accessToken');
+    const recentCategory = localStorage.getItem('recentCategory');
 
     // 게시글 목록과 선택된 카테고리를 관리할 상태 변수
     const [posts, setPosts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(category ? category : 'daily'); // 초기 카테고리 설정
+    const [selectedCategory, setSelectedCategory] = useState(category ? category : recentCategory); // 초기 카테고리 설정
     const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
     const [loading, setLoading] = useState(false);
     const [deliverySort, setDeliverySort] = useState(0);
@@ -56,7 +54,7 @@ function Community({ category }) {
                 },
                 method: 'GET',
             })
-            .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
+            .then(response => response.json())
             .then(data => {
                 setPosts(data.content);
             })
@@ -72,7 +70,7 @@ function Community({ category }) {
                 },
                 method: 'GET',
             })
-            .then(response => response.json())  // JSON을 파싱하기 위해 response.json()을 사용
+            .then(response => response.json())
             .then(data => {
                 setPosts(data.content);
             })
@@ -104,10 +102,10 @@ function Community({ category }) {
 
             const data = await response.json();
 
-            // Append the new posts to the existing ones
+            // 불러온 게시글 추가
             setPosts([...posts, ...data.content]);
 
-            // Update the page number
+            // 페이지 번호 업데이트
             setPageNumber(newPageNumber);
         } catch (error) {
             console.error('Error:', error);
@@ -126,12 +124,11 @@ function Community({ category }) {
             }
         }
     };
-    
 
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
-        setStoredCategory(category);
+        localStorage.setItem('recentCategory', category);
         setPageNumber(1);
         navigate(`/community?category=${category}`);
     };

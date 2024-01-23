@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
-import AccessTokenContext from '../AccessTokenContext';
-import '../css/Sign.css';
-import arrow_left from '../assets/arrow_left.png';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import arrow_left from '../assets/arrow_left.png';
+import '../css/Sign.css';
 
 function SignIn(){
     const navigate = useNavigate();
-    const { setAccessToken } = useContext(AccessTokenContext);
     const serverUrl = "http://localhost:8080";
 
     // 로그인
@@ -40,7 +38,8 @@ function SignIn(){
                 const roleType =data.roleType;
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
-                setAccessToken(accessToken);
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('recentCategory', accessToken);
                 navigate('/home');
             })
             .catch((error) => {

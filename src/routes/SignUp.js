@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AccessTokenContext from '../AccessTokenContext';
-import '../css/Sign.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import arrow_left from '../assets/arrow_left.png';
 import arrow_right_gray from '../assets/arrow_right_gray.png';
 import file from '../assets/file.png';
-import { useNavigate, useLocation } from 'react-router-dom';
+import '../css/Sign.css';
 
 function SignUp() {
     const navigate = useNavigate();
     const location = useLocation();
     const isFirstTermsChecked = location.state && location.state.isFirstTermsChecked;
     const isSecondTermsChecked = location.state && location.state.isSecondTermsChecked;
-    const { setAccessToken } = useContext(AccessTokenContext);
     const [currentPage, setCurrentPage] = useState('terms'); // 초기 페이지: 약관 동의
     const [firstTermsChecked, setFirstTermsChecked] = useState(isFirstTermsChecked || false) // 첫번째 약관 동의 상태
     const [secondTermsChecked, setSecondTermsChecked] = useState(isSecondTermsChecked || false) // 두번째 약관 동의 상태
@@ -206,7 +204,8 @@ function SignUp() {
                 // 백엔드에서 회원가입에 대한 응답을 처리
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
-                setAccessToken(accessToken);
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('recentCategory', accessToken);
                 navigate('/home');
                 // setCurrentPage('authentication');
             })

@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CategoryContext from '../CategoryContext';
 import logo from '../assets/duktown_logo.png';
 import mypage from '../assets/mypage.png';
 import search from '../assets/search.png';
 
 const Upperbar = ({ searchAvailable }) => {
     const navigate = useNavigate();
-    const { storedCategory } = useContext(CategoryContext);
+    const recentCategory = 'daily' || localStorage.getItem('recentCategory');
 
     const handleSearchClick = () => {
-        navigate(`/community/search?category=${storedCategory}`);
+        navigate(`/community/search?category=${recentCategory}`);
     };
 
     return (
