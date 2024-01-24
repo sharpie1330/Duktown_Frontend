@@ -55,17 +55,14 @@ function SignIn(){
                 로그인
             </div>
             <form className="signin_form" id="signin_form" onSubmit={handleSignIn}>
-                <div className='content_container'>
-                    <p>아이디</p>
-                    <input className="sign_input" type="text" name="id" placeholder="6~12자 영문, 숫자 조합"/>
-                    <br/>
-                    <p>비밀번호</p>
-                    <input className="sign_input" type="text" name="pwd" placeholder="8자 이상 영문, 숫자 조합"/>
-                    <div className='otherLink'>
-                        <span className='black_link' onClick={() => navigate('/findid')}>아이디 찾기</span>|
-                        <span className='black_link' onClick={() => navigate('/findpassword')}>비밀번호 찾기</span>|
-                        <span className='blue_link' onClick={() => navigate('/signup')}>회원가입</span>
-                    </div>
+                <p>아이디</p>
+                <input className="sign_input" type="text" name="id" placeholder="6~12자 영문, 숫자 조합"/>
+                <br/>
+                <p>비밀번호</p>
+                <input className="sign_input" type="text" name="pwd" placeholder="8자 이상 영문, 숫자 조합"/>
+                <div className='otherLink'>
+                    <span className='black_link' onClick={() => navigate('/findid')}>아이디 찾기</span>|
+                    <span className='black_link' onClick={() => navigate('/findpassword')}>비밀번호 찾기</span>|                        <span className='blue_link' onClick={() => navigate('/signup')}>회원가입</span>
                 </div>
             </form>
             <button type="submit" className='bottomBtn' form='signin_form'>
