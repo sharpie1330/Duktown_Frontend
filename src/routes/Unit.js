@@ -200,6 +200,14 @@ function Unit() {
             .then((data) => {
                 setHistory(data.content);
             })
+            .then(_ => {
+                const todayCleaning = history.find((day) => isToday(day.cleaningDate));
+                // 오늘 청소 날짜가 있다면 해당 id를 설정
+                if (todayCleaning) {
+                    setDone(todayCleaning.cleaned);
+                    setConfirm(todayCleaning.checked);
+                }
+            })
             .catch((errorResponse) => {
                 console.log(errorResponse);
                 if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
@@ -208,6 +216,7 @@ function Unit() {
                     throw new EvalError(errorResponse.errorMessage);
                 }
             });
+
 
         const profileUrl = serverUrl + '/my';
         fetch(profileUrl, {
