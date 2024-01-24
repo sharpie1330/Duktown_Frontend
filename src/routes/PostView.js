@@ -115,6 +115,7 @@ function PostView() {
             if (response.ok) {
                 // 서버 응답이 성공인 경우
                 event.target['comment-input'].value = '';
+                setReplyToCommentId(null);
                 fetchPost();
                 fetchComments();
             } 
@@ -293,6 +294,7 @@ function PostView() {
                                         fetchComments={fetchComments}
                                         fetchPost={fetchPost}
                                         postComment={postComment}
+                                        isChildComment={false}
                                     />
                                 </div>
                             );
