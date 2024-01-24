@@ -213,7 +213,7 @@ function Unit() {
     })
 
     useEffect(() => {
-        if (schedule.length > 0 || schedule.some((day) => isToday(day.cleaningDate))) {
+        if (schedule.length > 0 && schedule.some((day) => isToday(day.cleaningDate))) {
             setIsCleaningDay(true);
         } else {
             setIsCleaningDay(false);

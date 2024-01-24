@@ -71,20 +71,17 @@
 }
 
 .repairHistory .confirmCol .confirm, .repairHistory .statusCol .solve {
-    border-radius: 5px;
-    background: #CDDEFE;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 28px;
-    color: #0358FC;
+    color: #6A9CFD;
     display: flex;
     font-size: 12px;
+    font-weight: 600;
 }
 
 .repairHistory .confirmCol .unconfirmed, .repairHistory .statusCol .unresolved {
-    border-radius: 5px;
-    background: #F2F2F2;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -92,6 +89,7 @@
     color: #8E8E8E;
     display: flex;
     font-size: 12px;
+    font-weight: 600;
 }
 
 .noticeList .titleCol {
@@ -390,23 +388,26 @@
     margin: 0 0 4px 0;
 }
 
+.cleaning {
+    width: 100%;
+}
+
 .cleaning_container {
     display: flex;
     height: 14px;
     align-items: center;
     margin: 0 0 15px 0;
+    justify-content: space-between;
 }
 
 .cleaning_date{
     width: 70px;
     font-size: 12px;
-    margin: 0 110px 0 0;
 }
 
 .cleaning_cleaned{
     width: 55px;
     font-size: 12px;
-    margin: 0 37px 0 0;
     text-align: center;
 }
 
@@ -431,20 +432,17 @@
 }
 
 .cleaningHistory_cleaned_true, .cleaningHistory_checked_true {
-    border-radius: 5px;
-    background: #CDDEFE;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 28px;
-    color: #0358FC;
+    color: #6A9CFD;
     display: flex;
     font-size: 12px;
+    font-weight: 600;
 }
 
 .cleaningHistory_checked_false, .cleaningHistory_cleaned_false {
-    border-radius: 5px;
-    background: #F2F2F2;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -452,6 +450,7 @@
     color: #8E8E8E;
     display: flex;
     font-size: 12px;
+    font-weight: 600;
 }
 
 .cleaningHistory_date {

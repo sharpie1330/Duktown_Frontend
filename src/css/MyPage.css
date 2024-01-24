@@ -64,12 +64,6 @@ body {
     margin: 3px 0 0 0;
 }
 
-.myPage_footer {
-    margin: 0 0 0 40px;
-    position: absolute;
-    bottom: 5%;
-}
-
 .myPage_profile{
     width: 342px;
     height: fit-content;
@@ -167,4 +161,6 @@ body {
     flex-direction: column;
     align-self: center;
     padding: 24px 24px;
+    flex-grow: 1;
+    justify-content: space-between;
 }

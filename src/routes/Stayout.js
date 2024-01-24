@@ -145,8 +145,8 @@ function Stayout() {
         const apiUrl = serverUrl + '/sleepoverApply';
 
         const requestData = {
-            "startDate": new Date(rangeStart),
-            "endDate": new Date(rangeEnd),
+            "startDate": rangeStart,
+            "endDate": rangeEnd,
             "period": range,
             "zipcode": zonecode,
             "streetAddress": address,
@@ -206,8 +206,8 @@ function Stayout() {
         }
     }
     const handleDateChange = date => {
-        const setStartDate = moment(date[0]).format('YYYY.MM.DD');
-        const setEndDate = moment(date[1]).format('YYYY.MM.DD');
+        const setStartDate = moment(date[0]).format('YYYY-MM-DD');
+        const setEndDate = moment(date[1]).format('YYYY-MM-DD');
 
         setRangeStart(setStartDate);
         setRangeEnd(setEndDate);

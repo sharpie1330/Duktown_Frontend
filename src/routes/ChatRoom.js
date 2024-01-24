@@ -8,6 +8,7 @@ import {Client} from "@stomp/stompjs";
 import send from "../assets/send.png";
 import orderFinish from "../assets/orderFinish.png";
 import account from "../assets/account.png";
+import loggedIn from "../utils";
 
 function ChatRoom() {
     const navigate = useNavigate();
@@ -336,7 +337,8 @@ function ChatRoom() {
 
     //페이지  첫 렌더링 시
     useEffect( () => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
