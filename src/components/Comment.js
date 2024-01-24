@@ -177,7 +177,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                 }
                 <span className="post-likes">좋아요 {likeCount}</span>
                 {isChildComment ? null : (
-                    <div onClick={handleReply}>
+                    <div className='reply-container' onClick={handleReply}>
                         <img src={replyIcon} alt='답글'/>
                         <span className="reply">답글쓰기</span>
                     </div>

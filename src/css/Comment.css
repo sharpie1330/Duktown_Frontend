@@ -40,6 +40,7 @@
 
 .comment-details img {
     width: 16px;
+    height: 16px;
 }
 
 .reply-form {
@@ -75,4 +76,9 @@
 .small-modal hr {
     color: #B3B3B3;
     width: 100%;
+}
+
+.reply-container {
+    align-items: center;
+    display: flex;
 }
