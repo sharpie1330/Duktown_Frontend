@@ -89,6 +89,7 @@ function MyPage() {
         })
             .then((response) => {
                 if (response.ok){
+                    localStorage.clear();
                     alert('정상적으로 로그아웃 되었습니다.');
                     return navigate('/');
                 } else {
@@ -120,6 +121,7 @@ function MyPage() {
         })
             .then((response) => {
                 if (response.ok){
+                    localStorage.clear();
                     alert('즐겨주셔서 감사합니다. 더 발전해서 돌아오겠습니다!');
                     return navigate('/');
                 } else {

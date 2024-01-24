@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import Upperbar from "../components/UpperBar";
 import BottomBar from "../components/BottomBar";
 import {useNavigate} from "react-router-dom";
+
 function ChatRoomList() {
     const navigate = useNavigate();
     const serverUrl = "http://localhost:8080";

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
+import loggedIn from '../utils';
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import plus from '../assets/plus_icon.png';
 import '../css/Community.css';
+
 
 function Community() {
     const navigate = useNavigate();
@@ -84,9 +86,7 @@ function Community() {
     // 게시글 더 불러오기
     const fetchMorePosts = async () => {
         if (loading) return;
-
         setLoading(true);
-        console.log("loading");
 
         // 로딩할 다음 페이지
         const newPageNumber = pageNumber + 1;
@@ -136,6 +136,11 @@ function Community() {
     };
 
     useEffect(() => {
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
         fetchPostsByCategory();
     }, [selectedCategory, deliverySort])
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import loggedIn from '../utils';
 import arrow_left from '../assets/arrow_left.png';
 import '../css/NewPost.css';
 
@@ -87,6 +88,14 @@ function NewPost(){
             alert(error);
         }
     };
+
+    useEffect(() => {
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+    }, []);
 
     return (
         <>

@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import loggedIn from '../utils';
 import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import arrow_left from '../assets/arrow_left.png';
@@ -8,11 +9,9 @@ import '../css/Community.css';
 
 function CommunitySearch() {
 
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const category = searchParams.get('category');
-    const navigate = useNavigate();
+    const category = localStorage.getItem('recentCategory')
     const accessToken = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
     const [currentRenderPage, setCurrentRenderPage] = useState('listView');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResult, setSearchResult] = useState([]);
@@ -77,6 +76,14 @@ function CommunitySearch() {
             .catch(error => console.error('Error:', error));
         }
     };
+
+    useEffect(() => {
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+    }, []);
     
     return (
         <>
