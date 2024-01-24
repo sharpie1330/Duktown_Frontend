@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import '../css/RepairApply.css';
 import Modal from "react-modal";
 import {customModal} from "../customModalConfig";
+import loggedIn from '../utils';
 
 function RepairApply(){
     const navigate = useNavigate();
@@ -23,6 +24,13 @@ function RepairApply(){
 
     const serverUrl = "http://localhost:8080";
     const submitHandler = async () => {
+
+        // 유효한 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+
         const apiUrl = serverUrl + "/repairApply";
         let roomNumber;
 
@@ -52,14 +60,16 @@ function RepairApply(){
         fetch(apiUrl, request)
             .then((response) => {
                 console.log(response);
-                if (response.ok)
-                    return response;
-                else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                if (response.ok) {
+                    return response.json(); // JSON 파싱
+                } else {
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then(() => {
@@ -67,14 +77,11 @@ function RepairApply(){
                 alert("수리요청이 전송되었습니다.");
                 navigate('/repairs/historys');
             })
-            .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+            .catch((error) => {
+                alert(error);
                 setModalIsOpen(false);
             });
+
     }
 
     return (
