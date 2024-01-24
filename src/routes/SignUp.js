@@ -186,6 +186,11 @@ function SignUp() {
             setPasswordCheck(null)
         }
 
+        if(idCheckResult !== '사용 가능한 아이디예요') {
+            alert('아이디 중복 여부를 확인해주세요');
+            return;
+        }
+
         const userData = {
             "loginId": id,
             "email": emailValue,
