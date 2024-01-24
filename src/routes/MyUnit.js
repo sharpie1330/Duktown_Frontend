@@ -47,8 +47,7 @@ function MyUnit(){
     }, []);
     return (
         <>
-            <div>
-                <div className='myUnit_title_container'>
+                <div className='title_container'>
                     <img className='myUnit_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
                     나의 유닛
                 </div>
@@ -58,7 +57,6 @@ function MyUnit(){
                         items={unitArr}
                     />
                 </div>
-            </div>
         </>
     );
 }
