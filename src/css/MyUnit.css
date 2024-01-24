@@ -18,4 +18,5 @@ body {
 
 .myUnit_list_container {
     padding: 24px 42px;
+    overflow: auto;
 }
