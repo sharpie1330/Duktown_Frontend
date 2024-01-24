@@ -243,22 +243,22 @@ function PostView() {
                             <tr id='post-time'>{post.datetime}</tr>
                         </tbody>
                     </table>
-                    {post.isWriter ? (
-                        <button className='functionBtn' type='submit' form='post-form'>
-                            <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef} alt='더보기'/>
-                        </button>
-                    ) : null}
+                    <button className='functionBtn' type='submit' form='post-form'>
+                        <img src={function_button} onClick={handleFunctionButtonClick} ref={functionButtonRef} alt='더보기'/>
+                    </button>
                     {showFunctionButton && (
                         <div className='post-small-modal'>
-                            {post.isWriter ? (
+                            {post.isWriter ?
                                 <>
                                     <div id='post_share_btn' onClick={shareHandler}>공유하기</div>
                                     <div onClick={handleDeletePost}>삭제하기</div>
                                 </>
-                            ) : (
-                                <div onClick={shareHandler}>공유하기</div>
+                                :
+                                <>
+                                    <div onClick={shareHandler}>공유하기</div>
+                                </>
                                 // <span onClick={handleReportPost}>신고하기</span>
-                            )}
+                            }
                         </div>  
                     )}
                 </div>
