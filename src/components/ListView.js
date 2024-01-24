@@ -49,6 +49,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
             break;
         case 'stayout':
             const stayOutTableArr = items.map(item => {
+                console.log(item);
                 const createdAt = new Date(item.createdAt);
                 const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
                 const requestDay = `${createdAt.getFullYear()}.${createdAt.getMonth()+1}.${createdAt.getDate()}. (${dayArr[createdAt.getDay()]})`;

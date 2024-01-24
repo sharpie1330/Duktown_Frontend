@@ -148,96 +148,98 @@ function MyPage() {
                 마이페이지
             </div>
             <div className='myPage_body_container'>
-                <div className='myPage_profile'>
-                    <div className='myPage_profile_info'>
-                        {/*<div className='myPage_edit_profile_container'>
+                <div>
+                    <div className='myPage_profile'>
+                        <div className='myPage_profile_info'>
+                            {/*<div className='myPage_edit_profile_container'>
                             <span>프로필 편집</span>
                             <img className="myPage_profile_edit_btn" src={arrow_right_blue} alt="프로필 편집"/>
                         </div>*/}
-                        <div className='myPage_profile_horizon_container'>
-                            <div className='myPage_profile_img_container'>
-                                <img className="myPage_profile_icon" src={profile} alt="프로필 사진"/>
-                            </div>
-                            <div className='myPage_profile_container'>
-                                <p className='myPage_user_name'>{username}</p>
-                                <p className='myPage_user_email'>{email}</p>
-                                <p className='myPage_user_dorm'>{`${hallName} A동 ${roomNumber}호`}</p>
-                                {unitUserType === 'UNIT_LEADER' ? <div className='myPage_user_role'>유닛장</div> : <></>}
+                            <div className='myPage_profile_horizon_container'>
+                                <div className='myPage_profile_img_container'>
+                                    <img className="myPage_profile_icon" src={profile} alt="프로필 사진"/>
+                                </div>
+                                <div className='myPage_profile_container'>
+                                    <p className='myPage_user_name'>{username}</p>
+                                    <p className='myPage_user_email'>{email}</p>
+                                    <p className='myPage_user_dorm'>{`${hallName} A동 ${roomNumber}호`}</p>
+                                    {unitUserType === 'UNIT_LEADER' ? <div className='myPage_user_role'>유닛장</div> : <></>}
+                                </div>
                             </div>
                         </div>
+                        {
+                            roleType === 'DORM_STUDENT'
+                                ? <div className='myPage_profile_status'>
+                                    사생 인증이 완료되었습니다.
+                                </div>
+                                : <div className='myPage_profile_status_require'>
+                                    사생 인증을 해주세요.
+                                </div>
+                        }
                     </div>
-                    {
-                        roleType === 'DORM_STUDENT'
-                        ? <div className='myPage_profile_status'>
-                                사생 인증이 완료되었습니다.
-                            </div>
-                        : <div className='myPage_profile_status_require'>
-                                사생 인증을 해주세요.
-                            </div>
-                    }
-                </div>
-                <div className="myPage_list_container">
-                    <ul className="myPage_list">
-                        <li className="myPage_list_element" onClick={() => navigate('/user/unit')}>
-                            <img id='myUnit' className="myPage_icon" src={unit_blue} alt="나의 유닛"/>
-                            나의 유닛
-                        </li>
-                        <li className="myPage_list_element" onClick={() => navigate('/user/wrote/posts')}>
-                            <img className="myPage_icon" id='myPosts' src={edit_blue} alt="내가 쓴 글"/>
-                            내가 쓴 글
-                        </li>
-                        <li className="myPage_list_element" onClick={() => navigate('/user/wrote/comments')}>
-                            <img className="myPage_icon" id='myComments' src={comment_blue} alt="댓글 단 글"/>
-                            댓글 단 글
-                        </li>
-                        <li className="myPage_list_element" onClick={() => navigate('/user/penalty')}>
-                            <img className="myPage_icon" id='myPenalty' src={penalty} alt="벌점 관리"/>
-                            벌점 관리
-                        </li>
-                        <li className="myPage_list_element" onClick={() => navigate('/dormGuide')}>
-                            <img className="myPage_icon" id='dormGuid' src={warning} alt="기숙사 안내"/>
-                            기숙사 생활 안내 / 안전관리 안내
-                        </li>
-                        <li className="myPage_list_element" onClick={() => setModalIsOpen(true)}>
-                            <img className="myPage_icon" id='logout' src={logout} alt="로그아웃"/>
-                            로그아웃
-                        </li>
-                        <Modal
-                            isOpen={modalIsOpen}
-                            onRequestClose={()=>setModalIsOpen(false)}
-                            style={customModal}>
-                            <div className="unit_modal_container">
-                                로그아웃 하시겠습니까?
-                                <div className="unit_modal_btn_container">
-                                    <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
-                                    <Button styleClass="modal_btn_yes" label="예" onClick={logoutHandler}/>
+                    <div className="myPage_list_container">
+                        <ul className="myPage_list">
+                            <li className="myPage_list_element" onClick={() => navigate('/user/unit')}>
+                                <img id='myUnit' className="myPage_icon" src={unit_blue} alt="나의 유닛"/>
+                                나의 유닛
+                            </li>
+                            <li className="myPage_list_element" onClick={() => navigate('/user/wrote/posts')}>
+                                <img className="myPage_icon" id='myPosts' src={edit_blue} alt="내가 쓴 글"/>
+                                내가 쓴 글
+                            </li>
+                            <li className="myPage_list_element" onClick={() => navigate('/user/wrote/comments')}>
+                                <img className="myPage_icon" id='myComments' src={comment_blue} alt="댓글 단 글"/>
+                                댓글 단 글
+                            </li>
+                            <li className="myPage_list_element" onClick={() => navigate('/user/penalty')}>
+                                <img className="myPage_icon" id='myPenalty' src={penalty} alt="벌점 관리"/>
+                                벌점 관리
+                            </li>
+                            <li className="myPage_list_element" onClick={() => navigate('/dormGuide')}>
+                                <img className="myPage_icon" id='dormGuid' src={warning} alt="기숙사 안내"/>
+                                기숙사 생활 안내 / 안전관리 안내
+                            </li>
+                            <li className="myPage_list_element" onClick={() => setModalIsOpen(true)}>
+                                <img className="myPage_icon" id='logout' src={logout} alt="로그아웃"/>
+                                로그아웃
+                            </li>
+                            <Modal
+                                isOpen={modalIsOpen}
+                                onRequestClose={()=>setModalIsOpen(false)}
+                                style={customModal}>
+                                <div className="unit_modal_container">
+                                    로그아웃 하시겠습니까?
+                                    <div className="unit_modal_btn_container">
+                                        <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModalIsOpen(false)} />
+                                        <Button styleClass="modal_btn_yes" label="예" onClick={logoutHandler}/>
+                                    </div>
                                 </div>
-                            </div>
-                        </Modal>
-                        <li className="myPage_list_element" onClick={() => setModal2IsOpen(true)}>
-                            <img className="myPage_icon" id='logout' src={logout} alt="탈퇴"/>
-                            회원 탈퇴
-                        </li>
-                        <Modal
-                            isOpen={modal2IsOpen}
-                            onRequestClose={()=>setModal2IsOpen(false)}
-                            style={customModal}>
-                            <div className="unit_modal_container">
-                                덕타운에서 탈퇴할까요?
-                                <div className="unit_modal_btn_container">
-                                    <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModal2IsOpen(false)} />
-                                    <Button styleClass="modal_btn_yes" label="예" onClick={withdrawalHandler}/>
+                            </Modal>
+                            <li className="myPage_list_element" onClick={() => setModal2IsOpen(true)}>
+                                <img className="myPage_icon" id='logout' src={logout} alt="탈퇴"/>
+                                회원 탈퇴
+                            </li>
+                            <Modal
+                                isOpen={modal2IsOpen}
+                                onRequestClose={()=>setModal2IsOpen(false)}
+                                style={customModal}>
+                                <div className="unit_modal_container">
+                                    덕타운에서 탈퇴할까요?
+                                    <div className="unit_modal_btn_container">
+                                        <Button styleClass="modal_btn_no" label="아니오" onClick={()=>setModal2IsOpen(false)} />
+                                        <Button styleClass="modal_btn_yes" label="예" onClick={withdrawalHandler}/>
+                                    </div>
                                 </div>
-                            </div>
-                        </Modal>
-                    </ul>
+                            </Modal>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div className='myPage_footer'>
-                <p className='duksung_dorm_info'>덕성여자대학교 기숙사 정보</p>
-                <p className='duksung_dorm_number'>02-901-8000</p>
-                <p className='gaon_dorm_addr'>가온1,2관 : (01370) 서울특별시 도봉구 우이천로 381</p>
-                <p className='international_dorm_addr'>국제기숙사 : (01378) 서울특별시 도봉구 우이천로 380</p>
+                <div className='myPage_footer'>
+                    <p className='duksung_dorm_info'>덕성여자대학교 기숙사 정보</p>
+                    <p className='duksung_dorm_number'>02-901-8000</p>
+                    <p className='gaon_dorm_addr'>가온1,2관 : (01370) 서울특별시 도봉구 우이천로 381</p>
+                    <p className='international_dorm_addr'>국제기숙사 : (01378) 서울특별시 도봉구 우이천로 380</p>
+                </div>
             </div>
         </>
     )

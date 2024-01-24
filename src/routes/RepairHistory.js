@@ -11,7 +11,7 @@ function RepairHistory() {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentPageSet, setCurrentPageSet] = useState(1);
     const [items, setItems] = useState([]);
-    const [limitPageSet, setLimitPageSet] = useState(null);
+    const [limitPage, setLimitPage] = useState(1);
     const accessToken = localStorage.getItem('accessToken');
     const handlePreviousClick = () => {
         if (currentPageSet > 1) {
@@ -20,7 +20,7 @@ function RepairHistory() {
         }
     };
     const handleNextClick = () => {
-        if (currentPageSet < limitPageSet) {
+        if (currentPageSet < limitPage) {
             setCurrentPageSet(currentPageSet + 1);
             setCurrentPage(5 * (currentPageSet+1) -4);
         }
@@ -56,7 +56,7 @@ function RepairHistory() {
             })
             .then((data) => {
                 console.log(data);
-                setLimitPageSet(data.totalPage);
+                setLimitPage(data.totalPage);
                 setItems(data.content.reverse());
             })
             .catch((errorResponse) => {
@@ -85,12 +85,12 @@ function RepairHistory() {
             <div className='paging_container'>
                 <ul className='pagination_modal'>
                     <li><Link to={`/repairs/historys?page=${currentPageSet === 1 ? 1 : 5*(currentPageSet-1)}`}><img className='previous' src={arrow_left} alt='이전 페이지' onClick={() => handlePreviousClick()}/></Link></li>
-                    <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet-4}`} className={currentPage === 5*currentPageSet-4 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-4)}>{5*currentPageSet-4}</Link></li>
-                    <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet-3}`} className={currentPage === 5*currentPageSet-3 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-3)}>{5*currentPageSet-3}</Link></li>
-                    <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet-2}`} className={currentPage === 5*currentPageSet-2 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-2)}>{5*currentPageSet-2}</Link></li>
-                    <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet-1}`} className={currentPage === 5*currentPageSet-1 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-1)}>{5*currentPageSet-1}</Link></li>
-                    <li className="pageNum"><Link to={`/repairs/historys?page=${5*currentPageSet}`} className={currentPage === 5*currentPageSet ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet)}>{5*currentPageSet}</Link></li>
-                    <li><Link to={`/repairs/historys?page=${currentPageSet === limitPageSet ? limitPageSet : 5*(currentPageSet+1)-4}`}><img className='next' src={arrow_right} alt='다음 페이지' onClick={() => handleNextClick()}/></Link></li>
+                    <li className="pageNum" style={{display: 5*currentPageSet-4>limitPage ? 'none' : 'block'}}><Link to={`/repairs/historys?page=${5*currentPageSet-4}`} className={currentPage === 5*currentPageSet-4 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-4)}>{5*currentPageSet-4}</Link></li>
+                    <li className="pageNum" style={{display: 5*currentPageSet-3>limitPage ? 'none' : 'block'}}><Link to={`/repairs/historys?page=${5*currentPageSet-3}`} className={currentPage === 5*currentPageSet-3 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-3)}>{5*currentPageSet-3}</Link></li>
+                    <li className="pageNum" style={{display: 5*currentPageSet-2>limitPage ? 'none' : 'block'}}><Link to={`/repairs/historys?page=${5*currentPageSet-2}`} className={currentPage === 5*currentPageSet-2 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-2)}>{5*currentPageSet-2}</Link></li>
+                    <li className="pageNum" style={{display: 5*currentPageSet-1>limitPage ? 'none' : 'block'}}><Link to={`/repairs/historys?page=${5*currentPageSet-1}`} className={currentPage === 5*currentPageSet-1 ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet-1)}>{5*currentPageSet-1}</Link></li>
+                    <li className="pageNum" style={{display: 5*currentPageSet>limitPage ? 'none' : 'block'}}><Link to={`/repairs/historys?page=${5*currentPageSet}`} className={currentPage === 5*currentPageSet ? 'active' : ""} onClick={() => handleCurrentClick(5*currentPageSet)}>{5*currentPageSet}</Link></li>
+                    <li><Link to={`/repairs/historys?page=${currentPageSet === limitPage ? limitPage : 5*(currentPageSet+1)-4}`}><img className='next' src={arrow_right} alt='다음 페이지' onClick={() => handleNextClick()}/></Link></li>
                 </ul>
             </div>
         </>

@@ -62,7 +62,7 @@
     border-radius: 10px;
     border: 1px solid #6A9CFD;
     padding: 16px;
-    height: 150px;
+    height: 116px;
 }
 
 .user_info {
@@ -208,4 +208,8 @@
     width: 100%;
     text-align: center;
     margin: 10px 0 0 0;
+}
+
+.center_content_container {
+    overflow-y: scroll;
 }

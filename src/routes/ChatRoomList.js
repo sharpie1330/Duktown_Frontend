@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import Upperbar from "../components/UpperBar";
 import BottomBar from "../components/BottomBar";
 import {useNavigate} from "react-router-dom";
+import loggedIn from "../utils";
 
 function ChatRoomList() {
     const navigate = useNavigate();
@@ -54,10 +55,10 @@ function ChatRoomList() {
         }
     }
     useEffect( () => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         } else {
-            console.log(accessToken);
             getChatRoomList(apiUrl, accessToken).then(data => {
                 setChatRoomArr(data.chatRooms);
             });
