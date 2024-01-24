@@ -28,54 +28,6 @@ function Community() {
     const categoryNumber = {'daily': 0, 'market': 1};
     const scrollRef = useRef(null);
 
-        // 상단바, 하단바 제외 내용 높이 설정
-        useEffect(() => {
-            const setContentHeight = () => {
-                const upperBar = document.querySelector('.upper_bar');
-                const bottomBar = document.querySelector('.bottom_tabs');
-                const contentContainer = document.querySelector('.center_content_container');
-        
-                // 요소가 찾아졌는지 확인
-                if (upperBar && bottomBar && contentContainer) {
-                    const upperBarHeight = upperBar.offsetHeight;
-                    const bottomBarHeight = bottomBar.offsetHeight;
-        
-                    // 상단바와 하단바 사이의 높이로 contentContainer의 높이 설정
-                    const contentHeight = window.innerHeight - upperBarHeight - bottomBarHeight;
-        
-                    contentContainer.style.height = `${contentHeight - 40}px`;
-                }
-            };
-        
-            // 페이지가 로드된 후에 한 번 실행
-            setContentHeight();
-        
-            // 리사이즈 이벤트에 대한 리스너 추가
-            window.addEventListener('resize', setContentHeight);
-        
-            // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너를 제거
-            return () => {
-                window.removeEventListener('resize', setContentHeight);
-            };
-        }, []); // 빈 배열을 전달하여 한 번만 실행되도록 함
-
-    // useEffect(() => {
-    //     const setPostListHeight = () => {
-    //         const postList =document.querySelector('.post-list');
-    //         const listHeight = window.innerHeight - 200;
-    //         postList.style.height = `${listHeight}px`;
-    //     };
-
-    //     // 초기에 함수 호출하고, 크기 조절 이벤트를 처리하기 위해 리스너 추가
-    //     setPostListHeight();
-    //     window.addEventListener('resize', setPostListHeight);
-
-    //     return () => {
-    //         // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너를 제거
-    //         window.removeEventListener('resize', setPostListHeight);
-    //     };
-    // }, []);
-
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
 
