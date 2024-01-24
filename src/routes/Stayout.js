@@ -177,6 +177,7 @@ function Stayout() {
                 setSpecAddress('');
                 setZonecode('');
                 setReason('');
+                setRecentAddr(false);
                 alert("외박 신청이 전송되었습니다.");
 
                 initStayout(apiUrl, accessToken)
