@@ -224,7 +224,11 @@
 .chatRoom {
     width: 100%;
     min-width: 300px;
-    overflow: scroll;
+    overflow-y: scroll;
+}
+
+.chatRoom::-webkit-scrollbar {
+    display: none;
 }
 
 .chatRoom .chatRoom_container {
@@ -277,7 +281,6 @@
 
 .myPost, .myDeliveryPost {
     padding: 0 30px;
-    overflow-y: scroll;
 }
 
 .myPost .title, .myDeliveryPost .title {

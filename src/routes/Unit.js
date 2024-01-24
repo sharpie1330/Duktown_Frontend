@@ -18,6 +18,8 @@ function Unit() {
     const [cleaningId, setCleaningId] = useState(null);
     const [username, setUsername] = useState('');
     const [room, setRoom] = useState(null);
+    const [done, setDone] = useState(false);
+    const [confirm, setConfirm] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
@@ -86,6 +88,7 @@ function Unit() {
             })
             .then(() => {
                 setModalIsOpen(false);
+                setDone(true);
                 alert("청소완료 처리되었습니다.");
             })
             .catch((errorResponse) => {
@@ -121,8 +124,6 @@ function Unit() {
     const format_today = formatToday(now);
 
     {/*예시*/}
-    const done = false;
-    const confirm = false;
     const dummyData = [
         {cleaningDate: '2024-01-25', cleaned: false, checked: false},
         {cleaningDate: '2024-01-18', cleaned: true, checked: true},
@@ -339,8 +340,8 @@ function Unit() {
                                     <>
                                         <div className="unit_done">
                                             { done
-                                                ? <Button styleClass="done_true" label="완료"/>
-                                                : <Button styleClass="done_false" label="완료하기" onClick={()=> setModalIsOpen(true)}/>
+                                                ? <Button styleClass="confirm_false" label="완료"/>
+                                                : <Button styleClass="done_true" label="청소 완료" onClick={()=> setModalIsOpen(true)}/>
                                             }
                                             <Modal
                                                 isOpen={modalIsOpen}
