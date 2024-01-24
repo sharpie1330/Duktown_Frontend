@@ -193,7 +193,7 @@
     width: 49%;
 }
 
-.history_container {
+.cleaning_history_container {
     display: grid;
     place-items: center;
     margin-top: 11px;
