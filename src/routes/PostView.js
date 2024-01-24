@@ -262,7 +262,7 @@ function PostView() {
                     )}
                 </div>
                 <p className="post-title">{post.title}</p>
-                <p className="post-content">{post.content}</p>
+                <p className="post-full-content">{post.content}</p>
                 <div className="post-details">
                     {post.liked ?
                     <img src={like_blue_icon} onClick={handleLike} alt='좋아요'/>

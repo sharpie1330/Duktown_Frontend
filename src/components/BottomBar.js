@@ -18,8 +18,8 @@ const BottomBar = () => {
     };
 
     return (
-        <nav className="bottom_bar">
-            <ul>
+        <nav className='bottom_bar'>
+            <ul className='bottom_tabs'>
                 <li onClick={() => handleNavigation('/home')}>
                     <img src={location.pathname === '/home' ? home_blue : home} alt="Home" className='bottom_bar_icon'/>
                 </li>
