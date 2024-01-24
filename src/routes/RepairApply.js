@@ -13,7 +13,7 @@ function RepairApply(){
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
     const [hallName, setHallName] = useState("1");
-    const [room, setRoom] = useState("");
+    const [position, setPosition] = useState("");
     const [content, setContent] = useState("");
 
     useEffect( () => {
@@ -32,17 +32,10 @@ function RepairApply(){
         }
 
         const apiUrl = serverUrl + "/repairApply";
-        let roomNumber;
-
-        if (!room.includes('호')){
-            roomNumber = `${room}호`;
-        } else {
-            roomNumber = room;
-        }
 
         const requestData = {
             "hallName": hallName,
-            "roomNumber": roomNumber,
+            "position": position,
             "content": content
         }
 
@@ -127,8 +120,8 @@ function RepairApply(){
                             </select>
                         </div>
                         <div className='repair_room_input'>
-                            호실<br/>
-                            <input type='text' name="request_user" className='repair_input_text' onChange={(e) => setRoom(e.target.value)}/>
+                            위치<br/>
+                            <input type='text' name="request_user" className='repair_input_text' onChange={(e) => setPosition(e.target.value)}/>
                         </div>
                     </div>
                     {/*<div className='repair_user_profile'>
