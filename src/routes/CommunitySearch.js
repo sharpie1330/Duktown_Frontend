@@ -5,7 +5,7 @@ import DeliveryPost from '../components/DeliveryPost';
 import GeneralPost from '../components/GeneralPost';
 import arrow_left from '../assets/arrow_left.png';
 import search from "../assets/search.png";
-import '../css/Community.css';
+import '../css/CommunitySearch.css';
 
 function CommunitySearch() {
 
@@ -87,12 +87,12 @@ function CommunitySearch() {
     
     return (
         <>
-        <div className='announcement_searchBar_container'>
-            <img className='announcement_searchBar_icon' src={arrow_left} alt="뒤로 가기" onClick={() => window.history.back()}/>
+        <div className='community_searchBar_container'>
+            <img className='community_searchBar_icon' src={arrow_left} alt="뒤로 가기" onClick={() => window.history.back()}/>
             <div>
-            <input type='text' className='announcement_searchBar_field' value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} onKeyDown={handleSearch} ref={inputRef}
+            <input type='text' className='community_searchBar_field' value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} onKeyDown={handleSearch} ref={inputRef}
                 placeholder={placeholderText}/>
-                <img className='announcement_search_icon' id={searchKeyword==='' ? 'notExist1' : 'exist1'} src={search} alt='검색' onClick={() => setCurrentRenderPage('search')}/>
+                <img className='community_search_icon' id={searchKeyword==='' ? 'notExist1' : 'exist1'} src={search} alt='검색' onClick={() => setCurrentRenderPage('search')}/>
                     <button type='button' className='delete_btn' id={searchKeyword==='' ? 'notExist2' : 'exist2'} onClick={handleKeyword}>✕</button>
             </div>
         </div>

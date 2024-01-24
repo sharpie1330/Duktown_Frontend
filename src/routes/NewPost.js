@@ -132,7 +132,6 @@ function NewPost(){
                     :
                         <></>
                     }
-                    <br/>
                     <textarea 
                         id='post-content' 
                         placeholder='내용을 입력하세요'

@@ -1,5 +1,5 @@
 import React from 'react';
-import comment_icon from '../assets/comment.png';
+import comment_icon from '../assets/comment_blue.png';
 import { useNavigate } from 'react-router-dom';
 
 

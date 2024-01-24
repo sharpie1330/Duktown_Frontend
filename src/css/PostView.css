@@ -89,6 +89,7 @@ hr {
     padding: 10px 14px;
     margin: 2px;
     height: 12px;
+    flex-grow: 1;
 }
 
 #comment-input::placeholder {
