@@ -27,11 +27,11 @@ button {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 32px 24px 80px 24px;
+    padding-top: 32px;
     margin: auto;
     min-width: 320px;
     max-width: 500px;
-    overflow: auto;
+    overflow-x: auto;
 }
 
 .signup_form {
@@ -54,7 +54,6 @@ Input {
     border: none;
     border-bottom: solid #A2A2A2 1px;
     margin-bottom: 20px;
-    width: 100%;
     padding: 4px;
 }
 
@@ -73,10 +72,11 @@ Input {
 }
 
 .bottomBtn {
-    position: absolute;
+    position: sticky;
     bottom: 0;
     width: 100%;
     padding: 18px;
+    margin-top: 10px;
     border: none;
     background-color: #F7F7F7;
     color: #8E8E8E;
@@ -294,4 +294,9 @@ Input {
     color: #FD5959;
     font-size: 12px;
     font-weight: 700;
+}
+
+#codeForm {
+    display: flex;
+    flex-direction: column;
 }

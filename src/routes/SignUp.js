@@ -303,8 +303,8 @@ function SignUp() {
                                 <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => setCurrentPage('email')}></img>
                                 회원가입
                             </div>
-                            <form className="signup_form" onSubmit={handleSignUp}>
-                                <div className='signup_content'>
+                            <div className='signup_content'>
+                                <form className="signup_form" id='signup_form2' onSubmit={handleSignUp}>
                                     <p>이름</p>
                                     <input type='text' name='name' placeholder='실명을 입력해주세요'></input>
                                     <p>아이디</p>
@@ -319,9 +319,9 @@ function SignUp() {
                                     <p>비밀번호 확인</p>
                                     <input className="sign_input" type="password" name="pwd_check" placeholder="다시 한 번 입력해주세요"/>
                                     {passwordCheck !== '' ? <p id="redResultText">{passwordCheck}</p> : null }
-                                </div>
-                                <button type="submit" className='bottomBtn'>덕타운 시작하기</button>
-                            </form>
+                                </form>
+                            </div>
+                            <button type="submit" className='bottomBtn' form='signup_form2'>덕타운 시작하기</button>                            
                         </>
                     );
             case 'authentication':
