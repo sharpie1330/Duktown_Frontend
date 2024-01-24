@@ -8,7 +8,7 @@ import profile_image from '../assets/profile_image.png';
 import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 
-function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment }) {
+function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment, isChildComment}) {
     const serverUrl = "http://localhost:8080";
     const apiUrl = serverUrl + "/comments";
     const accessToken = localStorage.getItem('accessToken');
@@ -137,15 +137,10 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
         };
     }, []);
 
-
-    useEffect(() => {
-        setSendChildComment(true);
-        setReplyIcon(comment_icon);
-    }, [postComment]);
-
-    const commentFuncFilter = () => {
-
-    }
+    // useEffect(() => {
+    //     setSendChildComment(true);
+    //     setReplyIcon(comment_icon);
+    // }, [postComment]);
 
     return (
         <>
@@ -181,8 +176,13 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                 <img src={like_icon} onClick={handleLike} alt='좋아요_비활성'/>
                 }
                 <span className="post-likes">좋아요 {likeCount}</span>
-                <img src={replyIcon} alt='답글'/>
-                <span className="reply" onClick={handleReply}>답글쓰기</span>
+                {isChildComment ? null : (
+                    <div onClick={handleReply}>
+                        <img src={replyIcon} alt='답글'/>
+                        <span className="reply">답글쓰기</span>
+                    </div>
+                )}
+                
             </div>
             {childComments && childComments.length > 0 ?
                 <div className='childComments'>
@@ -213,6 +213,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                                                     fetchComments={fetchComments}
                                                     fetchPost={fetchPost}
                                                     postComment={postComment}
+                                                    isChildComment={true}
                                                 />
                                             </td>
                                         </tr>
