@@ -18,7 +18,7 @@ const Upperbar = ({ searchAvailable }) => {
             <div className='upper_bar'>
                 <img src={logo} alt="Logo" className="upper_bar_logo"/>
                 {searchAvailable ? 
-                    <img src={search} alt='search' className='upper_bar_icon' onClick={handleSearchClick}/> 
+                    <img src={search} alt='search' className='upper_bar_icon' id="community_search_icon" onClick={handleSearchClick}/> 
                     : null
                 }
                 <img src={mypage} alt="My Page" className="upper_bar_icon" onClick={() => navigate('/myPage')}/>
