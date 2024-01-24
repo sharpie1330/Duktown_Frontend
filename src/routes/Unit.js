@@ -19,6 +19,37 @@ function Unit() {
     const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
+    // 상단바, 하단바 제외 내용 높이 설정
+    useEffect(() => {
+        const setContentHeight = () => {
+            const upperBar = document.querySelector('.upper_bar');
+            const bottomBar = document.querySelector('.bottom_tabs');
+            const contentContainer = document.querySelector('.center_content_container');
+    
+            // 요소가 찾아졌는지 확인
+            if (upperBar && bottomBar && contentContainer) {
+                const upperBarHeight = upperBar.offsetHeight;
+                const bottomBarHeight = bottomBar.offsetHeight;
+    
+                // 상단바와 하단바 사이의 높이로 contentContainer의 높이 설정
+                const contentHeight = window.innerHeight - upperBarHeight - bottomBarHeight;
+    
+                contentContainer.style.height = `${contentHeight - 40}px`;
+            }
+        };
+    
+        // 페이지가 로드된 후에 한 번 실행
+        setContentHeight();
+    
+        // 리사이즈 이벤트에 대한 리스너 추가
+        window.addEventListener('resize', setContentHeight);
+    
+        // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너를 제거
+        return () => {
+            window.removeEventListener('resize', setContentHeight);
+        };
+    }, []); // 빈 배열을 전달하여 한 번만 실행되도록 함
+
     function formatToday(date) {
         const weekday = ['일', '월', '화', '수', '목', '금', '토'];
         return date.getFullYear()+'.'+(date.getMonth()+1)+'.'+date.getDate()+'. ('+weekday[date.getDay()]+')';

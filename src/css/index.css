@@ -13,12 +13,11 @@ body, #root{
 .center_content_container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     padding: 24px;
     margin: 0 auto;
     min-width: 320px;
     max-width: 500px;
-    overflow: hidden;
+    overflow: auto;
     width: 87%;
 }
 
