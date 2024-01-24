@@ -31,7 +31,7 @@ function RepairHistory() {
 
     useEffect(() => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {
-            navigate('/signin');
+            return navigate('/signin');
         }
 
         const apiUrl = `http://localhost:8080/repairApply?pageNo=${currentPage}`;

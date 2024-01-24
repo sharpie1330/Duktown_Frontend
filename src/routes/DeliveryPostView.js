@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import loggedIn from '../utils';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import comment_icon from '../assets/comment_blue.png';
@@ -10,6 +11,7 @@ import '../css/PostView.css';
 
 function DeliveryPostView() {
     const location = useLocation();
+    const navigate = useNavigate();
     const param = useParams();
     const deliveryId = Number(param.deliveryId); // URL의 parameter를 가져옴("/:deliveryId" 부분)
     const [comments, setComments] = useState([]);
@@ -114,6 +116,12 @@ function DeliveryPostView() {
     };
     
     useEffect(() => {
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+
         document.addEventListener('click', handleDocumentClick);
         fetchPost();
         fetchComments();

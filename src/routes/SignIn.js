@@ -39,6 +39,7 @@ function SignIn(){
                 const accessToken = data.accessToken;
                 const refreshToken = data.refreshToken;
                 localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('timeStamp', new Date().getTime());
                 localStorage.setItem('recentCategory', accessToken);
                 navigate('/home');
             })

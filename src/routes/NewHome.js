@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import loggedIn from '../utils';
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
 import announcement from '../assets/announcement_icon.png';
@@ -13,6 +14,15 @@ import '../css/NewHome.css';
 
 function NewHome(){
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+    }, []);
+
     return (
         <>
             <Upperbar searchAvailable={false}/>

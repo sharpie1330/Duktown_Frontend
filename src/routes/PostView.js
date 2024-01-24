@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import loggedIn from '../utils';
 import arrow_left from '../assets/arrow_left.png';
 import function_button from '../assets/function_button.png';
 import like_icon from '../assets/like.png';
@@ -13,6 +14,7 @@ import '../css/PostView.css';
 
 function PostView() {
     const location = useLocation();
+    const navigate = useNavigate();
     const param = useParams();
     const id = param.postId;
     const category_name = {0: '일상', 1: '장터'}
@@ -38,6 +40,7 @@ function PostView() {
 
     // 글 내용 가져오기
     const fetchPost = async () => {
+
         fetch(serverUrl + '/posts' + `/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -203,6 +206,13 @@ function PostView() {
     
     // 첫 렌더링 시 글과 댓글 내용 가져오기
     useEffect(() => {
+
+        // 토큰이 없을 경우 로그인 페이지로 이동
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
+        }
+
         const fetchData = async () => {
             await fetchPost();
             await fetchComments();
