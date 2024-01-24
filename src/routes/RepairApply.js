@@ -72,15 +72,19 @@ function RepairApply(){
                     });
                 }
             })
-            .then(() => {
-                setModalIsOpen(false);
-                alert("수리요청이 전송되었습니다.");
-                navigate('/repairs/historys');
+            .then((data) => {
+                if (data) {
+                    // 서버에서 JSON 형식의 응답을 제공할 때만 실행
+                    setModalIsOpen(false);
+                    alert("수리요청이 전송되었습니다.");
+                    navigate('/repairs/historys');
+                }
             })
             .catch((error) => {
                 alert(error);
                 setModalIsOpen(false);
             });
+
 
     }
 
