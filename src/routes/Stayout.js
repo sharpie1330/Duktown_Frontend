@@ -319,6 +319,7 @@ function Stayout() {
                                 </div>
                             </Modal>
                         </div>
+                        <div className='stayout_content_container'>
                         <div className='stayout_range_description'>
                             달력에서 외박 시작 날짜와 돌아오는 날짜를 선택해주세요
                         </div>
@@ -395,6 +396,7 @@ function Stayout() {
                                 </div>
                             </div>
                         </form>
+                        </div>
                         <Draggable axis='y' bounds={{top: -(window.innerHeight * 0.78), bottom:0}}>
                             <div className='stayout_drag_container'>
                                 <div className='stayout_scroll_tab'>
