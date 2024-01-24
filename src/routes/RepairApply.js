@@ -54,9 +54,9 @@ function RepairApply(){
             .then((response) => {
                 console.log(response);
                 if (response.ok) {
-                    return response.json(); // JSON 파싱
+                    return response;
                 } else {
-                    return response.json().then(errorData => {
+                    return response.then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
