@@ -198,14 +198,15 @@ function Unit() {
                 }
             })
             .then((data) => {
-                setHistory(data.content);
-            })
-            .then(_ => {
-                const todayCleaning = history.find((day) => isToday(day.cleaningDate));
-                // 오늘 청소 날짜가 있다면 해당 id를 설정
-                if (todayCleaning) {
-                    setDone(todayCleaning.cleaned);
-                    setConfirm(todayCleaning.checked);
+                if (data.content && data.content.length > 0) {
+                    setHistory(data.content);
+
+                    const todayCleaning = data.content.find((day) => isToday(day.cleaningDate));
+                    // 오늘 청소 날짜가 있다면 해당 id를 설정
+                    if (todayCleaning) {
+                        setDone(todayCleaning.cleaned);
+                        setConfirm(todayCleaning.checked);
+                    }
                 }
             })
             .catch((errorResponse) => {

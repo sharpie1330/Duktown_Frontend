@@ -65,6 +65,7 @@ function RepairApply(){
             .then(() => {
                 setModalIsOpen(false);
                 alert("수리요청이 전송되었습니다.");
+                navigate('/repairs/historys');
             })
             .catch((errorResponse) => {
                 if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
@@ -74,9 +75,6 @@ function RepairApply(){
                 }
                 setModalIsOpen(false);
             });
-
-        setModalIsOpen(false);
-        navigate('/repairs/historys');
     }
 
     return (
