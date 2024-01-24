@@ -16,6 +16,8 @@ function Unit() {
     const [history, setHistory] = useState([]);
     const [isCleaningDay, setIsCleaningDay] = useState(false);
     const [cleaningId, setCleaningId] = useState(null);
+    const [username, setUsername] = useState('');
+    const [room, setRoom] = useState(null);
     const accessToken = localStorage.getItem('accessToken');
     const serverUrl = 'http://localhost:8080';
 
@@ -205,6 +207,42 @@ function Unit() {
                     throw new EvalError(errorResponse.errorMessage);
                 }
             });
+
+        const profileUrl = serverUrl + '/my';
+        fetch(profileUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(response.errorMessage);
+                        }
+                    }
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                setUsername(data.name);
+                setRoom(data.roomNumber);
+            })
+            .catch((errorResponse) => {
+                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                    window.open('http://localhost:3000/signin', '_self');
+                } else {
+                    throw new EvalError(errorResponse.errorMessage);
+                }
+            });
     }, []);
 
     let isExist = []
@@ -214,6 +252,13 @@ function Unit() {
 
     useEffect(() => {
         if (schedule.length > 0 && schedule.some((day) => isToday(day.cleaningDate))) {
+            const todayCleaning = schedule.find((day) => isToday(day.cleaningDate));
+            // 오늘 청소 날짜가 있다면 해당 id를 설정
+            if (todayCleaning) {
+                console.log(cleaningId);
+                setCleaningId(todayCleaning.cleaningId);
+            }
+
             setIsCleaningDay(true);
         } else {
             setIsCleaningDay(false);
@@ -286,7 +331,7 @@ function Unit() {
                             {/*<img className="move_icon" src={arrow_right} alt="어딘가로 이동" onClick={()=>{navigate("/home");}}/>*/}
                         </div>
                         <div className="today_record_container">
-                            <div className="user_info">101호 정현조</div>
+                            <div className="user_info">{`${room}호 ${username}`}</div>
                             <div className="user_cleaning_time">23:30 ~ 24:00</div>
                             <div className="done_and_confirm">
                                 {isCleaningDay
