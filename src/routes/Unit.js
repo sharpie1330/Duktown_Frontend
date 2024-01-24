@@ -388,7 +388,7 @@ function Unit() {
                             <div className="unit_record_title">청소 내역</div>
                             <img className="move_icon" src={arrow_right} alt="청소내역으로 이동" onClick={()=>{navigate("/cleaning");}}/>
                         </div>
-                        <div className='history_container'>
+                        <div className='cleaning_history_container'>
                             <ListView
                                 tableFor='cleaning'
                                 items = {dummyData}
