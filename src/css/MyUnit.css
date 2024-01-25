@@ -20,3 +20,13 @@ body {
     padding: 24px 42px;
     overflow: auto;
 }
+
+.myUnit_list_container::-webkit-scrollbar-thumb {
+    width: 5px;
+    border-radius: 10px;
+    background: #8E8E8E;
+}
+
+.myUnit_list_container::-webkit-scrollbar {
+    width: 5px;
+}

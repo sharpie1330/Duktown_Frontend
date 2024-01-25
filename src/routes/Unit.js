@@ -8,6 +8,7 @@ import "../css/Unit.css";
 import {customModal} from "../customModalConfig";
 import Upperbar from '../components/UpperBar';
 import BottomBar from '../components/BottomBar';
+import loggedIn from "../utils";
 
 function Unit() {
     const navigate = useNavigate();
@@ -79,11 +80,13 @@ function Unit() {
                 if (response.ok)
                     return response;
                 else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then(() => {
@@ -92,13 +95,8 @@ function Unit() {
                 alert("청소완료 처리되었습니다.");
             })
             .catch((errorResponse) => {
-                console.error(errorResponse);
                 setModalIsOpen(false);
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }
 
@@ -131,7 +129,8 @@ function Unit() {
         {cleaningDate: '2024-01-04', cleaned: true, checked: true},
     ]
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -161,22 +160,20 @@ function Unit() {
                 if (response.ok)
                     return response.json();
                 else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
                 setSchedule(data.data);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
 
         fetch(serverUrl+'/cleaning', {
@@ -190,11 +187,13 @@ function Unit() {
                 if (response.ok)
                     return response.json();
                 else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
@@ -210,12 +209,7 @@ function Unit() {
                 }
             })
             .catch((errorResponse) => {
-                console.log(errorResponse);
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
 
 
@@ -231,28 +225,22 @@ function Unit() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                    return response.json().then(errorData => {
+                        console.log(errorData.status);
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
-                            throw new EvalError(response.errorMessage);
+                            throw new EvalError(errorData.errorMessage);
                         }
-                    }
+                    });
                 }
             })
             .then((data) => {
-                console.log(data);
                 setUsername(data.name);
                 setRoom(data.roomNumber);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }, []);
 

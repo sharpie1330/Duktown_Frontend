@@ -66,7 +66,7 @@ function Announcement(){
             case 'listView':
                 return (
                     <>
-                        <div className='announcement_title_container'>
+                        <div className='title_container'>
                             <div>
                                 <img className='announcement_icon' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/home');}}></img>
                                 점호 방송

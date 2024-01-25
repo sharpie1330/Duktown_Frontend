@@ -56,7 +56,7 @@ function RepairApply(){
                 if (response.ok) {
                     return response;
                 } else {
-                    return response.then(errorData => {
+                    return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
@@ -83,7 +83,7 @@ function RepairApply(){
 
     return (
         <>
-            <div className='repair_title_container'>
+            <div className='title_container'>
                 <div className='repair_title'>
                     <img className='repair_title_icon' src={arrow_left} alt="뒤로 가기" onClick={() => {navigate('/repairs/historys')}}/>
                     수리 요청

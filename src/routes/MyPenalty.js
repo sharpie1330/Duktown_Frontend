@@ -4,6 +4,7 @@ import information_icon from "../assets/information.png";
 import '../css/MyPenalty.css';
 import {useNavigate} from "react-router-dom";
 import ListView from "../components/ListView";
+import loggedIn from "../utils";
 function MyPenalty() {
     const navigate = useNavigate();
     const [point, setPoint] = useState(null);
@@ -12,7 +13,8 @@ function MyPenalty() {
     const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -28,11 +30,13 @@ function MyPenalty() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
@@ -45,17 +49,13 @@ function MyPenalty() {
                 setPointHistory(data.penaltyPointsList);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }, []);
 
     return (
         <>
-            <div className='myPenalty_title_container'>
+            <div className='title_container'>
                 <div className='myPenalty_title_horizontal_container'>
                     <img className='myPenalty_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
                     벌점 관리

@@ -5,6 +5,7 @@ import arrow_right from "../assets/arrow_right.png";
 import edit_blue from "../assets/edit_blue.png";
 import ListView from "../components/ListView";
 import '../css/RepairHistory.css';
+import loggedIn from "../utils";
 
 function RepairHistory() {
     const navigate = useNavigate();
@@ -31,8 +32,9 @@ function RepairHistory() {
     };
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
-            return navigate('/signin');
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
+            navigate('/signin');
         }
 
         const apiUrl = serverUrl + `/repairApply?pageNo=${currentPage}`;
@@ -48,24 +50,22 @@ function RepairHistory() {
                 if (response.ok){
                     return response.json();
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        console.log(errorData.status);
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
-                console.log(data);
                 setLimitPage(data.totalPage);
                 setItems(data.content.reverse());
             })
-            .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+            .catch((error) => {
+                alert(error);
             });
     }, [currentPage]);
 

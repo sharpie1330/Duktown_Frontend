@@ -51,8 +51,10 @@ function SignIn(){
     return(
         <>
             <div className="title_container">
-                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
-                로그인
+                <div>
+                    <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                    로그인
+                </div>
             </div>
             <form className="signin_form" id="signin_form" onSubmit={handleSignIn}>
                 <p>아이디</p>

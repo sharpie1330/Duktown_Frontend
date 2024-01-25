@@ -301,9 +301,11 @@ function DormGuide(){
 
     return (
         <>
-            <div className='dormGuide_title_container'>
-                <img className='dormGuide_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
-                생활 안내 / 안전관리 규정
+            <div className='title_container'>
+                <div>
+                    <img className='dormGuide_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
+                    생활 안내 / 안전관리 규정
+                </div>
             </div>
             <div className='dormGuide_body_container'>
                 <div className='dormGuide_tab_container'>
