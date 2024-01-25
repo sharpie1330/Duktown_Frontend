@@ -17,7 +17,7 @@ function CommunitySearch() {
     const [searchResult, setSearchResult] = useState([]);
     const [keywordList, setKeywordList] = useState(JSON.parse(localStorage.getItem('keywords')) || '[]');
     const [posts, setPosts] = useState([]);
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
     const categoryName = {'daily': '일상', 'market': '장터', 'delivery': '배달'};

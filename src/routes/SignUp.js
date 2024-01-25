@@ -43,7 +43,7 @@ function SignUp() {
         }
     }, [firstTermsChecked, secondTermsChecked]);
 
-    const serverUrl = "http://localhost:8080"; // 서버 주소
+    const serverUrl = process.env.REACT_APP_BASEURL; // 서버 주소
 
     // 약관 상세 페이지로 이동
     const navigateToTerms = (termsNumber) => {

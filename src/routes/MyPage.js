@@ -28,7 +28,7 @@ function MyPage() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modal2IsOpen, setModal2IsOpen] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect( () => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {

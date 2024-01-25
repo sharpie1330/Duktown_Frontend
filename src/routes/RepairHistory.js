@@ -13,6 +13,7 @@ function RepairHistory() {
     const [items, setItems] = useState([]);
     const [limitPage, setLimitPage] = useState(1);
     const accessToken = localStorage.getItem('accessToken');
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const handlePreviousClick = () => {
         if (currentPageSet > 1) {
             setCurrentPageSet(currentPageSet - 1);
@@ -34,7 +35,7 @@ function RepairHistory() {
             return navigate('/signin');
         }
 
-        const apiUrl = `http://localhost:8080/repairApply?pageNo=${currentPage}`;
+        const apiUrl = serverUrl + `/repairApply?pageNo=${currentPage}`;
         const request = {
             method: 'GET',
             headers: {

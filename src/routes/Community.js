@@ -24,7 +24,7 @@ function Community() {
     const [deliverySort, setDeliverySort] = useState(0);
     
 
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
     const scrollRef = useRef(null);

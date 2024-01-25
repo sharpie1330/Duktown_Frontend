@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         "/",
         createProxyMiddleware({
-            target: "http://localhost:8080",
+            target: process.env.REACT_APP_BASEURL,
             changeOrigin: true,
         })
     );
@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.use(
         "/websocket",
         createProxyMiddleware({
-            target: "http://localhost:8080",
+            target: process.env.REACT_APP_BASEURL,
             ws: true,
         })
     )

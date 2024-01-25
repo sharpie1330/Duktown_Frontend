@@ -8,7 +8,7 @@ function CleaningHistory() {
     const navigate = useNavigate();
     const [cleaningHistroyArr, setCleaningHistroyArr] = useState([]);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const dummyData = [
         {cleaningDate: '2024-01-25', cleaned: false, checked: false},
         {cleaningDate: '2024-01-18', cleaned: true, checked: true},

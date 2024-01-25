@@ -11,7 +11,7 @@ function NewPost(){
     const selectedCategory = new URLSearchParams(location.search).get('selectedCategory');
     const categoryName = {'daily': '일상', 'market': '장터', 'delivery': '배달팟'};
 
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl1 = serverUrl + "/posts";
     const apiUrl2 = serverUrl + "/delivery";
 

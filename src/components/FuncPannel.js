@@ -15,7 +15,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
     const [isComposing, setIsComposing] = useState(false);
     const accountInputRef = useRef();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect( () => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {

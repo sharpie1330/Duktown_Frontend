@@ -9,7 +9,7 @@ import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 
 function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment, isChildComment}) {
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/comments";
     const accessToken = localStorage.getItem('accessToken');
     const [sendChildComment, setSendChildComment] = useState(true); // 대댓글 여부

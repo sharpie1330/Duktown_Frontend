@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function FindPassword(){
     const navigate = useNavigate();
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     // 인증번호 전송
     function sendCode(event) {

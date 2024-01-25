@@ -5,7 +5,7 @@ import '../css/Sign.css';
 
 function SignIn(){
     const navigate = useNavigate();
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     // 로그인
     function handleSignIn(event) {
