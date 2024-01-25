@@ -33,7 +33,7 @@ function PostView() {
     });
 
     const accessToken  = localStorage.getItem('accessToken');
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const [replyToCommentId, setReplyToCommentId] = useState(null);
     const [showFunctionButton, setShowFunctionButton] = useState(false); // 신고하기 또는 삭제하기 버튼 보임 여부
     const functionButtonRef = useRef(null);

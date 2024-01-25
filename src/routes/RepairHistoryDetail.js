@@ -10,13 +10,14 @@ function RepairHistoryDetail() {
     const [content, setContent] = useState('');
     const [checked, setChecked] = useState(false);
     const [solved, setSolved] = useState(false);
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {
             navigate('/signin');
         }
 
-        const apiUrl = `http://localhost:8080/repairApply/${params.id}`;
+        const apiUrl = serverUrl + `/repairApply/${params.id}`;
         const request = {
             method: 'GET',
             headers: {

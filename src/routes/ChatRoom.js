@@ -14,7 +14,7 @@ function ChatRoom() {
     const navigate = useNavigate();
     const params = useParams();
     const chatRoomId = params.chatRoomId;
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const clientRef = useRef(null); //Stomp 연결
     const [isOpenChatRoomFunc, setIsOpenChatRoomFunc] = useState(false); //더보기 창
     const [isOpenChatFunc, setIsOpenChatFunc] = useState(false); //채팅의 더보기 창

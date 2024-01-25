@@ -9,7 +9,7 @@ function MyPenalty() {
     const [point, setPoint] = useState(null);
     const [pointHistory, setPointHistory] = useState([]);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {

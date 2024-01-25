@@ -19,7 +19,7 @@ function FindFillIn() {
     const [memberId, setMemberId] = useState(null);
     const [memberDate, setMemberDate] = useState([]);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     function sendData() {
         setSelectedDate([]);

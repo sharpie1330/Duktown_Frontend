@@ -21,7 +21,7 @@ function Unit() {
     const [done, setDone] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     // 상단바, 하단바 제외 내용 높이 설정
     useEffect(() => {

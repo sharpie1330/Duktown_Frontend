@@ -8,7 +8,7 @@ function MyUnit(){
     const navigate = useNavigate();
     const [unitArr, setUnitArr] = useState([]);
     const accessToken = localStorage.getItem('accessToken');
-    const serverUrl = 'http://localhost:8080';
+    const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect( () => {
         if (accessToken === '' || accessToken === undefined || accessToken === null) {

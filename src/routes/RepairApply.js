@@ -22,7 +22,7 @@ function RepairApply(){
         }
     }, []);
 
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const submitHandler = async () => {
 
         // 유효한 토큰이 없을 경우 로그인 페이지로 이동

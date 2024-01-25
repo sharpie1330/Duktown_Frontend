@@ -70,7 +70,7 @@ function NoticeList() {
     }
 
     useEffect(() => {
-        const apiUrl = 'http://localhost:8080/';
+        const apiUrl = process.env.REACT_APP_BASEURL;
 
         const requestData = {
             page: currentPage

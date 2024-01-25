@@ -140,7 +140,7 @@ function Stayout() {
     }
 
     //데이터 전송
-    const serverUrl = 'http://localhost:8080'
+    const serverUrl = process.env.REACT_APP_BASEURL;
     async function sendData() {
         const apiUrl = serverUrl + '/sleepoverApply';
 

@@ -11,7 +11,7 @@ import loggedIn from "../utils";
 
 function ChatRoomList() {
     const navigate = useNavigate();
-    const serverUrl = "http://localhost:8080";
+    const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/chatRoom";
     const [chatRoomArr, setChatRoomArr] = useState([]);
     const [isOpenFunc, setIsOpenFunc] = useState(false);
