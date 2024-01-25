@@ -20,10 +20,12 @@ body {
 
 .myPenalty_title_icon {
     margin-right: 8px;
+    cursor: pointer;
 }
 
 .myPenalty_info_icon {
     height: 24px;
+    cursor: pointer;
 }
 
 .myPenalty_body_container {

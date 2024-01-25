@@ -18,4 +18,5 @@
 
 .bottom_bar li {
     list-style: none;
+    cursor: pointer;
 }

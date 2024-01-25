@@ -14,6 +14,7 @@ body {
 
 .myPage_title_icon {
     margin-right: 8px;
+    cursor: pointer;
 }
 
 #myUnit, #myPosts, #myComments, #logout {

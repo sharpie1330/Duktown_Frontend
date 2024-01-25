@@ -14,6 +14,7 @@ body {
 
 .myPost_title_icon {
     margin-right: 8px;
+    cursor: pointer;
 }
 
 .myPost_select {
