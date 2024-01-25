@@ -40,7 +40,7 @@ function SignIn(){
                 const refreshToken = data.refreshToken;
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('timeStamp', new Date().getTime());
-                localStorage.setItem('recentCategory', accessToken);
+                localStorage.setItem('recentCategory', 'daily');
                 navigate('/home');
             })
             .catch((error) => {

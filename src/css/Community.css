@@ -24,6 +24,10 @@ hr {
 
 }
 
+.post {
+    cursor: pointer;
+}
+
 .post-list {
     overflow-y: auto;
     padding: 0 10px;
@@ -49,6 +53,10 @@ hr {
 .post-details {
     display: flex;
     align-items: center;
+}
+
+.post-details img {
+    cursor: pointer;
 }
 
 .post-details span {

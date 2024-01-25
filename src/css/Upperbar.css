@@ -7,6 +7,10 @@
     min-height: 60px;
 }
 
+.upper_bar img {
+    cursor: pointer;
+}
+
 .upper_bar_logo {
     height: 20px;
     margin-right: auto;

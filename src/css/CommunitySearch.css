@@ -4,14 +4,6 @@
     cursor: pointer;
 }
 
-.content_container {
-    flex-grow: 1;
-    padding: 20px;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-}
-
 .community_icon {
     height: 22px;
 }

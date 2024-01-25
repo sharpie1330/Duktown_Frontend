@@ -11,6 +11,10 @@ body, #root{
     -webkit-tap-highlight-color: transparent;
 }
 
+button, a, select {
+    cursor: pointer;
+}
+
 .center_content_container {
     display: flex;
     flex-direction: column;
@@ -35,7 +39,7 @@ body, #root{
 
 .content_container {
     max-width: 500px;
-    padding: 24px;
+    padding-top: 24px;
     margin: 0 auto;
     overflow: auto;
 }
@@ -80,4 +84,8 @@ body, #root{
 
 .content_container::-webkit-scrollbar {
     width: 5px;
+}
+
+.title_container img {
+    cursor: pointer;
 }

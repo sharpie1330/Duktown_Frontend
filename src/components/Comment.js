@@ -170,17 +170,19 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
             </div>
             <p className="comment-content">{content}</p>
             <div className="comment-details">
-                {liked ?
-                <img src={like_blue_icon} onClick={handleLike} alt='좋아요_활성'/>
-                :
-                <img src={like_icon} onClick={handleLike} alt='좋아요_비활성'/>
-                }
-                <span className="post-likes">좋아요 {likeCount}</span>
+                <button>
+                    {liked ?
+                    <img src={like_blue_icon} onClick={handleLike} alt='좋아요_활성'/>
+                    :
+                    <img src={like_icon} onClick={handleLike} alt='좋아요_비활성'/>
+                    }
+                    <span className="post-likes">좋아요 {likeCount}</span>
+                </button>
                 {isChildComment ? null : (
-                    <div className='reply-container' onClick={handleReply}>
+                    <button onClick={handleReply}>
                         <img src={replyIcon} alt='답글'/>
                         <span className="reply">답글쓰기</span>
-                    </div>
+                    </button>
                 )}
                 
             </div>

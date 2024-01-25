@@ -70,7 +70,6 @@ function PostView() {
 
     // 댓글 목록 가져오기
     const fetchComments = async () => {
-        console.log(serverUrl + "/comments" + `?postId=${id}`);
         try {
             const response = await fetch(serverUrl + "/comments" + `?postId=${id}`, {
                 headers: {

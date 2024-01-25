@@ -43,6 +43,12 @@
     height: 16px;
 }
 
+.comment-details button {
+    align-items: center;
+    display: flex;
+    padding: 0;
+}
+
 .reply-form {
     width: 100%;
 }
@@ -76,9 +82,4 @@
 .small-modal hr {
     color: #B3B3B3;
     width: 100%;
-}
-
-.reply-container {
-    align-items: center;
-    display: flex;
 }
