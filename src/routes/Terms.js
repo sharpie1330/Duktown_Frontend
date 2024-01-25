@@ -20,8 +20,10 @@ function Terms() {
     return (
         <>
             <div className="title_container">
-                <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => navigate('/signup')}/>
-                {termsTitle[state.terms]}
+                <div>
+                    <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => navigate('/signup')}/>
+                    {termsTitle[state.terms]}
+                </div>
             </div>
             <div className='content_container'>
                 {state.terms === 1 ?

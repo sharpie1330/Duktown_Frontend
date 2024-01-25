@@ -65,7 +65,7 @@ body {
 }
 
 .myPage_profile{
-    width: 342px;
+    width: 100%;
     height: fit-content;
     border-radius: 10px;
     background: #FFFFFF;
@@ -143,13 +143,18 @@ body {
 }
 
 .myPage_profile_status {
-    padding: 14px 100px;
     text-align: center;
     color: #8E8E8E;
     background: #F7F7F7;
     font-size: 12px;
     font-weight: 600;
     border-radius: 0 0 10px 10px;
+    display: flex;
+    width: 100%;
+    height: 42px;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 #dormGuid, #myPenalty {
@@ -160,8 +165,26 @@ body {
     display: flex;
     flex-direction: column;
     align-self: center;
-    padding: 24px 24px;
+    padding: 24px;
+    width: 87vw;
     flex-grow: 1;
     justify-content: space-between;
-    overflow: auto;
+    overflow-y: auto;
+}
+
+.myPage_body_container::-webkit-scrollbar-thumb {
+    width: 5px;
+    border-radius: 10px;
+    background: #8E8E8E;
+}
+
+.myPage_body_container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.myPage_profile_outer_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
 }

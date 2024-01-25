@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
 import ListView from "../components/ListView";
 import '../css/MyPostList.css';
+import loggedIn from "../utils";
 function MyPostList() {
     const navigate = useNavigate();
     const params = useParams();
@@ -12,7 +13,8 @@ function MyPostList() {
     const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -47,15 +49,20 @@ function MyPostList() {
                 if (response.ok){
                     return response.json();
                 } else {
-                    throw new Error(response.errorMessage);
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
                 setItem(data.content);
             })
             .catch((error) => {
-                console.log(error.errorMessage);
-                alert('페이지 로딩 중 오류가 발생했습니다.');
+                alert(error);
             });
     }, [category, accessToken, params.type]);
 
@@ -74,9 +81,11 @@ function MyPostList() {
 
     return (
         <>
-            <div className='myPost_title_container'>
-                <img className='myPost_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
-                내가 쓴 글
+            <div className='title_container'>
+                <div>
+                    <img className='myPost_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
+                    {params.type === 'posts' ? '내가 쓴 글' : '댓글 단 글'}
+                </div>
             </div>
             <div className='myPost_category'>
                 <select name='category' className='myPost_select' onChange={(e) => setCategory(e.target.value)}>

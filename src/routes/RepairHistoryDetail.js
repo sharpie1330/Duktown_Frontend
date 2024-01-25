@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow_left from "../assets/arrow_left.png";
 import '../css/RepairHistoryDetail.css';
+import loggedIn from "../utils";
 function RepairHistoryDetail() {
     const navigate = useNavigate();
     const accessToken = localStorage.getItem('accessToken');
@@ -13,7 +14,8 @@ function RepairHistoryDetail() {
     const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -31,11 +33,13 @@ function RepairHistoryDetail() {
                 if (response.ok)
                     return response.json();
                 else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
@@ -54,19 +58,17 @@ function RepairHistoryDetail() {
                 setSolved(data.solved);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             })
     }, [accessToken, params.id]);
 
     return (
         <>
-            <div className='repairHistoryDetail_title_container'>
-                <img className='repairHistoryDetail_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/repairs/historys?page=1');}}/>
-                수리 요청 내역
+            <div className='title_container'>
+                <div>
+                    <img className='repairHistoryDetail_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/repairs/historys?page=1');}}/>
+                    수리 요청 내역
+                </div>
             </div>
             <div className='repairHistoryDetail_content_container'>
                 <p className='content_title'>{title}</p>

@@ -226,8 +226,10 @@ function SignUp() {
                 return (
                     <>
                         <div className="title_container">
-                            <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
-                            약관 동의
+                            <div>
+                                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                                약관 동의
+                            </div>
                         </div>
                         <div className="signup_content">
                             <div className='term_title'>
@@ -263,8 +265,10 @@ function SignUp() {
                 return (
                     <>
                         <div className="title_container">
-                            <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
-                            이메일 인증하기
+                            <div>
+                                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                                이메일 인증하기
+                            </div>
                         </div>
                         <div className="signup_content">
                             <p className='blue_title'>덕우만 입주할 수 있어요!</p>
@@ -305,8 +309,10 @@ function SignUp() {
                     return (
                         <>
                             <div className="title_container">
-                                <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => setCurrentPage('email')}></img>
-                                회원가입
+                                <div>
+                                    <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => setCurrentPage('email')}></img>
+                                    회원가입
+                                </div>
                             </div>
                             <div className='signup_content'>
                                 <form className="signup_form" id='signup_form2' onSubmit={handleSignUp}>
@@ -333,8 +339,10 @@ function SignUp() {
                 return (
                     <>
                         <div className="title_container">
-                            <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('signup')} alt="뒤로 가"></img>
-                            사생 인증
+                            <div>
+                                <img className='backBtn' src={arrow_left} onClick={() => setCurrentPage('signup')} alt="뒤로 가"></img>
+                                사생 인증
+                            </div>
                         </div>
                         <div className='content_container'>
                             <p className='blue_title'>사생 인증 후 더 많은</p>

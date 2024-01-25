@@ -174,8 +174,10 @@ function DeliveryPostView() {
     return (
         <>
             <div className='title_container'>
-                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로 가기'></img>
-                배달팟
+                <div>
+                    <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로 가기'></img>
+                    배달팟
+                </div>
             </div>
             <div className='content_container'>
                 <div id='upperInfo'>
