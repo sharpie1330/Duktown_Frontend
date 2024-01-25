@@ -95,6 +95,9 @@ function SignUp() {
                 if (response.isDuplicated){
                     alert("이미 사용중인 이메일입니다");
                 }
+                else if (response.errorMessage) {
+                    alert(response.errorMessage);
+                }
                 else{
                     setEmailChecked(true);
                 }
