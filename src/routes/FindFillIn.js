@@ -9,6 +9,7 @@ import arrow_right from '../assets/arrow_right.png';
 import '../css/FindFillIn.css';
 import Modal from "react-modal";
 import {customModal} from "../customModalConfig";
+import loggedIn from "../utils";
 
 function FindFillIn() {
     const navigate = useNavigate();
@@ -52,7 +53,8 @@ function FindFillIn() {
     );
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -67,22 +69,20 @@ function FindFillIn() {
                 if (response.ok)
                     return response.json();
                 else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
                 setUnit(data.unit);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }, []);
 
@@ -92,12 +92,10 @@ function FindFillIn() {
     }
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
-            navigate('/signin');
-        }
+        const memberScheduleApiUrl = serverUrl+`/cleaning/${memberId}/schedule`;
 
         if (memberId !== null) {
-            fetch(serverUrl+`/cleaning/${memberId}/schedule`, {
+            fetch(memberScheduleApiUrl, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,11 +106,13 @@ function FindFillIn() {
                     if (response.ok)
                         return response.json();
                     else {
-                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                            window.open('http://localhost:3000/signin', '_self');
-                        } else {
-                            throw new EvalError(response.errorMessage);
-                        }
+                        return response.json().then(errorData => {
+                            if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                                window.open('http://localhost:3000/signin', '_self');
+                            } else {
+                                throw new EvalError(errorData.errorMessage);
+                            }
+                        });
                     }
                 })
                 .then((data) => {
@@ -120,11 +120,7 @@ function FindFillIn() {
                     setMemberDate(data.date);
                 })
                 .catch((errorResponse) => {
-                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(errorResponse.errorMessage);
-                    }
+                    alert(errorResponse);
                 });
         }
     }, [memberId]);
@@ -139,7 +135,7 @@ function FindFillIn() {
 
     return (
         <>
-            <div className='fillin_title_container'>
+            <div className='title_container'>
                 <div className='fillin_title_left_content'>
                     <img className='title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>navigate('/unit')}/>
                     대타 구하기

@@ -359,7 +359,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .stayout_range_description {
     align-self: center;
     margin: 20px 0;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: #6A9CFD;
 }
@@ -578,6 +578,16 @@ hr {
     max-width: 500px;
     overflow: auto;
     width: 87%;
+}
+
+.stayout_content_container::-webkit-scrollbar-thumb {
+    width: 5px;
+    border-radius: 10px;
+    background: #8E8E8E;
+}
+
+.stayout_content_container::-webkit-scrollbar {
+    width: 5px;
 }
 
 #blank_div {

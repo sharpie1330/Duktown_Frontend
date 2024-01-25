@@ -3,6 +3,7 @@ import arrow_left from "../assets/arrow_left.png";
 import {useNavigate} from "react-router-dom";
 import '../css/CleaningHistory.css';
 import ListView from "../components/ListView";
+import loggedIn from "../utils";
 
 function CleaningHistory() {
     const navigate = useNavigate();
@@ -17,7 +18,8 @@ function CleaningHistory() {
     ]
 
     useEffect(() => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -32,11 +34,13 @@ function CleaningHistory() {
             if (response.ok) {
                 return response.json()
             } else {
-                if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(response.errorMessage);
-                }
+                return response.json().then(errorData => {
+                    if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorData.errorMessage);
+                    }
+                });
             }
         })
             .then((data) => {
@@ -44,20 +48,17 @@ function CleaningHistory() {
                 setCleaningHistroyArr(data.content)
             })
             .catch((error) => {
-                console.log(error);
-                if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(error.errorMessage);
-                }
+                alert(error);
             });
     }, []);
 
     return (
         <>
-            <div className='cleaningHistory_title_container'>
-                <img className='cleaningHistory_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/unit');}}/>
-                청소 내역
+            <div className='title_container'>
+                <div>
+                    <img className='cleaningHistory_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/unit');}}/>
+                    청소 내역
+                </div>
             </div>
             <div className='cleaningHistory_list_container'>
                 <ListView

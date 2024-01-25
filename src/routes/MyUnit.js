@@ -3,6 +3,7 @@ import arrow_left from "../assets/arrow_left.png";
 import {useNavigate} from "react-router-dom";
 import '../css/MyUnit.css';
 import ListView from "../components/ListView";
+import loggedIn from "../utils";
 
 function MyUnit(){
     const navigate = useNavigate();
@@ -11,7 +12,8 @@ function MyUnit(){
     const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect( () => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -27,29 +29,30 @@ function MyUnit(){
                 if (response.ok) {
                     return response.json()
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .then((data) => {
+                console.log(data);
                 setUnitArr(data.content);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }, []);
     return (
         <>
                 <div className='title_container'>
-                    <img className='myUnit_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
-                    나의 유닛
+                    <div>
+                        <img className='myUnit_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/myPage');}}/>
+                        나의 유닛
+                    </div>
                 </div>
                 <div className='myUnit_list_container'>
                     <ListView

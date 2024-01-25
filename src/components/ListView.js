@@ -81,14 +81,16 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
                 }
                 let rows = [];
                 rows.push(
-                    <div className='content'>
-                        <div className='tableRow'>
-                            <div className='contentCol'><Link to={`/repairs/historys/detail/${item.id}`}>{visContent}</Link></div>
-                            <div className='confirmCol'><div className={item.checked ? 'confirm' : 'unconfirmed'}>{item.checked ? '확인' : '미확인'}</div></div>
-                            <div className='statusCol'><div className={item.solved ? 'solve' : 'unresolved'}>{item.solved ? '해결' : '미해결'}</div></div>
+                    <Link to={`/repairs/historys/detail/${item.id}`}>
+                        <div className='content'>
+                            <div className='tableRow'>
+                                <div className='contentCol'>{visContent}</div>
+                                <div className='confirmCol'><div className={item.checked ? 'confirm' : 'unconfirmed'}>{item.checked ? '확인' : '미확인'}</div></div>
+                                <div className='statusCol'><div className={item.solved ? 'solve' : 'unresolved'}>{item.solved ? '해결' : '미해결'}</div></div>
+                            </div>
+                            <div className='dateRow' >{item.createAt}</div>
                         </div>
-                        <div className='dateRow' >{item.date}</div>
-                    </div>
+                    </Link>
                 );
                 return rows;
             })

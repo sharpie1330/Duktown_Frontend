@@ -12,6 +12,7 @@ import profile from "../assets/profile.png";
 import penalty from "../assets/penalty.png";
 import warning from "../assets/warning.png";
 import '../css/MyPage.css';
+import loggedIn from "../utils";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -31,7 +32,8 @@ function MyPage() {
     const serverUrl = process.env.REACT_APP_BASEURL;
 
     useEffect( () => {
-        if (accessToken === '' || accessToken === undefined || accessToken === null) {
+        if(!loggedIn()){
+            alert('로그인이 필요합니다');
             navigate('/signin');
         }
 
@@ -47,15 +49,13 @@ function MyPage() {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
-                            throw new EvalError(response.errorMessage);
+                            throw new EvalError(errorData.errorMessage);
                         }
-                    }
+                    });
                 }
             })
             .then((data) => {
@@ -69,11 +69,7 @@ function MyPage() {
                 setUnitUserType(data.unitUserType);
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }, []);
 
@@ -93,19 +89,17 @@ function MyPage() {
                     alert('정상적으로 로그아웃 되었습니다.');
                     return navigate('/');
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }
 
@@ -125,57 +119,59 @@ function MyPage() {
                     alert('즐겨주셔서 감사합니다. 더 발전해서 돌아오겠습니다!');
                     return navigate('/');
                 } else {
-                    if (response.errorMessage.includes('Token') || response.errorMessage === undefined) {
-                        window.open('http://localhost:3000/signin', '_self');
-                    } else {
-                        throw new EvalError(response.errorMessage);
-                    }
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://localhost:3000/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
                 }
             })
             .catch((errorResponse) => {
-                if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://localhost:3000/signin', '_self');
-                } else {
-                    throw new EvalError(errorResponse.errorMessage);
-                }
+                alert(errorResponse);
             });
     }
 
     return (
         <>
-            <div className='myPage_title_container'>
-                <img className='myPage_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/home');}}/>
-                마이페이지
+            <div className='title_container'>
+                <div>
+                    <img className='myPage_title_icon' src={arrow_left} alt="뒤로 가기" onClick={()=>{navigate('/home');}}/>
+                    마이페이지
+                </div>
             </div>
             <div className='myPage_body_container'>
                 <div>
-                    <div className='myPage_profile'>
-                        <div className='myPage_profile_info'>
-                            {/*<div className='myPage_edit_profile_container'>
+                    <div className='myPage_profile_outer_container'>
+                        <div className='myPage_profile'>
+                            <div className='myPage_profile_info'>
+                                {/*<div className='myPage_edit_profile_container'>
                             <span>프로필 편집</span>
                             <img className="myPage_profile_edit_btn" src={arrow_right_blue} alt="프로필 편집"/>
                         </div>*/}
-                            <div className='myPage_profile_horizon_container'>
-                                <div className='myPage_profile_img_container'>
-                                    <img className="myPage_profile_icon" src={profile} alt="프로필 사진"/>
-                                </div>
-                                <div className='myPage_profile_container'>
-                                    <p className='myPage_user_name'>{username}</p>
-                                    <p className='myPage_user_email'>{email}</p>
-                                    <p className='myPage_user_dorm'>{`${hallName} A동 ${roomNumber}호`}</p>
-                                    {unitUserType === 'UNIT_LEADER' ? <div className='myPage_user_role'>유닛장</div> : <></>}
+                                <div className='myPage_profile_horizon_container'>
+                                    <div className='myPage_profile_img_container'>
+                                        <img className="myPage_profile_icon" src={profile} alt="프로필 사진"/>
+                                    </div>
+                                    <div className='myPage_profile_container'>
+                                        <p className='myPage_user_name'>{username}</p>
+                                        <p className='myPage_user_email'>{email}</p>
+                                        <p className='myPage_user_dorm'>{`${hallName} A동 ${roomNumber}호`}</p>
+                                        {unitUserType === 'UNIT_LEADER' ? <div className='myPage_user_role'>유닛장</div> : <></>}
+                                    </div>
                                 </div>
                             </div>
+                            {
+                                roleType === 'DORM_STUDENT'
+                                    ? <div className='myPage_profile_status'>
+                                        사생 인증이 완료되었습니다.
+                                    </div>
+                                    : <div className='myPage_profile_status_require'>
+                                        사생 인증을 해주세요.
+                                    </div>
+                            }
                         </div>
-                        {
-                            roleType === 'DORM_STUDENT'
-                                ? <div className='myPage_profile_status'>
-                                    사생 인증이 완료되었습니다.
-                                </div>
-                                : <div className='myPage_profile_status_require'>
-                                    사생 인증을 해주세요.
-                                </div>
-                        }
                     </div>
                     <div className="myPage_list_container">
                         <ul className="myPage_list">

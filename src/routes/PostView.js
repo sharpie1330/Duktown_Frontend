@@ -230,8 +230,10 @@ function PostView() {
     return (
         <>
             <div className='title_container'>
-                <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로가기'></img>
-                {category_name[post.category]}
+                <div>
+                    <img className='announcement_icon' src={arrow_left} onClick={()=>{window.history.back();}} alt='뒤로가기'></img>
+                    {category_name[post.category]}
+                </div>
             </div>
             <div className='content_container'>
                 <div id='upperInfo'>

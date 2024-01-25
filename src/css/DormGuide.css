@@ -149,3 +149,14 @@ body {
     color: #FD5959;
 }
 
+.dormGuide_body_container::-webkit-scrollbar-thumb {
+    width: 5px;
+    border-radius: 10px;
+    background: #8E8E8E;
+    padding: 0 1px 0 0;
+}
+
+.dormGuide_body_container::-webkit-scrollbar {
+    width: 5px;
+}
+
