@@ -201,7 +201,7 @@ function FindFillIn() {
                 </div>
                 <div className="request_date_container">
                     날짜:
-                    <select className="unit_member_select" onChange={handleRequestDay}>
+                    <select className="unit_my_schedule_select" onChange={handleRequestDay}>
                         {mySchedule.map((item, key) => (
                             <option value={key}>{item.cleaningDate}</option>
                         ))}
