@@ -67,8 +67,10 @@ function FindId(){
     return(
         <>
             <div className="title_container">
-                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/signin');}}></img>
-                아이디 찾기
+                <div>
+                    <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/signin');}}></img>
+                    아이디 찾기
+                </div>
             </div>
             <div className='content_container'>
                 {id === '' ?
@@ -93,7 +95,7 @@ function FindId(){
                 </div>
                 {id === '' ?
                 <button type="submit" className='bottomBtn'>
-                    아이디찾기
+                    아이디 찾기
                 </button>
                 :
                 <div className="bottomButtonContainer">

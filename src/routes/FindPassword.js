@@ -15,8 +15,10 @@ function FindPassword(){
     return(
         <>
             <div className="title_container">
-                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/signin');}}></img>
-                비밀번호 찾기
+                <div>
+                    <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/signin');}}></img>
+                    비밀번호 찾기
+                </div>
             </div>
             <form className="signin_form">
                 <div className='content_container'>
