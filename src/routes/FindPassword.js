@@ -75,7 +75,7 @@ function FindPassword() {
           비밀번호 찾기
         </div>
       </div>
-      <form className="signin_form" onSubmit={sendPassword}>
+      <form className="signin_form">
         <div className='content_container'>
           <p>가입한 덕성 이메일</p>
           <div className='inputFlexContainer'>
@@ -85,8 +85,8 @@ function FindPassword() {
           </div>
         </div>
       </form>
-      <button type="submit" form="signin_form" className='bottomBtn'>
-        이메일로 임시 비밀번호 보내기
+      <button className='bottomBtn' onClick={sendPassword}>
+        이메일로 새 비밀번호 보내기
       </button>
     </>
   );
