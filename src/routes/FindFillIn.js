@@ -19,6 +19,7 @@ function FindFillIn() {
     const [unit, setUnit] = useState([]);
     const [memberId, setMemberId] = useState(null);
     const [memberDate, setMemberDate] = useState([]);
+    const [mySchedule, setMySchedule] = useState([]);
     const accessToken = localStorage.getItem('accessToken');
     const serverUrl = process.env.REACT_APP_BASEURL;
 
@@ -84,11 +85,43 @@ function FindFillIn() {
             .catch((errorResponse) => {
                 alert(errorResponse);
             });
+
+        fetch(serverUrl+'/my/schedule', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else {
+                    return response.json().then(errorData => {
+                        if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
+                            window.open('http://www.duktown.site/signin', '_self');
+                        } else {
+                            throw new EvalError(errorData.errorMessage);
+                        }
+                    });
+                }
+            })
+            .then((data) => {
+                setMySchedule(data.date);
+            })
+            .catch((errorResponse) => {
+                alert(errorResponse);
+            });
     }, []);
 
     const handleSelectUser = (event) => {
         const unitMemberId = event.target.value;
         setMemberId(unitMemberId);
+    }
+
+    const handleRequestDay = (event) => {
+        const requestDate = event.target.value;
+        setRequestDate(requestDate);
     }
 
     useEffect(() => {
@@ -167,7 +200,12 @@ function FindFillIn() {
                     </select>
                 </div>
                 <div className="request_date_container">
-                    날짜: <input className="findfillin_request_date" type='date' value={requestDate} onChange={(e) => setRequestDate(e.target.value)}/>
+                    날짜:
+                    <select className="unit_member_select" onChange={handleRequestDay}>
+                        {mySchedule.map((item, key) => (
+                            <option value={key}>{item.cleaningDate}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className="fillin_reason_container">
                     <span>사유:</span>
