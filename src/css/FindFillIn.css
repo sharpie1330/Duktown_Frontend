@@ -274,3 +274,24 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
 .fillin_reason_container span {
     width: 30px;
 }
+
+.unit_my_schedule_select {
+    margin-top: 5px;
+    margin-left: 11px;
+    padding: 7px;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
+    background: rgba(217, 217, 217, 0.00);
+    width: 110px;
+    height: 29px;
+    -webkit-appearance: none;
+    background: url("../assets/arrow_down.png") no-repeat right 6px center;
+}
+
+.unit_my_schedule_select::-ms-expand{
+    display:none;/*for IE10,11*/
+}
+
+.unit_my_schedule_select:focus {
+    outline: none;
+}
