@@ -20,10 +20,10 @@ function Community() {
     const [posts, setPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(category ? category : recentCategory); // 초기 카테고리 설정
     const [pageNumber, setPageNumber] = useState(1); // 페이지 번호, 디폴트 1
+    const [loadingPost, setLoadingPost] = useState(false);
     const [loadingMore, setLoadingMore] = useState(false);
     const [deliverySort, setDeliverySort] = useState(0);
     
-
     const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/posts";
     const categoryNumber = {'daily': 0, 'market': 1};
@@ -31,38 +31,45 @@ function Community() {
 
     // 카테고리 변경 시, 해당 카테고리의 글들을 가져오는 함수
     const fetchPostsByCategory = async () => {
-        if(selectedCategory === 'delivery'){
-            fetch(serverUrl + `/delivery?sortBy=${deliverySort}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => {
+        setLoadingPost(true);
+    
+        try {
+            if (selectedCategory === 'delivery') {
+                const response = await fetch(serverUrl + `/delivery?sortBy=${deliverySort}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    method: 'GET',
+                });
+    
+                const data = await response.json();
+    
+                // 불러온 게시글 추가
                 setPosts(data.content);
-            })
-            .catch(error => console.error('Error:', error));
-        }
-        else {
-            fetch(apiUrl+`?category=${categoryNumber[selectedCategory]}&pageNo=${pageNumber}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => {
+            } else {
+                const response = await fetch(apiUrl + `?category=${categoryNumber[selectedCategory]}&pageNo=${pageNumber}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    method: 'GET',
+                });
+    
+                const data = await response.json();
+    
+                // 불러온 게시글 추가
                 setPosts(data.content);
-                
-            })
-            .catch(error => console.error('Error:', error));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            // finally 블록 내에서 setLoadingPost(false) 호출
+            setLoadingPost(false);
         }
     };
 
@@ -112,7 +119,10 @@ function Community() {
 
     // 카테고리를 선택할 때 호출되는 함수
     const handleCategorySelect = (category) => {
-        setPosts([]);
+        // 카테고리 변경 시에만 내용 삭제 후 변경
+        if(category !== selectedCategory){
+            setPosts([]);
+        }
         setSelectedCategory(category);
         localStorage.setItem('recentCategory', category);
         navigate(`/community?category=${category}`);
@@ -189,7 +199,9 @@ function Community() {
                             })}
                         </>
                         ) : (
-                        <div className='post_not_exist'>게시글이 없습니다</div>
+                        <div className='post_not_exist'>
+                            {loadingPost ? '게시글을 불러오는 중입니다' : '게시글이 없습니다'}
+                        </div>
                     )}
                     </div>
                 
