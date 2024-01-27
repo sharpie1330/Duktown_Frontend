@@ -291,6 +291,7 @@ function PostView() {
                                         dateTime={comment.dateTime}
                                         deleted={comment.deleted}
                                         childComments={comment.childComments}
+                                        replyToCommentId={replyToCommentId}
                                         setReplyToCommentId={setReplyToCommentId}
                                         fetchComments={fetchComments}
                                         fetchPost={fetchPost}

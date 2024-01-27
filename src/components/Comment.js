@@ -8,7 +8,7 @@ import profile_image from '../assets/profile_image.png';
 import reply_icon from '../assets/reply_icon.png';
 import '../css/Comment.css';
 
-function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, setReplyToCommentId, fetchComments, fetchPost, postComment, isChildComment}) {
+function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWriter, dateTime, deleted, childComments, deliveryId, isDeliveryWriter, replyToCommentId, setReplyToCommentId, fetchComments, fetchPost, postComment, isChildComment}) {
     const serverUrl = process.env.REACT_APP_BASEURL;
     const apiUrl = serverUrl + "/comments";
     const accessToken = localStorage.getItem('accessToken');
@@ -137,10 +137,13 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
         };
     }, []);
 
-    // useEffect(() => {
-    //     setSendChildComment(true);
-    //     setReplyIcon(comment_icon);
-    // }, [postComment]);
+    // 댓글 달았을 경우 기본 아이콘으로 변경
+    useEffect(() => {
+        if(replyToCommentId === null){
+            setReplyIcon(comment_icon);
+        }
+    }, [replyToCommentId]);
+
 
     return (
         <>
