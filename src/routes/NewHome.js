@@ -86,6 +86,9 @@ function NewHome(){
                         <p>벌점 기준표</p>
                     </div>
                 </div>
+                <div className='version_description'>
+                    해당 버전은 데모 버전입니다.
+                </div>
             </div>
             <BottomBar/>
         </> 

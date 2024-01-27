@@ -98,3 +98,13 @@
 #sleepover img {
     margin-bottom: 110px;
 }
+
+.version_description {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8E8E8E;
+    margin: 18px 0 0 0;
+    display: flex;
+    justify-content: center;
+}

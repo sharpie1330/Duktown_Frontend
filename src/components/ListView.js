@@ -154,7 +154,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
 
                 let rows = [];
                 rows.push(
-                    <div className='chatRoom_list_container' id={item.recentChatMessage === '글쓴이가 채팅방을 나갔습니다. 더 이상 채팅을 전송할 수 없습니다.' ? 'block' : ''}>
+                    <div className='chatRoom_element_container' id={item.recentChatMessage === '글쓴이가 채팅방을 나갔습니다. 더 이상 채팅을 전송할 수 없습니다.' ? 'block' : ''}>
                         {edit ? <input className='chatRoom_round_checkbox' type='checkbox' value={item.chatRoomId} onChange={() => handleCheckboxChange(item.chatRoomId)} checked={selectedItems.includes(item.chatRoomId)}/> : <></>}
                         <div className='chatRoom_container' key={item.chatRoomId} onClick={() => navigate(`/chatRoom/${item.chatRoomId}`)}>
                             <div className='chatRoom_horizontal_container1'>

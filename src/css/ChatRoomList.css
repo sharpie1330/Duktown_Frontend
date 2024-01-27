@@ -72,3 +72,7 @@ body {
     padding: 7px 10px;
     text-align: center;
 }
+
+.chatRoom_list_edit_icon, .chatRoom_list_title_icon {
+    cursor: pointer;
+}

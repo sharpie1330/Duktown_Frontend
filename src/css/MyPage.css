@@ -45,24 +45,28 @@ body {
 .duksung_dorm_info {
     font-size: 12px;
     font-weight: 600;
-    margin: 0;
+    margin: 8px 0 0 0;
+    line-height: normal;
 }
 
 .duksung_dorm_number {
     font-size: 17px;
     margin: 2px 0 0 0;
+    line-height: normal;
 }
 
 .gaon_dorm_addr {
     font-size: 12px;
     color: #8E8E8E;
     margin: 12px 0 0 0;
+    line-height: normal;
 }
 
 .international_dorm_addr {
     font-size: 12px;
     color: #8E8E8E;
     margin: 3px 0 0 0;
+    line-height: normal;
 }
 
 .myPage_profile{
@@ -188,4 +192,22 @@ body {
     flex-direction: column;
     justify-content: center;
     width: 100%;
+}
+
+.myPage_footer_mini_container {
+    display: flex;
+    align-items: center;
+}
+
+.myPage_footer_mini_container span {
+    color: #6A9CFD;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.myPage_footer_mini_container p {
+    color: black;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 300;
 }

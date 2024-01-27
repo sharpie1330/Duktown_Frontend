@@ -251,12 +251,12 @@ function PostView() {
                         <div className='post-small-modal'>
                             {post.isWriter ?
                                 <>
-                                    <div id='post_share_btn' onClick={shareHandler}>공유하기</div>
-                                    <div onClick={handleDeletePost}>삭제하기</div>
+                                    <div id='post_share_btn' onClick={shareHandler} style={{cursor: "pointer"}}>공유하기</div>
+                                    <div onClick={handleDeletePost} style={{cursor: "pointer"}}>삭제하기</div>
                                 </>
                                 :
                                 <>
-                                    <div onClick={shareHandler}>공유하기</div>
+                                    <div onClick={shareHandler} style={{cursor: "pointer"}}>공유하기</div>
                                 </>
                                 // <span onClick={handleReportPost}>신고하기</span>
                             }

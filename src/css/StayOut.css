@@ -354,6 +354,7 @@ abbr[title="월요일"], abbr[title="화요일"], abbr[title="수요일"], abbr[
     font-weight: 700;
     color: #6A9CFD;
     cursor: pointer;
+    width: 57px;
 }
 
 .stayout_range_description {

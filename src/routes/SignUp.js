@@ -73,6 +73,7 @@ function SignUp() {
     function emailCheck(event) {
         event.preventDefault();
         const apiUrl = serverUrl + "/auth/email";
+        console.log(apiUrl);
         const email = event.target.email.value
         setEmailValue(email); // 이메일 값 저장
 
@@ -84,6 +85,7 @@ function SignUp() {
 
         fetch(apiUrl, request)
             .then((response) => {
+                alert('test');
                 // if(!response.ok){
                 //     alert("잘못된 이메일 형식입니다");
                 //     return;
@@ -279,7 +281,7 @@ function SignUp() {
                             <br/><br/>
                             <form className="signup_form" id="signupForm" onSubmit={emailCheck}>
                                 <p>덕성 이메일</p>
-                                <input className="sign_input" type="email" name="email" placeholder='duktown@duksung.ac.kr'/>
+                                <input className="sign_input" type="email" name="email" placeholder='duktown@duksung.ac.kr' onChange={(e) => setEmailValue(e.target.value)}/>
                                 {/* 이메일 인증 완료 시 setCurrentPage('authentication')를 호출하여 페이지를 변경 */}
                                 {!emailChecked ?
                                     <button type="submit" className='emailAuthBtn'>이메일로 인증 보내기</button>

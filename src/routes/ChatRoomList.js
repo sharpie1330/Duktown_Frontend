@@ -60,6 +60,7 @@ function ChatRoomList() {
             navigate('/signin');
         } else {
             getChatRoomList(apiUrl, accessToken).then(data => {
+                console.log(data.chatRooms);
                 setChatRoomArr(data.chatRooms);
             });
         }
@@ -122,8 +123,28 @@ function ChatRoomList() {
     }, [selectedItems])
 
     useEffect(() => {
+        console.log('test');
         setView();
     }, [chatRoomArr])
+
+    useEffect(() => {
+        const fetchChatRoomList = async () => {
+            if (!loggedIn()) {
+                alert('로그인이 필요합니다');
+                navigate('/signin');
+            } else {
+                try {
+                    const data = await getChatRoomList(apiUrl, accessToken);
+                    setChatRoomArr(data.chatRooms);
+                } catch (error) {
+                    console.error('Error fetching chat room list:', error);
+                    // 에러 처리
+                }
+            }
+        };
+
+        fetchChatRoomList();
+    }, [isOpenFunc, isEdit]);
 
     const setView = () => {
         if (chatRoomArr.length > 0) {
