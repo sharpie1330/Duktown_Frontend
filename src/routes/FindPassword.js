@@ -85,7 +85,7 @@ function FindPassword() {
           </div>
         </div>
       </form>
-      <button type="submit" className='bottomBtn'>
+      <button type="submit" form="signin_form" className='bottomBtn'>
         이메일로 임시 비밀번호 보내기
       </button>
     </>
