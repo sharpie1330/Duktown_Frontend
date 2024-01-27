@@ -56,6 +56,7 @@ function FindPassword() {
           });
         } else {
           alert("이메일로 새로운 비밀번호가 발급되었습니다");
+          navigate('/signin');
         }
       })
       .catch((error) => {
