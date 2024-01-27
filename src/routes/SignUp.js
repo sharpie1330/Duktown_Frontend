@@ -84,7 +84,6 @@ function SignUp() {
 
         fetch(apiUrl, request)
             .then((response) => {
-                alert('test');
                 // if(!response.ok){
                 //     alert("잘못된 이메일 형식입니다");
                 //     return;
