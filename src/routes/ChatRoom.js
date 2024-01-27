@@ -38,7 +38,7 @@ function ChatRoom() {
     const scrollRef = useRef(); //스크롤 바
     //유저 정보
     const [myUserId, setMyUserId] = useState(null);
-    const [myUserNum, setMyUserNum] = useState(1000); //나의 userNum
+    const [myUserNum, setMyUserNum] = useState(null); //나의 userNum
     const [othersUserNum, setOthersUserNum] = useState(null); //이름을 누른 사용자의 userNum
     const [chatIdx, setChatIdx] = useState(''); //이름을 누른 채팅의 idx
     const accessToken = localStorage.getItem('accessToken');
@@ -126,6 +126,7 @@ function ChatRoom() {
                     console.log("Chat WebSocket Connected");
                     // 1. 채팅방 구독
                     clientRef.current.subscribe(`/sub/chatRoom/${chatRoomId}`, (msg) => {
+                        console.log(msg);
                         let newMessage = JSON.parse(msg.body);
                         setChatList(prevState => [...prevState, newMessage]);
                     });
@@ -148,7 +149,10 @@ function ChatRoom() {
         } else if (lastChat.chatType === 'FORCE_OUT') {
             const userNumberIndex = lastChat.message.indexOf('익명') + '익명'.length;
             const userNumberString = lastChat.message.substring(userNumberIndex, lastChat.message.indexOf('님'));
+            console.log(parseInt(userNumberString));
+            console.log(myUserNum);
             if (parseInt(userNumberString) === myUserNum) { //내보내진 대상이 나일때
+                console.log('hi');
                 setIsReadOnly(true);
                 return true;
             }
@@ -337,53 +341,46 @@ function ChatRoom() {
 
     //페이지  첫 렌더링 시
     useEffect( () => {
-        if(!loggedIn()){
+        if (!loggedIn()) {
             alert('로그인이 필요합니다');
             navigate('/signin');
+            return; // 로그인되지 않은 경우 바로 리턴
         }
+        connect();
 
-        //이전 채팅 내역 가져오기
-        let chatArr = [];
-        const isValid = getPrevChatList(accessToken, 0, 20).then(data => {
-            chatArr = data.messages.reverse();
-            setChatList(prevChatList => [...chatArr]);
-        }).then( _ => {
-            setChatPage(chatPage => chatPage + 1);
-            let isValidInner = false;
-            if (chatArr.length > 0) {
-                isValidInner = lastChatChecker(chatArr);
-            }
-            return isValidInner;
-        });
+        // 채팅방 정보 가져오기
+        getChatInfo(accessToken)
+            .then(data => {
+                setDeliveryId(data.deliveryId);
+                setDeliveryDeleted(data.deliveryDeleted);
+                setTitle(data.title);
+                setMaxPeople(data.maxPeople);
+                setChatRoomUserCnt(data.chatRoomUserCnt);
+                setOrderTime(data.orderTime);
+                setAccountNumber(data.accountNumber);
+                setMyUserId(data.getRequestUserId);
+                setMyUserNum(data.getRequestUserNumber);
 
-        //채팅방 정보 가져오기
-        getChatInfo(accessToken).then(data => {
-            setDeliveryId(data.deliveryId);
-            setDeliveryDeleted(data.deliveryDeleted);
-            setTitle(data.title);
-            setMaxPeople(data.maxPeople);
-            setChatRoomUserCnt(data.chatRoomUserCnt);
-            setOrderTime(data.orderTime);
-            setAccountNumber(data.accountNumber);
-            setMyUserId(data.getRequestUserId);
-            setMyUserNum(data.getRequestUserNumber);
-        });
+                // 이전 채팅 내역 가져오기
+                return getPrevChatList(accessToken, 0, 20);
+            })
+            .then(data => {
+                const chatArr = data.messages.reverse();
+                setChatList(prevChatList => [...chatArr]);
+                setChatPage(chatPage => chatPage + 1);
 
-
-
-        if (deliveryDeleted === true) { //배달팟이 삭제됐거나 글쓴이가 나갔을때
-            setIsReadOnly(true);
-        } else { //배달팟이 삭제되지 않았을 때
-            isValid.then(result => {
-                if (!result) {
-                    connect();
-                } else {
-                    connect();
-                    setIsReadOnly(true);
+                if (chatArr.length > 0) {
+                    const isValidInner = lastChatChecker(chatArr);
+                    if (isValidInner && !deliveryDeleted) {
+                        setIsReadOnly(true);
+                    }
                 }
+
+                scrollHandler();
+            })
+            .catch(error => {
+                alert(error);
             });
-        }
-        scrollHandler();
 
         return () => {
             console.log('화면 나감');

@@ -253,9 +253,10 @@
     color: #8E8E8E;
 }
 
-.chatRoom_list_container {
+.chatRoom_element_container {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .chatRoom_round_checkbox::before {

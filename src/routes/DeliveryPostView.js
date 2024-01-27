@@ -195,11 +195,11 @@ function DeliveryPostView() {
                         <div className='post-small-modal'>
                             {post.isWriter ? (
                                 <>
-                                    <div id='post_share_btn' onClick={shareHandler}>공유하기</div>
-                                    <div onClick={handleDeleteDelivery}>삭제하기</div>
+                                    <div id='post_share_btn' onClick={shareHandler} style={{cursor: "pointer"}}>공유하기</div>
+                                    <div onClick={handleDeleteDelivery} style={{cursor: "pointer"}}>삭제하기</div>
                                 </>
                             ) : (
-                                <div onClick={shareHandler}>공유하기</div>
+                                <div onClick={shareHandler} style={{cursor: "pointer"}}>공유하기</div>
                                 // <span onClick={handleReportPost}>신고하기</span>
                             )}
                         </div>

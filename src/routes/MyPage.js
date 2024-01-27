@@ -231,6 +231,10 @@ function MyPage() {
                     </div>
                 </div>
                 <div className='myPage_footer'>
+                    <div className='myPage_footer_mini_container'>
+                        <span>문의</span>
+                        <p> | duktown.official@gmail.com</p>
+                    </div>
                     <p className='duksung_dorm_info'>덕성여자대학교 기숙사 정보</p>
                     <p className='duksung_dorm_number'>02-901-8000</p>
                     <p className='gaon_dorm_addr'>가온1,2관 : (01370) 서울특별시 도봉구 우이천로 381</p>

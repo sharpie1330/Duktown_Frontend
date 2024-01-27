@@ -128,18 +128,26 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                         },
                     });
 
-                    if (response.ok) {
-                        return;
-                    } else {
-                        return await response.json().then(errorResponse => {
-                            console.log(errorResponse);
-                            throw new EvalError(errorResponse.errorMessage);
+                    if (!response.ok) {
+                        return response.json().then(errorResponse => {
+                            if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                                window.open('http://localhost:3000/signin', '_self');
+                            } else {
+                                throw new EvalError(errorResponse.errorMessage);
+                            }
                         });
                     }
-                } catch (error) {
-                    alert(error);
+                } catch (errorResponse) {
+                    if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
+                        window.open('http://localhost:3000/signin', '_self');
+                    } else {
+                        throw new EvalError(errorResponse.errorMessage);
+                    }
                 }
-                return;
+
+                await alert('채팅방에서 나갔습니다.');
+                await navigate('/chat');
+                break;
             case 'kick':
                 apiUrl = serverUrl + `/chatRoomUser/block`
                 try {
@@ -246,7 +254,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                         <div className='funcPannel_order_fin' onClick={() => handleFunc('order_fin')}>
                             주문 완료
                         </div>
-                        <div className='funcPannel_go_out' onClick={() => {handleFunc('go_out'); window.history.back();}}>
+                        <div className='funcPannel_go_out' onClick={() => {handleFunc('go_out'); navigate("/chat");}}>
                             채팅방 나가기
                         </div>
                     </div>
@@ -266,7 +274,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                                 <Button styleClass="modal_btn_yes" label="확인" onClick={() => {setModalIsOpen(false); pannelHandler('chatRoomFunc');}} />
                             </div>
                         </Modal>
-                        <div className='funcPannel_go_out' onClick={() => {handleFunc('go_out'); window.history.back();}}>
+                        <div className='funcPannel_go_out' onClick={() => handleFunc('go_out')}>
                             채팅방 나가기
                         </div>
                     </div>
