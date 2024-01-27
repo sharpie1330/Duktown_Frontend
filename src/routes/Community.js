@@ -115,6 +115,7 @@ function Community() {
         setPosts([]);
         setSelectedCategory(category);
         localStorage.setItem('recentCategory', category);
+        navigate(`/community?category=${category}`);
         setPageNumber(1);
     };
 
