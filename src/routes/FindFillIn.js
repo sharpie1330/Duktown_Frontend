@@ -86,7 +86,7 @@ function FindFillIn() {
                 alert(errorResponse);
             });
 
-        fetch(serverUrl+'/schedule/my', {
+        fetch(serverUrl+'/my/schedule', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
