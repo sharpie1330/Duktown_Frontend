@@ -71,7 +71,7 @@ function FindFillIn() {
                 else {
                     return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                            window.open('http://localhost:3000/signin', '_self');
+                            window.open('http://www.duktown.site/signin', '_self');
                         } else {
                             throw new EvalError(errorData.errorMessage);
                         }
@@ -108,7 +108,7 @@ function FindFillIn() {
                     else {
                         return response.json().then(errorData => {
                             if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                                window.open('http://localhost:3000/signin', '_self');
+                                window.open('http://www.duktown.site/signin', '_self');
                             } else {
                                 throw new EvalError(errorData.errorMessage);
                             }

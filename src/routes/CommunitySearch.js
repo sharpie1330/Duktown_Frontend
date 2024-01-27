@@ -48,7 +48,7 @@ function CommunitySearch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Origin': 'http://www.duktown.site',
                     'Authorization': `Bearer ${accessToken}`,
                 },
                 method: 'GET',
@@ -64,7 +64,7 @@ function CommunitySearch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Origin': 'http://www.duktown.site',
                     'Authorization': `Bearer ${accessToken}`,
                 },
                 method: 'GET',
