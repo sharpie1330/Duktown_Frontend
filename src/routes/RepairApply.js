@@ -39,8 +39,6 @@ function RepairApply(){
             "content": content
         }
 
-        console.log(requestData);
-
         const request = {
             method: 'POST',
             headers: {

@@ -49,7 +49,6 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
             break;
         case 'stayout':
             const stayOutTableArr = items.map(item => {
-                console.log(item);
                 const createdAt = new Date(item.createdAt);
                 const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
                 const requestDay = `${createdAt.getFullYear()}.${createdAt.getMonth()+1}.${createdAt.getDate()}. (${dayArr[createdAt.getDay()]})`;
@@ -121,7 +120,6 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
             const searchTableArr = items.map(item => {
                 //텍스트 하이라이팅
                 const textSplit = item.title ? item.title.split(new RegExp(`(${keyword})`, 'gi')) : [];
-                console.log(keyword.toUpperCase());
 
                 let rows = [];
                 const kewordHighlight = textSplit.map(text =>

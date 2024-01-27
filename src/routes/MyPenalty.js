@@ -40,7 +40,6 @@ function MyPenalty() {
                 }
             })
             .then((data) => {
-                console.log(data);
                 if (data.totalPenaltyPoint === null) {
                     setPoint(0);
                 } else {

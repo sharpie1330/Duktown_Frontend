@@ -116,7 +116,6 @@ function FindFillIn() {
                     }
                 })
                 .then((data) => {
-                    console.log(data.date);
                     setMemberDate(data.date);
                 })
                 .catch((errorResponse) => {

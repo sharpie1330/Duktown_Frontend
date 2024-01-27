@@ -76,7 +76,6 @@ function Unit() {
 
         fetch(apiUrl, request)
             .then((response) => {
-                console.log(response);
                 if (response.ok)
                     return response;
                 else {
@@ -226,7 +225,6 @@ function Unit() {
                     return response.json()
                 } else {
                     return response.json().then(errorData => {
-                        console.log(errorData.status);
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {
@@ -254,7 +252,6 @@ function Unit() {
             const todayCleaning = schedule.find((day) => isToday(day.cleaningDate));
             // 오늘 청소 날짜가 있다면 해당 id를 설정
             if (todayCleaning) {
-                console.log(cleaningId);
                 setCleaningId(todayCleaning.cleaningId);
             }
 

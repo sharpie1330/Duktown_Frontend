@@ -44,7 +44,6 @@ function CleaningHistory() {
             }
         })
             .then((data) => {
-                console.log(data.content);
                 setCleaningHistroyArr(data.content)
             })
             .catch((error) => {
