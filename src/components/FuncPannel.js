@@ -63,7 +63,6 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
             case 'account_modify':
                 const replaceHypen = account.replace(/-/g, '');
                 const newAccount = `${bank} ${replaceHypen}`;
-                console.log(newAccount);
                 apiUrl = serverUrl + `/delivery/${deliveryId}/update`;
                 try {
                     const response = await fetch(apiUrl, {
@@ -198,7 +197,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                         }
                     }
                 } catch (error) {
-                    console.log(error.errorCode)
+                    alert(error);
                 }
                 return;
         }

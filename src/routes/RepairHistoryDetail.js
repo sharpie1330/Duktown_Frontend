@@ -51,7 +51,6 @@ function RepairHistoryDetail() {
                 } else if (data.hallName === 0) {
                     hallName = '국제기숙사';
                 }
-                console.log(data);
                 setTitle(`${hallName} ${data.position}`);
                 setContent(data.content);
                 setChecked(data.checked);

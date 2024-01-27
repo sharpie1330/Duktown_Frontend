@@ -59,7 +59,6 @@ function MyPage() {
                 }
             })
             .then((data) => {
-                console.log(data);
                 setUsername(data.name);
                 setEmail(data.email);
                 setRoleType(data.roleType);

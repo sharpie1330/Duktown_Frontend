@@ -60,7 +60,6 @@ function NoticeList() {
     };
 
     const handleSearch = (e) => {
-        console.log(searchKeyword);
         if (e.key === 'Enter') {
             const filtered = items.filter((item) => {
                 return item.title.toUpperCase().includes(searchKeyword.trim().toUpperCase());
@@ -75,7 +74,6 @@ function NoticeList() {
         const requestData = {
             page: currentPage
         }
-        console.log(requestData);
 
         const request = {
             method: 'GET',

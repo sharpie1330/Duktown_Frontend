@@ -51,7 +51,6 @@ function RepairHistory() {
                     return response.json();
                 } else {
                     return response.json().then(errorData => {
-                        console.log(errorData.status);
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
                             window.open('http://localhost:3000/signin', '_self');
                         } else {

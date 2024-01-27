@@ -60,7 +60,6 @@ function ChatRoomList() {
             navigate('/signin');
         } else {
             getChatRoomList(apiUrl, accessToken).then(data => {
-                console.log(data.chatRooms);
                 setChatRoomArr(data.chatRooms);
             });
         }
@@ -123,7 +122,6 @@ function ChatRoomList() {
     }, [selectedItems])
 
     useEffect(() => {
-        console.log('test');
         setView();
     }, [chatRoomArr])
 

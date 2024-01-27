@@ -126,7 +126,6 @@ function ChatRoom() {
                     console.log("Chat WebSocket Connected");
                     // 1. 채팅방 구독
                     clientRef.current.subscribe(`/sub/chatRoom/${chatRoomId}`, (msg) => {
-                        console.log(msg);
                         let newMessage = JSON.parse(msg.body);
                         setChatList(prevState => [...prevState, newMessage]);
                     });
@@ -149,10 +148,7 @@ function ChatRoom() {
         } else if (lastChat.chatType === 'FORCE_OUT') {
             const userNumberIndex = lastChat.message.indexOf('익명') + '익명'.length;
             const userNumberString = lastChat.message.substring(userNumberIndex, lastChat.message.indexOf('님'));
-            console.log(parseInt(userNumberString));
-            console.log(myUserNum);
             if (parseInt(userNumberString) === myUserNum) { //내보내진 대상이 나일때
-                console.log('hi');
                 setIsReadOnly(true);
                 return true;
             }
@@ -395,7 +391,6 @@ function ChatRoom() {
 
     const loadMoreMessage = async () => {
         try {
-            console.log(chatPage);
             const prevMessages = await getPrevChatList(accessToken, chatPage)
                 .then(data => {
                     setChatPage(chatPage => chatPage + 1);
@@ -410,7 +405,6 @@ function ChatRoom() {
                 const reverseArr = prevMessages.reverse();
                 const uniqueNewMessages = reverseArr.filter(newMessage => !chatList.some(existingMessage => existingMessage.chatId === newMessage.chatId));
                 setChatList(prevChatList => [...uniqueNewMessages, ...prevChatList]);
-                console.log(reverseArr);
             }
         } catch (error) {
             console.error("Error loading more messages:", error);

@@ -41,7 +41,6 @@ function Announcement(){
     };
 
     const handleSearch = (e) => {
-        console.log(searchKeyword);
         if (e.key === 'Enter') {
             const filtered = items.filter((item) => {
                 return item.title.toUpperCase().includes(searchKeyword.trim().toUpperCase());
@@ -53,7 +52,6 @@ function Announcement(){
                 text: searchKeyword
             }
             setKeywordList([newKeyword, ...keywordList]);
-            console.log(keywordList);
         }
     }
 

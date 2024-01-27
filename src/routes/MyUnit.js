@@ -39,7 +39,6 @@ function MyUnit(){
                 }
             })
             .then((data) => {
-                console.log(data);
                 setUnitArr(data.content);
             })
             .catch((errorResponse) => {

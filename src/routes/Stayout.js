@@ -145,8 +145,6 @@ function Stayout() {
             "reason": inputReason
         }
 
-        console.log(requestData);
-
         const request = {
             method: 'POST',
             headers: {

@@ -73,7 +73,6 @@ function SignUp() {
     function emailCheck(event) {
         event.preventDefault();
         const apiUrl = serverUrl + "/auth/email";
-        console.log(apiUrl);
         const email = event.target.email.value
         setEmailValue(email); // 이메일 값 저장
 
