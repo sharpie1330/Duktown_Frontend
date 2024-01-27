@@ -25,6 +25,9 @@ function FindId(){
                     throw new EvalError(errorResponse.errorMessage);
                 });
             }
+            else{
+                alert("이메일로 전송된 인증번호를 입력해주세요");
+            }
         })
         .catch((error) => {
             alert(error);
