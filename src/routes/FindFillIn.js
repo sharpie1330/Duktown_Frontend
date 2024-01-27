@@ -203,7 +203,7 @@ function FindFillIn() {
                     날짜:
                     <select className="unit_member_select" onChange={handleRequestDay}>
                         {mySchedule.map((item, key) => (
-                            <option value={key}>{item}</option>
+                            <option value={key}>{item.cleaningDate}</option>
                         ))}
                     </select>
                 </div>
