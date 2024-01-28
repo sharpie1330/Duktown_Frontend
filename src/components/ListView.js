@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import '../css/ListView.css';
 import likes from '../assets/like_blue.png';
 import comment from '../assets/comment_blue.png';
+
 function ListView({ items, tableFor, keyword, edit, handler }) {
     const navigate = useNavigate();
     const [selectedItems, setSelectedItems] = useState([]);
@@ -152,9 +153,8 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
 
                 const content = item.recentChatMessage;
                 let visContent;
-                if (content.length >= 75){
-                    const subContent = content.substr(0, 75);
-                    visContent = subContent + '...';
+                if (content.length >= 35){
+                    visContent = content.substr(0, 35);
                 } else {
                     visContent = content;
                 }
