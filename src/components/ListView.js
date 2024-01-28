@@ -150,6 +150,15 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
                     recentDate = `${recentMsgDate.getFullYear()-2000}. ${recentMsgDate.getMonth()+1}. ${recentMsgDate.getDate()}`
                 }
 
+                const content = item.recentChatMessage;
+                let visContent;
+                if (content.length >= 75){
+                    const subContent = content.substr(0, 75);
+                    visContent = subContent + '...';
+                } else {
+                    visContent = content;
+                }
+
                 let rows = [];
                 rows.push(
                     <div className='chatRoom_element_container' id={item.recentChatMessage === '글쓴이가 채팅방을 나갔습니다. 더 이상 채팅을 전송할 수 없습니다.' ? 'block' : ''}>
@@ -157,7 +166,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
                         <div className='chatRoom_container' key={item.chatRoomId} onClick={() => navigate(`/chatRoom/${item.chatRoomId}`)}>
                             <div className='chatRoom_horizontal_container1'>
                                 <div className='chatRoom_title'>{item.title}</div>
-                                <div className='chatRoom_recentChatMessage'>{item.recentChatMessage}</div>
+                                <div className='chatRoom_recentChatMessage'>{visContent}</div>
                             </div>
                             <div className='chatRoom_horizontal_container2'>
                                 <div className='chatRoom_recentChatCreatedAt'>{recentDate}</div>
