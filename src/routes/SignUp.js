@@ -146,9 +146,7 @@ function SignUp() {
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: {'Content-Type': 'application/json', 'accept': 'application/json'},
                 body: JSON.stringify({ loginId: id }) // 아이디를 서버에 전달
             });
 

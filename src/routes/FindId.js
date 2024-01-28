@@ -16,7 +16,7 @@ function FindId(){
 
         fetch(apiUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json', 'accept': 'application/json'},
             body: JSON.stringify({ "email": email}),
         })
         .then((response) => {
@@ -42,7 +42,7 @@ function FindId(){
         const code = document.getElementsByName('code')[0].value;
         fetch(apiUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json', 'accept': 'application/json'},
             body: JSON.stringify({ 
                 "email": email,
                 "certCode": code
