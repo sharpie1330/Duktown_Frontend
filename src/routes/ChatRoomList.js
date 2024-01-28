@@ -40,7 +40,7 @@ function ChatRoomList() {
             else{
                 return response.json().then(errorResponse => {
                     if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                        window.open('http://www.duktown.site/signin', '_self');
+                        window.open('https://www.duktown.site/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
@@ -48,7 +48,7 @@ function ChatRoomList() {
             }
         } catch (errorResponse) {
             if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                window.open('http://www.duktown.site/signin', '_self');
+                window.open('https://www.duktown.site/signin', '_self');
             } else {
                 throw new EvalError(errorResponse.errorMessage);
             }
@@ -72,7 +72,7 @@ function ChatRoomList() {
             setIsEdit(true);
         } catch (errorResponse) {
             if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                window.open('http://www.duktown.site/signin', '_self');
+                window.open('https://www.duktown.site/signin', '_self');
             } else {
                 throw new EvalError(errorResponse.errorMessage);
             }
@@ -94,7 +94,7 @@ function ChatRoomList() {
                 if (!response.ok) {
                     return response.json().then(errorResponse => {
                         if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                            window.open('http://www.duktown.site/signin', '_self');
+                            window.open('https://www.duktown.site/signin', '_self');
                         } else {
                             throw new EvalError(errorResponse.errorMessage);
                         }
@@ -102,7 +102,7 @@ function ChatRoomList() {
                 }
             } catch (errorResponse) {
                 if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                    window.open('http://www.duktown.site/signin', '_self');
+                    window.open('https://www.duktown.site/signin', '_self');
                 } else {
                     throw new EvalError(errorResponse.errorMessage);
                 }

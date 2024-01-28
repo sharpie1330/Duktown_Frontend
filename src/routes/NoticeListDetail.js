@@ -13,7 +13,7 @@ function NoticeListDetail() {
     let content = '2023학년도 겨울방학(겨울계절학기 포함) 기숙사생 모집 안내문을 아래의 첨부파일로 안내드립니다. 안내문을 꼼꼼히 읽어보시고 숙지해 주시기를 부탁드리며 신청 시 제출하는 하단에 첨부된 서류 양식은 임의로 편집하지 말아주시기 바랍니다.';
 
     /*useEffect(() => {
-        const apiUrl = `http://localhost:8080/{}/${id}`;
+        const apiUrl = `https://localhost:8080/{}/${id}`;
         const requestData = {
             "id": id
         }
