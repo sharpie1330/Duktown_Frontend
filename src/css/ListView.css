@@ -271,6 +271,10 @@
     cursor: pointer;
 }
 
+.chatRoom_horizontal_container1 {
+    flex-grow: 1;
+}
+
 .chatRoom_round_checkbox::before {
     content: '\2713'; /* 체크 모양 아이콘 (유니코드) */
     font-size: 15px;
