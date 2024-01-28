@@ -9,8 +9,10 @@ function ApplicationTerms() {
     return (
         <>
             <div className="title_container">
+                <div>
                     <img className='backBtn' src={arrow_left} alt="뒤로 가기" onClick={() => navigate('/home')}/>
                     덕타운 이용약관
+                </div>
             </div>
             <div className='content_container'>
                 <p>

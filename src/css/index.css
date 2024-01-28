@@ -51,6 +51,7 @@ button, a, select {
 .title_container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     font-size: 16px;
     padding: 0 8px;
     height: 48px;
