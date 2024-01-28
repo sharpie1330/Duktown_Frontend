@@ -1,9 +1,12 @@
+.bottom_bar {
+    position: sticky;
+    bottom: 0;
+}
+
 .bottom_tabs {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    position: sticky;
-    bottom: 0;
     margin: 0;
     box-sizing: border-box;
     width: 100%;
