@@ -130,7 +130,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                     if (!response.ok) {
                         return response.json().then(errorResponse => {
                             if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                                window.open('http://www.duktown.site/signin', '_self');
+                                window.open('https://www.duktown.site/signin', '_self');
                             } else {
                                 throw new EvalError(errorResponse.errorMessage);
                             }
@@ -138,7 +138,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                     }
                 } catch (errorResponse) {
                     if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                        window.open('http://www.duktown.site/signin', '_self');
+                        window.open('https://www.duktown.site/signin', '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
@@ -181,7 +181,7 @@ function FuncPannel({userId, userNumber, type, deliveryId, chatRoomId, accountCh
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
-                            'Access-Control-Allow-Origin': 'http://www.duktown.site',
+                            'Access-Control-Allow-Origin': 'https://www.duktown.site',
                             'Authorization': `Bearer ${accessToken}`,
                         },
                         method: 'GET',
