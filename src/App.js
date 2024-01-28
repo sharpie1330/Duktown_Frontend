@@ -59,7 +59,7 @@ function App() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [window.innerHeight]);
 
 
   return (

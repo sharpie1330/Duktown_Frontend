@@ -13,7 +13,6 @@ body, #root{
     width: 100vw;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
-    overflow-y: scroll;
 }
 
 button, a, select {
