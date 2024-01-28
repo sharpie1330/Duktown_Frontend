@@ -254,9 +254,7 @@
 }
 
 .chatRoom_recentChatCreatedAt {
-    word-break: keep-all;
-    word-wrap: normal;
-    width: 51px;
+    text-wrap: nowrap;
 }
 
 .chatRoom_recentChatMessage {
