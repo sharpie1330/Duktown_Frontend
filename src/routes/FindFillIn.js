@@ -27,7 +27,7 @@ function FindFillIn() {
         setSelectedDate([]);
         setReason('');
         setRequestDate('');
-        alert('대타 신청이 정상적으로 보내졌습니다.');
+        alert('대타 신청을 보냈습니다.\n(※ 해당 기능은 데모버전에서 실제 동작하지 않습니다.)');
         setModalIsOpen(false);
     }
 
