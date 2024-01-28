@@ -21,7 +21,7 @@ function SignIn(){
         }
         const request = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'accept': 'application/json'},
             body: JSON.stringify(userData),
         };
 
@@ -40,7 +40,7 @@ function SignIn(){
                 const refreshToken = data.refreshToken;
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('timeStamp', new Date().getTime());
-                localStorage.setItem('recentCategory', 'daily');
+                localStorage.setItem('recentCategory', accessToken);
                 navigate('/home');
             })
             .catch((error) => {
@@ -51,10 +51,8 @@ function SignIn(){
     return(
         <>
             <div className="title_container">
-                <div>
-                    <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
-                    로그인
-                </div>
+                <img className='backBtn' src={arrow_left} alt="뒤로가기" onClick={()=>{navigate('/');}}></img>
+                로그인
             </div>
             <form className="signin_form" id="signin_form" onSubmit={handleSignIn}>
                 <p>아이디</p>
