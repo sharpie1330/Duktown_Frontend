@@ -1,5 +1,7 @@
 .upper_bar {
     display: flex;
+    position: sticky;
+    top: 0;
     align-items: center;
     padding: 0 20px;
     background: #FFF;
