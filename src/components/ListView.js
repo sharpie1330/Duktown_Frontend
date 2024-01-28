@@ -154,7 +154,7 @@ function ListView({ items, tableFor, keyword, edit, handler }) {
                 const content = item.recentChatMessage;
                 let visContent;
                 if (content.length >= 35){
-                    visContent = content.substr(0, 35);
+                    visContent = content.substr(0, 30) + '...';
                 } else {
                     visContent = content;
                 }
