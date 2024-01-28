@@ -65,7 +65,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    height: calc(100% - 50px);
+    height: calc(100% - 115px);
 }
 
 .chatRoom_chatList_container::-webkit-scrollbar{
@@ -213,5 +213,7 @@ body {
     background: white;
     position: sticky;
     top: 0;
+    padding: 0 0 10px 0;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
 }
 
