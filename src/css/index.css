@@ -62,7 +62,6 @@ button, a, select {
     width: 100vw;
     box-sizing: border-box;
     z-index: 1000;
-    justify-content: space-between;
 }
 
 .title_container div {
