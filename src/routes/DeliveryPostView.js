@@ -132,20 +132,9 @@ function DeliveryPostView() {
     }, []);
 
     const shareHandler = async () => {
-        if (navigator.clipboard) {
-            await navigator.clipboard.writeText(`http://www.duktown.site${location.pathname}`)
-                .then(_ => {alert("클립보드에 링크가 복사되었습니다")})
-                .catch(error => console.log(error));
-        } else {
-            let area = await document.createElement('textarea');
-            await document.body.appendChild(area);
-            const url = `http://www.duktown.site${location.pathname}`;
-            area.value = url;
-            await area.select();
-            document.execCommand('copy');
-            await area.body.removeChild(area);
-            await alert("클립보드에 링크가 복사되었습니다");
-        }
+        await navigator.clipboard.writeText(`http://www.duktown.site${location.pathname}`)
+            .then(_ => {alert("클립보드에 링크가 복사되었습니다")})
+            .catch(error => console.log(error));
     }
 
     const handleDocumentClick = (event) => {
