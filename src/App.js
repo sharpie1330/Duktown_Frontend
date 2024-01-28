@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,13 +37,31 @@ import ChatRoomList from './routes/ChatRoomList';
 import Unit from './routes/Unit';
 
 function App() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
   function setScreenSize() {
-    let vh = window.innerHeight * 0.01;
+    let vh = windowSize.height * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
+
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  };
+
   useEffect(() => {
     setScreenSize();
-  });
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
   return (
     <Router>
       <Routes>
