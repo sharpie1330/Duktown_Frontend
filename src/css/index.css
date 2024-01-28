@@ -69,6 +69,10 @@ button, a, select {
     align-items: center;
 }
 
+.title_container button {
+    margin-left: auto;
+}
+
 .announcement_icon {
     cursor: pointer;
     margin: 0 8px 0 0;
