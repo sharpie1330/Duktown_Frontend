@@ -256,12 +256,14 @@
 .chatRoom_recentChatCreatedAt {
     word-break: keep-all;
     word-wrap: normal;
+    width: 51px;
 }
 
 .chatRoom_recentChatMessage {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
+    width: 90%;
 }
 
 .chatRoom_element_container {
