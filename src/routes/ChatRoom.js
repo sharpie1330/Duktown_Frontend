@@ -378,9 +378,9 @@ function ChatRoom() {
                 alert(error);
             });
 
-        return () => {
-            console.log('화면 나감');
-        }
+        // return () => {
+        //     console.log('화면 나감');
+        // }
     }, []);
 
     const handleScroll = () => {

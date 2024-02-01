@@ -109,7 +109,7 @@ function Community() {
     const handleScroll = () => {
         const scrollContainer = scrollRef.current;
         if (scrollContainer && selectedCategory !== 'delivery') {
-            const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight;
+            const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight;
             // 추가: 로딩 중이 아니고, 스크롤이 맨 아래에 도달했을 때만 fetchMorePosts 호출
             if (isBottom && !loadingMore) {
                 fetchMorePosts();

@@ -117,9 +117,9 @@ function ChatRoomList() {
         });
     }
 
-    useEffect(() => {
-        console.log('selectedItems updated');
-    }, [selectedItems])
+    // useEffect(() => {
+    //     console.log('selectedItems updated');
+    // }, [selectedItems])
 
     useEffect(() => {
         setView();

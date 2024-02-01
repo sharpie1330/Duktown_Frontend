@@ -146,7 +146,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
 
 
     return (
-        <>
+        <div className='comment' key={commentId}>
             <div id='upperInfo'>
                 <img className='comment-profileImage' src={profile_image} alt='프로필'/>
                 <span className={userTitle === "글쓴이" ? 'comment-user comment-user-blue': 'comment-user'}>
@@ -230,7 +230,7 @@ function Comment({ commentId, userId, userTitle, content, liked, likeCount, isWr
                 </div>
             :
             <></>}
-        </>
+        </div>
     );
 }
 
