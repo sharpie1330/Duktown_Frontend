@@ -25,7 +25,7 @@ function GeneralPost({ category, commentCount, content, datetime, id, likeCount,
     }
 
     return (
-        <div className="post" onClick={handlePostClick}>
+        <div className="post" key={id} onClick={handlePostClick}>
         <p className="post-title">{title}</p>
         <p className="post-content">{subContent()}</p>
         <div className="post-details">
