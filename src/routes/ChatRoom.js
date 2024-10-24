@@ -15,6 +15,7 @@ function ChatRoom() {
     const params = useParams();
     const chatRoomId = params.chatRoomId;
     const serverUrl = process.env.REACT_APP_BASEURL;
+    const serverDomain = new URL(serverUrl).hostname;
     const clientRef = useRef(null); //Stomp 연결
     const [isOpenChatRoomFunc, setIsOpenChatRoomFunc] = useState(false); //더보기 창
     const [isOpenChatFunc, setIsOpenChatFunc] = useState(false); //채팅의 더보기 창
@@ -62,7 +63,7 @@ function ChatRoom() {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
                     if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                        window.open('http://www.duktown.site/signin', '_self');
+                        window.open(`${serverUrl}/signin`, '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
@@ -70,7 +71,7 @@ function ChatRoom() {
             }
         } catch (error) {
             if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
-                window.open('http://www.duktown.site/signin', '_self');
+                window.open(`${serverUrl}/signin`, '_self');
             } else {
                 throw new EvalError(error.errorMessage);
             }
@@ -100,7 +101,7 @@ function ChatRoom() {
                 return await response.json().then(errorResponse => {
                     console.log(errorResponse);
                     if (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined) {
-                        window.open('http://www.duktown.site/signin', '_self');
+                        window.open(`${serverUrl}/signin`, '_self');
                     } else {
                         throw new EvalError(errorResponse.errorMessage);
                     }
@@ -108,7 +109,7 @@ function ChatRoom() {
             }
         } catch (error) {
             if (error.errorMessage.includes('Token') || error.errorMessage === undefined) {
-                window.open('http://www.duktown.site/signin', '_self');
+                window.open(`${serverUrl}/signin`, '_self');
             } else {
                 throw new EvalError(error.errorMessage);
             }
@@ -118,7 +119,7 @@ function ChatRoom() {
     //stomp 연결
     const connect = () => {
         clientRef.current = new Client({
-            brokerURL: 'ws://www.duktown.site:8080/websocket',
+            brokerURL: `ws://${serverDomain}:8080/websocket`,
             connectHeaders: {Authorization: `Bearer ${accessToken}`},
             onConnect: () => {
                 // 연결 확인

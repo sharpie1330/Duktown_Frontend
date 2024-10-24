@@ -51,7 +51,7 @@ function MyPage() {
                 } else {
                     return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                            window.open('http://www.duktown.site/signin', '_self');
+                            window.open(serverUrl + '/signin', '_self');
                         } else {
                             throw new EvalError(errorData.errorMessage);
                         }
@@ -90,7 +90,7 @@ function MyPage() {
                 } else {
                     return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                            window.open('http://www.duktown.site/signin', '_self');
+                            window.open(serverUrl + '/signin', '_self');
                         } else {
                             throw new EvalError(errorData.errorMessage);
                         }
@@ -120,7 +120,7 @@ function MyPage() {
                 } else {
                     return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                            window.open('http://www.duktown.site/signin', '_self');
+                            window.open(serverUrl + 'signin', '_self');
                         } else {
                             throw new EvalError(errorData.errorMessage);
                         }
@@ -232,7 +232,7 @@ function MyPage() {
                 <div className='myPage_footer'>
                     <div className='myPage_footer_mini_container'>
                         <span>문의</span>
-                        <p> | duktown.official@gmail.com</p>
+                        <p> | duktown.site@gmail.com</p>
                     </div>
                     <p className='duksung_dorm_info'>덕성여자대학교 기숙사 정보</p>
                     <p className='duksung_dorm_number'>02-901-8000</p>

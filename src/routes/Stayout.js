@@ -49,7 +49,7 @@ function Stayout() {
         } else {
             return response.json().then(errorResponse => {
                 if (errorResponse.errorMessage && (errorResponse.errorMessage.includes('Token') || errorResponse.errorMessage === undefined)) {
-                    window.open('http://www.duktown.site/signin', '_self');
+                    window.open(`${serverUrl}/signin`, '_self');
                 } else {
                     throw new EvalError(errorResponse.errorMessage);
                 }
@@ -180,7 +180,7 @@ function Stayout() {
                     setModalIsOpen(false);
                     return response.json().then(errorData => {
                         if (errorData.errorMessage && (errorData.errorMessage.includes('Token') || errorData.errorMessage === undefined)) {
-                            window.open('http://www.duktown.site/signin', '_self');
+                            window.open(`${serverUrl}/signin`, '_self');
                         } else {
                             throw new EvalError(errorData.errorMessage);
                         }

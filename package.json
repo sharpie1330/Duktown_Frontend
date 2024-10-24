@@ -1,7 +1,6 @@
 {
   "name": "duktown",
   "version": "0.1.0",
-  "proxy": "http://www.duktown.site",
   "private": true,
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",

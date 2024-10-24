@@ -45,7 +45,7 @@ function PostView() {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Access-Control-Allow-Origin': 'http://www.duktown.site',
+                'Access-Control-Allow-Origin': serverUrl,
                 'Authorization': `Bearer ${accessToken}`,
             },
             method: 'GET',
@@ -75,7 +75,7 @@ function PostView() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://www.duktown.site',
+                    'Access-Control-Allow-Origin': serverUrl,
                     'Authorization': `Bearer ${accessToken}`,
                 },
                 method: 'GET',
@@ -223,7 +223,7 @@ function PostView() {
 
     const shareHandler = async () => {
         await alert('개발 중인 기능입니다.');
-        /*await navigator.clipboard.writeText(`http://www.duktown.site${location.pathname}`)
+        /*await navigator.clipboard.writeText(`${serverUrl}${location.pathname}`)
             .then(_ => {alert("클립보드에 링크가 복사되었습니다")})
             .catch(error => console.log(error));*/
     }
